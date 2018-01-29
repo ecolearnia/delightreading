@@ -4,16 +4,22 @@
     <div class="container">
       <form class="form-inline">
         <div class="form-group">
-          <label for="minutes">My Goal is to read </label>
+          <label for="minutes">My Goal is to read at least </label>
           <input type="number" id="minutes" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
           minutes
         </div>
         <div class="form-group">
           <label for="fromDate">From</label>
-          <input type="number" id="fromDate" class="form-control mx-sm-3" aria-describedby="fromDate">
-          <label for="toDate">To</label>
           <div class="input-group date  mx-sm-3" data-provide="datepicker">
             <input id="fromDate" type="text" class="form-control">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-th"></span>
+            </div>
+          </div>          
+          <label for="toDate">To</label>
+          
+          <div class="input-group date  mx-sm-3" data-provide="datepicker">
+            <input id="endDate" type="text" class="form-control">
             <div class="input-group-addon">
                 <span class="glyphicon glyphicon-th"></span>
             </div>

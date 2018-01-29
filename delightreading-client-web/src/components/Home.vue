@@ -10,19 +10,25 @@
           </div>
           <div class="form-group col-md-3">
             <label for="date">Date</label>
-            <input v-model="readLogEntry.date" type="text" class="form-control" id="date" placeholder="The date you read">
+            <div class="input-group date " data-provide="datepicker">
+              <input v-model="readLogEntry.date" id="date" type="text" class="form-control">
+              <div class="input-group-addon">
+            </div>  
+            </div>
           </div>
+
           <div class="form-group col-md-2">
             <label for="minutesRead">Mins. Read</label>
             <input v-model="readLogEntry.minsRead" type="number" class="form-control" id="minutesRead" placeholder="Mins. you read">
           </div>
+
           <div class="form-group col-md-1">
             <button type="button" class="btn btn-outline-primary" v-on:click="submitEntry" >OK</button>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#noteModal">Done</button>
           </div>
         </div>
       </form>
-
+          
       <table class="table">
         <thead>
           <tr>
@@ -98,21 +104,27 @@ export default {
     },
     submitEntry: function() {
       // alert("Congratulations! for reading " + this.readLogEntry.title + " for " + this.readLogEntry.minsRead + " mins." )
-      if (this.readLogEntry.title === "") {
+      if (this.readLogEntry.title == "") {
         return;
       }
-      if (this.readLogEntry.date === "") {
+      if (this.readLogEntry.date == "") {
         return;
       }
       if (this.readLogEntry.minsRead < 1) {
         alert("" + this.readLogEntry.minsRead + " is not resonable.");
         return;
       }
+      let now = new Date()
+      let theDate = new Date(this.readLogEntry.date)
+      if (theDate.getTime() > now.getTime()) {
+        alert("Date cannot be into the future.");
+        return;
+      }
       this.readLog.push(Object.assign({}, this.readLogEntry));
       this.clearForm();
       $("#noteModal").modal();
     },
-
+     
     addNote: function() {
       alert("Hey!!");
     }
