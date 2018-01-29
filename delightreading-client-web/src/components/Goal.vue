@@ -15,9 +15,8 @@
             <div class="input-group-addon">
                 <span class="glyphicon glyphicon-th"></span>
             </div>
-          </div>          
+          </div>
           <label for="toDate">To</label>
-          
           <div class="input-group date  mx-sm-3" data-provide="datepicker">
             <input id="endDate" type="text" class="form-control">
             <div class="input-group-addon">
@@ -31,21 +30,20 @@
 </template>
 
 <script>
-import 'bootstrap'
-import 'bootstrap-datepicker'
+import "bootstrap";
+import "bootstrap-datepicker";
 
 export default {
   name: "Goal",
   data() {
     return {
       pageTitle: "Reading Goal",
-      readGoal: {
-      }
+      readGoal: {}
     };
   },
   methods: {
     clearForm: function() {
-      this.readGoal = '';
+      this.readGoal = "";
     },
     submitEntry: function() {
       // alert("Congratulations! for reading " + this.readLogEntry.title + " for " + this.readLogEntry.minsRead + " mins." )
