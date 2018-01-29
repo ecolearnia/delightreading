@@ -18,6 +18,7 @@
           </div>
           <div class="form-group col-md-1">
             <button type="button" class="btn btn-outline-primary" v-on:click="submitEntry" >OK</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#noteModal">Done</button>
           </div>
         </div>
       </form>
@@ -28,6 +29,7 @@
             <th>Title</th>
             <th>Date</th>
             <th>Mins</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -35,38 +37,87 @@
             <td>{{ readLogItem.title }}</td>
             <td>{{ readLogItem.date }}</td>
             <td>{{ readLogItem.minsRead }}</td>
+            <td>Note</td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Reading Log of {{ readLogEntry.title }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+              <label for="feed">One question I had was</label>
+              <textarea v-model="readLogEntry.note" class="form-control" id="note" rows="3"></textarea>
+            </div>
+          </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
+import 'bootstrap'
+import 'bootstrap/js/dist/util'
+import 'bootstrap/js/dist/modal'
+
 export default {
-  name: 'Home',
-  data () {
+  name: "Home",
+  data() {
     return {
-      pageTitle: 'Log your readinng',
+      pageTitle: "Log your readinng",
       readLogEntry: {
-        title: null,
-        date: null,
-        minsRead: null
+        title: "",
+        date: "",
+        minsRead: ""
       },
       readLog: []
-    }
+    };
   },
   methods: {
-    submitEntry: function () {
+    clearForm: function() {
+      this.readLogEntry.title = "";
+      this.readLogEntry.date = "";
+      this.readLogEntry.minsRead = "";
+    },
+    submitEntry: function() {
       // alert("Congratulations! for reading " + this.readLogEntry.title + " for " + this.readLogEntry.minsRead + " mins." )
+      if (this.readLogEntry.title === "") {
+        return;
+      }
+      if (this.readLogEntry.date === "") {
+        return;
+      }
+      if (this.readLogEntry.minsRead < 1) {
+        alert("" + this.readLogEntry.minsRead + " is not resonable.");
+        return;
+      }
+      this.readLog.push(Object.assign({}, this.readLogEntry));
+      this.clearForm();
+      $("#noteModal").modal();
+    },
 
-      this.readLog.push(Object.assign({}, this.readLogEntry))
-      this.readLogEntry.title = ''
-      this.readLogEntry.date = ''
-      this.readLogEntry.minsRead = ''
+    addNote: function() {
+      alert("Hey!!");
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
