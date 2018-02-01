@@ -1,0 +1,75 @@
+import { MigrationInterface, QueryRunner } from "typeorm";
+import { DEFAULT_COLUMNS } from "./MigrationConst";
+
+export class CreateUser1517373640697 implements MigrationInterface {
+
+    public async up(queryRunner: QueryRunner): Promise<any> {
+        await queryRunner.query("CREATE TABLE user_account (" +
+            DEFAULT_COLUMNS +
+            "username varchar(64) UNIQUE, " +
+            "password varchar(64), " +
+            "givenName varchar(64), " +
+            "familyName varchar(64), " +
+            "middleName varchar(64), " +
+            "dateOfBirth date, " +
+
+            "pictureUri varchar(255), " +
+            "locale varchar(12), " +
+            "timezone varchar(20), " +
+            "timeoffset int, " +
+
+            "verifiedInd varchar(12), " +
+            "passwordResetToken varchar(12), " +
+            "passwordResetExpires timestamp " +
+            ")"
+        );
+
+        await queryRunner.query("CREATE INDEX user_account_idx_username ON user_account (username)");
+
+        await queryRunner.query("CREATE TABLE user_auth (" +
+            DEFAULT_COLUMNS +
+            "accountSid bigint, " +
+            "email varchar(64) UNIQUE, " +
+
+            "provider varchar(64), " +
+            "providerAccountId varchar(64), " +
+            "token varchar(64), " +
+            "rawProfile text, " +
+            "expires timestamp " +
+            ")"
+        );
+        await queryRunner.query("CREATE INDEX user_auth_idx_accountSid ON user_auth (accountSid);");
+        await queryRunner.query("CREATE INDEX user_auth_idx_email ON user_auth (email);");
+        await queryRunner.query("CREATE INDEX user_auth_idx_provider ON user_auth (provider, providerAccountId);");
+
+        /*
+        await queryRunner.query("CREATE TABLE user_profile (" +
+            DEFAULT_COLUMNS +
+            "accountSid bigint, " +
+            "email varchar(64), " +
+
+            "synopsis text, " +
+            "description text, " +
+
+            "hometown varchar(64), " +
+            "location varchar(64), " +
+            "addr_countryCode varchar(64), " +
+            "addr_province varchar(64), " +
+            "addr_city varchar(64), " +
+            "addr_address varchar(64), " +
+            "addr_postalCode varchar(64), " +
+
+            "style text, " +
+            "gender varchar(12), " +
+            ")"
+        );
+        */
+    }
+
+    public async down(queryRunner: QueryRunner): Promise<any> {
+        // reverts things made in "up" method
+        await queryRunner.query("DROP TABLE user_account");
+        await queryRunner.query("DROP TABLE user_auth");
+    }
+
+}
