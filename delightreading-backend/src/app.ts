@@ -19,7 +19,7 @@ dotenv.config({ path: ".env.example" });
 const app = express();
 
 // Express configuration
-app.set("port", process.env.PORT || 3000);
+app.set("port", process.env.PORT || 8080);
 app.use(compression());
 app.use(logger("dev"));
 app.use(bodyParser.json());
