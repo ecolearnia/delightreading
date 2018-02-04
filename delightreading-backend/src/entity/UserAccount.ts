@@ -27,65 +27,65 @@ export class UserAccount extends EntityBase {
         length: 64,
         nullable: true
     })
-    familyName: string;
+    familyName?: string;
 
     @Column({
         type: "varchar",
         length: 64,
         nullable: true
     })
-    middleName: string;
+    middleName?: string;
 
     @Column({
         type: "date",
         nullable: true
     })
-    dateOfBirth: Date;
+    dateOfBirth?: Date;
 
     @Column({
         type: "varchar",
         length: 255,
         nullable: true
     })
-    pictureUri: string;
+    pictureUri?: string;
 
     @Column({
         type: "varchar",
         length: 12,
         nullable: true
     })
-    locale: string;
+    locale?: string;
 
     @Column({
         type: "varchar",
         length: 20,
         nullable: true
     })
-    timezone: string;
+    timezone?: string;
 
     @Column({
         type: "int",
         nullable: true
     })
-    timeoffset: number;
+    timeoffset?: number;
 
     @Column({
         type: "bool",
         nullable: true
     })
-    verifiedInd: boolean;
+    verifiedInd?: boolean;
 
     @Column({
         type: "varchar",
         length: 32,
         nullable: true
     })
-    passwordResetToken: string;
+    passwordResetToken?: string;
 
     @Column({
         type: "timestamp",
         nullable: true
     })
-    passwordResetExpires: Date;
+    passwordResetExpires?: Date;
 
 }

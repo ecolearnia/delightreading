@@ -10,6 +10,7 @@
   "license": "MIT",
   "scripts": {
     "migrations-run": "ts-node ./node_modules/typeorm/cli.js migrations:run",
+    "migrations-gen": "ts-node ./node_modules/typeorm/cli.js migrations:generate ",
     "start": "npm run serve",
     "build": "npm run build-ts && npm run tslint",
     "serve": "node dist/server.js",
@@ -43,7 +44,8 @@
     "passport-local": "^1.0.0",
     "pg": "^7.4.1",
     "request": "^2.83.0",
-    "typeorm": "^0.1.11"
+    "typeorm": "^0.1.11",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "@types/async": "^2.0.45",
@@ -67,6 +69,7 @@
     "@types/request": "^2.0.9",
     "@types/shelljs": "^0.7.7",
     "@types/supertest": "^2.0.4",
+    "@types/uuid": "^3.4.3",
     "chai": "^4.1.2",
     "concurrently": "^3.5.1",
     "jest": "^21.2.1",

@@ -6,9 +6,9 @@ export class CreateUser1517373640697 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<any> {
         await queryRunner.query("CREATE TABLE user_account (" +
             DEFAULT_COLUMNS +
-            "username varchar(64) UNIQUE, " +
+            "username varchar(64) UNIQUE NOT NULL, " +
             "password varchar(64), " +
-            "givenName varchar(64), " +
+            "givenName varchar(64) NOT NULL, " +
             "familyName varchar(64), " +
             "middleName varchar(64), " +
             "dateOfBirth date, " +
@@ -19,7 +19,7 @@ export class CreateUser1517373640697 implements MigrationInterface {
             "timeoffset int, " +
 
             "verifiedInd varchar(12), " +
-            "passwordResetToken varchar(12), " +
+            "passwordResetToken varchar(32), " +
             "passwordResetExpires timestamp " +
             ")"
         );

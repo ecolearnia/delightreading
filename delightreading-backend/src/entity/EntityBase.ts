@@ -4,20 +4,20 @@ import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn, Generated } from
 export class EntityBase {
 
     @PrimaryGeneratedColumn()
-    sid: number;
+    sid?: number;
 
     @Column({
         type: "varchar",
         length: 80
     })
-    uid: string;
+    uid?: string;
 
     @Column({
         type: "varchar",
         length: 12,
         nullable: true
     })
-    status: string;
+    status?: string;
 
     @Column({
         type: "timestamp",
@@ -30,18 +30,18 @@ export class EntityBase {
         type: "bigint",
         nullable: true
     })
-    createdBy: number;
+    createdBy?: number;
 
     @Column({
         type: "timestamp",
         nullable: true
     })
-    updatedAt: Date;
+    updatedAt?: Date;
 
     @Column({
         type: "bigint",
         nullable: true
     })
-    updatedBy: number;
+    updatedBy?: number;
 
 }
