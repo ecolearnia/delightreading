@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn, Generated } from "typeorm";
 import { EntityBase } from "./EntityBase";
+import { UserAuth } from "./UserAuth";
 
 @Entity("user_account")
 export class UserAccount extends EntityBase {
@@ -9,6 +10,12 @@ export class UserAccount extends EntityBase {
         length: 64
     })
     username: string;
+
+    @Column({
+        type: "varchar",
+        length: 127
+    })
+    email: string;
 
     @Column({
         type: "varchar",
@@ -88,4 +95,5 @@ export class UserAccount extends EntityBase {
     })
     passwordResetExpires?: Date;
 
+    auths?: UserAuth[];
 }

@@ -7,6 +7,7 @@ export class CreateUser1517373640697 implements MigrationInterface {
         await queryRunner.query("CREATE TABLE user_account (" +
             DEFAULT_COLUMNS +
             "username varchar(64) UNIQUE NOT NULL, " +
+            "email varchar(127) UNIQUE, " +
             "password varchar(64), " +
             "givenName varchar(64) NOT NULL, " +
             "familyName varchar(64), " +
@@ -29,7 +30,6 @@ export class CreateUser1517373640697 implements MigrationInterface {
         await queryRunner.query("CREATE TABLE user_auth (" +
             DEFAULT_COLUMNS +
             "accountSid bigint, " +
-            "email varchar(64) UNIQUE, " +
 
             "provider varchar(64), " +
             "providerAccountId varchar(64), " +

@@ -16,8 +16,8 @@ export let addUserAccount = async (req: Request, res: Response) => {
 
   // console.log(JSON.stringify(req.body, undefined, 2));
 
-  const userAccount = userService.createEntityFromObject(req.body);
-  const savedUserAccount = await userService.save(userAccount);
+  const userAccount = userService.newAccountFromObject(req.body);
+  const savedUserAccount = await userService.saveAccount(userAccount);
 
   // console.log(JSON.stringify(savedUserAccount, undefined, 2));
 
@@ -28,7 +28,7 @@ export let listUserAccount = async (req: Request, res: Response) => {
 
   // console.log(JSON.stringify(req.body, undefined, 2));
 
-  const [userAccounts, count] = await userService.list();
+  const [userAccounts, count] = await userService.listAccounts();
 
   // console.log(JSON.stringify(userAccounts, undefined, 2));
 

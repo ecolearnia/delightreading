@@ -9,7 +9,7 @@ export async function createTestConnection( entities: any) {
         password: "test",
         database: "test",
         entities: entities,
-        logging: false,
+        logging: true,
         dropSchema: true, // Isolate each test case
         synchronize: true
       });

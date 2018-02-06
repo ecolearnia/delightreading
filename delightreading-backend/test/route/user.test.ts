@@ -1,8 +1,9 @@
 import * as request from "supertest";
 import { Connection, createConnection } from "typeorm";
-import { createTestConnection } from "./ormconnect"
-import * as app from "../src/app";
-import { UserAccount } from "../src/entity/UserAccount";
+import { createTestConnection } from "../ormconnect"
+import * as app from "../../src/app";
+import { UserAccount } from "../../src/entity/UserAccount";
+import { UserAuth } from "../../src/entity/UserAuth";
 
 var chai = require('chai');
 var expect = chai.expect;
@@ -11,7 +12,7 @@ describe("POST /user/", () => {
 
   let connection: Connection;
   beforeEach(async () => {
-    connection = await createTestConnection([UserAccount]);
+    connection = await createTestConnection([UserAccount, UserAuth]);
   });
 
   afterEach(async () => {
@@ -22,7 +23,7 @@ describe("POST /user/", () => {
   describe("POST /user/", () => {
     it("should create user and return 200", (done) => {
       request(app).post("/api/users/")
-        .send({ username: "", givenName: "John", familyName: "Doe", dateOfBirth: "1975-05-25", password: "abc" })
+        .send({ username: "itest-user", email: "j@testland.com", givenName: "John", familyName: "Doe", dateOfBirth: "1975-05-25", password: "abc" })
         .expect(200)
         .end(function (err, res) {
           if (err) throw err;
