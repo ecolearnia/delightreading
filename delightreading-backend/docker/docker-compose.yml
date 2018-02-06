@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  postgres:
+    image: bitnami/postgresql:latest
+    ports:
+      - "5432:5432"
+
+  elasticsearch:
+    image: bitnami/elasticsearch:latest
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+
+  server:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    container_name: "delightreading-backend"
+    command: npm start
+    environment:
+        - ENV_NAME=.env.docker
+#    volumes:
+#      - .:/usr/src/app
+    ports:
+      - "8080:8080"
+    links:
+      - postgres
+      - elasticsearch
