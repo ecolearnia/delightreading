@@ -12,6 +12,9 @@ import * as bluebird from "bluebird";
 // Load environment variables from .env file, where API keys and passwords are configured
 dotenv.config({ path: ".env.example" });
 
+import * as passportConfig from "./config/passport";
+console.log("{\"passportConfig.strategies\"=" + JSON.stringify(passportConfig.strategies) + "}");
+
 // API keys and Passport configuration
 // import * as passportConfig from "./config/passport";
 
@@ -25,8 +28,8 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 /*
  * OAuth authentication routes. (Sign in)

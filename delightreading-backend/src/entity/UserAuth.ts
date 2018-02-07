@@ -38,4 +38,14 @@ export class UserAuth extends EntityBase {
 
     // To be fetched through leftJoin
     account?: UserAccount;
+
+    constructor(obj: any = undefined) {
+        if (obj) {
+            super(obj);
+            this.accountSid = obj.accountSid;
+            this.provider = obj.provider;
+            this.providerAccountId = obj.providerAccountId;
+            this.token = obj.token;
+        }
+    }
 }

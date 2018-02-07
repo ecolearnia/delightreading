@@ -97,7 +97,7 @@ export class UserAccount extends EntityBase {
 
     auths?: UserAuth[];
 
-    constructor(obj: any) {
+    constructor(obj: any = undefined) {
         super(obj);
         if (obj) {
             this.username = obj.username;

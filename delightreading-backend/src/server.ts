@@ -1,9 +1,23 @@
 import "reflect-metadata";
 import { createConnection } from "typeorm";
 
+import { UserAccount } from "./entity/UserAccount";
+import { UserAuth } from "./entity/UserAuth";
+
 import * as errorHandler from "errorhandler";
 
-createConnection().then(async connection => {
+createConnection({
+  type: "postgres",
+  host: "localhost",
+  port: 5432,
+  username: "test",
+  password: "test",
+  database: "test",
+  "entities": [
+    UserAccount, UserAuth
+  ],
+  logging: true
+}).then(async connection => {
   const app = require("./app");
 
   /**

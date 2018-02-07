@@ -1,14 +1,16 @@
 import * as express from "express";
 import * as manageRoute from "./manage";
+import * as authRoute from "./auth";
 import * as usersRoute from "./users";
 import * as activityLogRoute from "./activitylog";
 
-const router = express.Router();
+const apiRouter = express.Router();
 
-router.use("/_manage", manageRoute);
-router.use("/users", usersRoute);
-router.use("/activitylogs", activityLogRoute);
+apiRouter.use("/_manage", manageRoute);
+apiRouter.use("/users", usersRoute);
+apiRouter.use("/activitylogs", activityLogRoute);
 
 export default function initRoutes(app: express.Express) {
-    app.use("/api", router);
+    app.use("/api", apiRouter);
+    app.use("/auth", authRoute);
 }

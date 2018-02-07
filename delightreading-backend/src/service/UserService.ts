@@ -26,6 +26,7 @@ export class UserService {
 
     newAccountFromObject(obj: any): UserAccount {
         const userAccount = new UserAccount(obj);
+        userAccount.createdAt = new Date();
         return userAccount;
     }
 
@@ -53,6 +54,19 @@ export class UserService {
         // console.log(JSON.stringify(savedUserAccount, undefined, 2));
 
         return savedUserAccount;
+    }
+
+
+    async findAccountBySid(sid: number): Promise<UserAccount> {
+
+        // console.log(JSON.stringify(UserAccount, undefined, 2));
+
+        const userAccountRepo = getRepository(UserAccount);
+        const foundAccount = await userAccountRepo.findOne({sid: sid});
+
+        // console.log(JSON.stringify(savedUserAccount, undefined, 2));
+
+        return foundAccount;
     }
 
     async listAccounts(criteria?: any): Promise<[Array<UserAccount>, number]> {
@@ -111,6 +125,11 @@ export class UserService {
             throw new Error("Auth.provider/accountId not provided");
         }
 
+    }
+
+    async findAuth2(provider: string, providerAccountId: string): Promise<UserAuth> {
+        const auth = new UserAuth({provider: provider, providerAccountId: providerAccountId});
+        return await this.findAuth(auth);
     }
 
     async findAuth(auth: UserAuth): Promise<UserAuth> {
