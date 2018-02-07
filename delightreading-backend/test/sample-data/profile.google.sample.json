@@ -1,0 +1,111 @@
+{
+  "id": "107801206846909764613",
+  "displayName": "Young-Suk Ahn",
+  "name": {
+    "familyName": "Ahn",
+    "givenName": "Young-Suk"
+  },
+  "emails": [
+    {
+      "value": "ys.ahnpark@gmail.com",
+      "type": "account"
+    }
+  ],
+  "photos": [
+    {
+      "value": "https://lh4.googleusercontent.com/-ujilfL1okNw/AAAAAAAAAAI/AAAAAAAAFf8/wH26BvJ409I/photo.jpg?sz=50"
+    }
+  ],
+  "gender": "male",
+  "provider": "google",
+  "_raw": "{\n \"kind\": \"plus#person\",\n \"etag\": \"\\\"_Ek1oAZn65JmcnNnmHdEAQCMkKA/1mnE_uFevoh8A0rRdKMY-ZzAEF4\\\"\",\n \"occupation\": \"Research on ways of improving learning experience\",\n \"skills\": \"Software Engineering, culture promoting, mentoring, fund raising.\",\n \"gender\": \"male\",\n \"emails\": [\n  {\n   \"value\": \"ys.ahnpark@gmail.com\",\n   \"type\": \"account\"\n  }\n ],\n \"urls\": [\n  {\n   \"value\": \"http://youngsukahn.com\",\n   \"type\": \"otherProfile\",\n   \"label\": \"Young Suk's profile\"\n  }\n ],\n \"objectType\": \"person\",\n \"id\": \"107801206846909764613\",\n \"displayName\": \"Young-Suk Ahn\",\n \"name\": {\n  \"familyName\": \"Ahn\",\n  \"givenName\": \"Young-Suk\"\n },\n \"tagline\": \"Simplicity, essence of beauty\",\n \"braggingRights\": \"Entrepreneur, software engineer, clean technology advocate, passionate about sharing knoledge\",\n \"url\": \"https://plus.google.com/107801206846909764613\",\n \"image\": {\n  \"url\": \"https://lh4.googleusercontent.com/-ujilfL1okNw/AAAAAAAAAAI/AAAAAAAAFf8/wH26BvJ409I/photo.jpg?sz=50\",\n  \"isDefault\": false\n },\n \"organizations\": [\n  {\n   \"name\": \"Carnegie Mellon University\",\n   \"title\": \"Master in Software Engineering\",\n   \"type\": \"school\",\n   \"startDate\": \"2010\",\n   \"endDate\": \"2011\",\n   \"primary\": false\n  },\n  {\n   \"name\": \"Korea University\",\n   \"title\": \"Computer Science and Engineering\",\n   \"type\": \"school\",\n   \"startDate\": \"1995\",\n   \"endDate\": \"1997\",\n   \"primary\": false\n  },\n  {\n   \"name\": \"Altenia\",\n   \"title\": \"Principal Consultant\",\n   \"type\": \"work\",\n   \"primary\": true\n  }\n ],\n \"placesLived\": [\n  {\n   \"value\": \"Boston\",\n   \"primary\": true\n  },\n  {\n   \"value\": \"Seoul\"\n  },\n  {\n   \"value\": \"Panama\"\n  },\n  {\n   \"value\": \"Pittsburgh\"\n  }\n ],\n \"isPlusUser\": true,\n \"language\": \"en\",\n \"circledByCount\": 115,\n \"verified\": false,\n \"cover\": {\n  \"layout\": \"banner\",\n  \"coverPhoto\": {\n   \"url\": \"https://lh3.googleusercontent.com/nNEILV6QIPWOKHxRqy-SqwK2MRRUJacZM5FAJ5OfBEykYPEOcTkzGY-TJRZoUpsXLt8Yzpews6UW=s630-fcrop64=1,11a00000f0c5ffff\",\n   \"height\": 463,\n   \"width\": 940\n  },\n  \"coverInfo\": {\n   \"topImageOffset\": 0,\n   \"leftImageOffset\": 0\n  }\n }\n}\n",
+  "_json": {
+    "kind": "plus#person",
+    "etag": "\"_Ek1oAZn65JmcnNnmHdEAQCMkKA/1mnE_uFevoh8A0rRdKMY-ZzAEF4\"",
+    "occupation": "Research on ways of improving learning experience",
+    "skills": "Software Engineering, culture promoting, mentoring, fund raising.",
+    "gender": "male",
+    "emails": [
+      {
+        "value": "ys.ahnpark@gmail.com",
+        "type": "account"
+      }
+    ],
+    "urls": [
+      {
+        "value": "http://youngsukahn.com",
+        "type": "otherProfile",
+        "label": "Young Suk's profile"
+      }
+    ],
+    "objectType": "person",
+    "id": "107801206846909764613",
+    "displayName": "Young-Suk Ahn",
+    "name": {
+      "familyName": "Ahn",
+      "givenName": "Young-Suk"
+    },
+    "tagline": "Simplicity, essence of beauty",
+    "braggingRights": "Entrepreneur, software engineer, clean technology advocate, passionate about sharing knoledge",
+    "url": "https://plus.google.com/107801206846909764613",
+    "image": {
+      "url": "https://lh4.googleusercontent.com/-ujilfL1okNw/AAAAAAAAAAI/AAAAAAAAFf8/wH26BvJ409I/photo.jpg?sz=50",
+      "isDefault": false
+    },
+    "organizations": [
+      {
+        "name": "Carnegie Mellon University",
+        "title": "Master in Software Engineering",
+        "type": "school",
+        "startDate": "2010",
+        "endDate": "2011",
+        "primary": false
+      },
+      {
+        "name": "Korea University",
+        "title": "Computer Science and Engineering",
+        "type": "school",
+        "startDate": "1995",
+        "endDate": "1997",
+        "primary": false
+      },
+      {
+        "name": "Altenia",
+        "title": "Principal Consultant",
+        "type": "work",
+        "primary": true
+      }
+    ],
+    "placesLived": [
+      {
+        "value": "Boston",
+        "primary": true
+      },
+      {
+        "value": "Seoul"
+      },
+      {
+        "value": "Panama"
+      },
+      {
+        "value": "Pittsburgh"
+      }
+    ],
+    "isPlusUser": true,
+    "language": "en",
+    "circledByCount": 115,
+    "verified": false,
+    "cover": {
+      "layout": "banner",
+      "coverPhoto": {
+        "url": "https://lh3.googleusercontent.com/nNEILV6QIPWOKHxRqy-SqwK2MRRUJacZM5FAJ5OfBEykYPEOcTkzGY-TJRZoUpsXLt8Yzpews6UW=s630-fcrop64=1,11a00000f0c5ffff",
+        "height": 463,
+        "width": 940
+      },
+      "coverInfo": {
+        "topImageOffset": 0,
+        "leftImageOffset": 0
+      }
+    }
+  }
+}

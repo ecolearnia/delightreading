@@ -36,6 +36,12 @@ export class UserAuth extends EntityBase {
     })
     expires?: Date;
 
+    // @Column({
+    //     type: "text",
+    //     nullable: true
+    // })
+    // rawProfile?: string;
+
     // To be fetched through leftJoin
     account?: UserAccount;
 
@@ -45,6 +51,7 @@ export class UserAuth extends EntityBase {
             this.accountSid = obj.accountSid;
             this.provider = obj.provider;
             this.providerAccountId = obj.providerAccountId;
+            // this.rawProfile = obj.rawProfile;
             this.token = obj.token;
         }
     }
