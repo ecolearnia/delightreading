@@ -96,4 +96,29 @@ export class UserAccount extends EntityBase {
     passwordResetExpires?: Date;
 
     auths?: UserAuth[];
+
+    constructor(obj: any) {
+        super(obj);
+        if (obj) {
+            this.username = obj.username;
+            this.email = obj.email;
+            this.password = obj.password;
+            this.givenName = obj.givenName;
+            this.familyName = obj.familyName;
+            this.middleName = obj.middleName;
+            this.dateOfBirth = obj.dateOfBirth;
+            this.pictureUri = obj.pictureUri;
+            this.locale = obj.locale;
+            this.timezone = obj.timezone;
+            this.timeoffset = obj.timeoffset;
+        }
+        // this.createdAt = new Date();
+    }
+
+    addAuth(auth: UserAuth): void {
+        if (this.auths == undefined) {
+            this.auths = Array();
+        }
+        this.auths.push(auth);
+    }
 }

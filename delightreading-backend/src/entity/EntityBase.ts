@@ -44,4 +44,13 @@ export class EntityBase {
     })
     updatedBy?: number;
 
+    constructor(obj: any) {
+        if (obj) {
+            this.status = obj.status;
+            this.createdBy = obj.createdBy;
+            this.updatedAt = obj.updatedAt;
+            this.updatedBy = obj.updatedBy;
+        }
+    }
+
 }

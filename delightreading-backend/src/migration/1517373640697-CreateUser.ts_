@@ -26,6 +26,7 @@ export class CreateUser1517373640697 implements MigrationInterface {
         );
 
         await queryRunner.query("CREATE INDEX user_account_idx_username ON user_account (username)");
+        await queryRunner.query("CREATE INDEX user_account_idx_email ON user_account (email);");
 
         await queryRunner.query("CREATE TABLE user_auth (" +
             DEFAULT_COLUMNS +
@@ -39,7 +40,6 @@ export class CreateUser1517373640697 implements MigrationInterface {
             ")"
         );
         await queryRunner.query("CREATE INDEX user_auth_idx_accountSid ON user_auth (accountSid);");
-        await queryRunner.query("CREATE INDEX user_auth_idx_email ON user_auth (email);");
         await queryRunner.query("CREATE INDEX user_auth_idx_provider ON user_auth (provider, providerAccountId);");
 
         /*

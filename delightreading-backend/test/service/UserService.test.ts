@@ -55,15 +55,20 @@ describe('UserService', () => {
         provider: "testsite",
         providerAccountId: "testsidteid"
       });
-      let account = service.newAccount("savetest", "savetest@testland.com", "st", "Tester", "Testez", auth);
+      let account = service.newAccount("registtest", "registtest@testland.com", "st", "Tester", "Testez", auth);
 
       let registered = await service.registerAccount(account);
+
       expect(account.givenName).equal("Tester");
       expect(account.auths).to.have.lengthOf(1);
 
-      // let signin = await service.signIn(auth);
-      // expect(account.givenName).equal("Tester");
-      // expect(account.auths).to.have.lengthOf(1);
+      try {
+        let loggedAccount = await service.signIn(auth);
+        expect(loggedAccount.givenName).equal("Tester");
+        expect(loggedAccount.auths).to.have.lengthOf(1);
+      } catch (e) {
+        console.log(e);
+      }
     });
   });
 

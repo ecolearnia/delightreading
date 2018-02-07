@@ -34,3 +34,15 @@ export let listUserAccount = async (req: Request, res: Response) => {
 
   res.json(userAccounts);
 };
+
+
+export let registerAccount = async (req: Request, res: Response) => {
+
+  // console.log(JSON.stringify(req.body, undefined, 2));
+
+  const account = await userService.registerAccount(req.body);
+
+  // console.log(JSON.stringify(userAccounts, undefined, 2));
+
+  res.json(account);
+};
