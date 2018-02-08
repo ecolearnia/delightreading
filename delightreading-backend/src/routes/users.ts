@@ -1,9 +1,12 @@
 import * as express from "express";
-import * as userAccountController from "../controller/useraccount";
+import * as passport from "passport";
+import * as userController from "../controller/user";
 
 const router = express.Router();
 
-router.post("/", userAccountController.addUserAccount);
-router.get("/", userAccountController.listUserAccount);
+router.get("/me", passport.authenticate("jwt", {session: false}), userController.getMyAccount);
+router.get("/:uid", userController.getUserAccount);
+router.post("/", userController.addUserAccount);
+router.get("/", userController.listUserAccount);
 
 export = router;

@@ -17,3 +17,6 @@ When getting error
 2. Then click on Explore this API and enable Authorize requests using OAuth 2.0 
 
 Also `callbackURL` must be "/auth/google/callback", instead of "auth/google/callback"
+
+
+Another sample of [SPA with Social Auth](https://www.sitepoint.com/spa-social-login-google-facebook/) 

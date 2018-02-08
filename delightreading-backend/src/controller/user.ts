@@ -8,9 +8,30 @@ import { UserService } from "../service/UserService";
 
 const userService =  new UserService();
 
+export let getUserAccount = async (req: Request, res: Response) => {
+
+  // console.log(JSON.stringify(req.body, undefined, 2));
+
+  const userAccount = userService.findAccountBySid(req.params.uid);
+
+  // console.log(JSON.stringify(savedUserAccount, undefined, 2));
+
+  res.json(userAccount);
+};
+
+export let getMyAccount = async (req: Request, res: Response) => {
+
+  console.log("-- getMyAccount - user:" + JSON.stringify(req.user, undefined, 2));
+
+  if (req.user) {
+    res.json(req.user);
+    return;
+  }
+
+  return res.status(401).json({"message": "No Aauthorization header"});
+};
+
 /**
- * GET /api
- * List of API examples.
  */
 export let addUserAccount = async (req: Request, res: Response) => {
 

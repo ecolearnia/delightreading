@@ -16,6 +16,7 @@ createConnection({
   "entities": [
     UserAccount, UserAuth
   ],
+  synchronize: true,
   logging: true
 }).then(async connection => {
   const app = require("./app");

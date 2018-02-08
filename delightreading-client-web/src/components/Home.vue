@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ pageTitle }}</h1>
+    <img :src="userPicUrl" >
     <div class="container">
       <form>
         <div class="form-row">
@@ -76,22 +77,42 @@
 </template>
 
 <script>
-import 'bootstrap'
-import 'bootstrap/js/dist/util'
-import 'bootstrap/js/dist/modal'
+import "bootstrap";
+import "bootstrap/js/dist/util";
+import "bootstrap/js/dist/modal";
+import * as cookieUtils from "../utils/cookie-utils";
+import * as userClient from "../utils/user-client";
 
 export default {
   name: "Home",
   data() {
     return {
-      pageTitle: "Log your readinng",
+      pageTitle: "Log your reading",
       readLogEntry: {
         title: "",
         date: "",
         minsRead: ""
       },
-      readLog: []
+      readLog: [],
+      userPicUrl: undefined
     };
+  },
+  created() {
+    let accessToken = cookieUtils.getCookie("dr_token");
+    if (accessToken) {
+      userClient
+        .getMyAccount()
+        .then(response => {
+          this.userPicUrl = response.data.pictureUri;
+          alert("Me: " + JSON.stringify(response, undefined, 2));
+        })
+        .catch(error => {
+          alert("Error: " + error);
+        });
+      console.log("Created");
+    } else {
+      alert("No Cookie found");
+    }
   },
   methods: {
     clearForm: function() {
@@ -111,8 +132,8 @@ export default {
         alert("" + this.readLogEntry.minsRead + " is not resonable.");
         return;
       }
-      let now = new Date()
-      let theDate = new Date(this.readLogEntry.date)
+      let now = new Date();
+      let theDate = new Date(this.readLogEntry.date);
       if (theDate.getTime() > now.getTime()) {
         alert("Date cannot be into the future.");
         return;

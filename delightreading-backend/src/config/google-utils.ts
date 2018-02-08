@@ -17,7 +17,7 @@ export function translateProfileToUser(profile: any): UserAccount {
         familyName: profile.name && profile.name.familyName || undefined,
         middleName: profile.name && profile.name.middleName || undefined,
         // dateOfBirth: obj.dateOfBirth,
-        pictureUri: profile.photos && profile.photos.value  || undefined
+        pictureUri: profile.photos && profile.photos[0] && profile.photos[0].value  || undefined
     });
     account.addAuth(new UserAuth({
         provider: "google",

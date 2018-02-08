@@ -69,6 +69,17 @@ export class UserService {
         return foundAccount;
     }
 
+    async findAccountByUid(uid: string): Promise<UserAccount> {
+
+        // console.log(JSON.stringify(UserAccount, undefined, 2));
+
+        const userAccountRepo = getRepository(UserAccount);
+        const foundAccount = await userAccountRepo.findOne({uid: uid});
+
+        // console.log(JSON.stringify(savedUserAccount, undefined, 2));
+
+        return foundAccount;
+    }
     async listAccounts(criteria?: any): Promise<[Array<UserAccount>, number]> {
 
         // console.log(JSON.stringify(criteria, undefined, 2));

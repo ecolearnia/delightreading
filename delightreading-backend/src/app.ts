@@ -1,4 +1,5 @@
 import * as express from "express";
+import * as cors from "cors";
 import * as compression from "compression";  // compresses requests
 import * as session from "express-session";
 import * as bodyParser from "body-parser";
@@ -22,7 +23,10 @@ console.log("{\"passportConfig.strategies\"=" + JSON.stringify(passportConfig.st
 const app = express();
 
 // Express configuration
-app.set("port", process.env.PORT || 8080);
+app.set("port", process.env.PORT || 9090);
+
+app.use(cors())
+
 app.use(compression());
 app.use(logger("dev"));
 app.use(bodyParser.json());
@@ -30,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 /*
  * OAuth authentication routes. (Sign in)

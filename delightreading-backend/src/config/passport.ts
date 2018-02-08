@@ -2,6 +2,7 @@
 import * as passport from "passport";
 import * as request from "request";
 import * as passportLocal from "passport-local";
+import * as passportJwt from "passport-jwt";
 import * as passportGoogle from "passport-google-oauth";
 import * as _ from "lodash";
 
@@ -11,8 +12,6 @@ import { UserAuth } from "../entity/UserAuth";
 import { UserService } from "../service/UserService";
 import * as googleUtils from "./google-utils";
 
-const LocalStrategy = passportLocal.Strategy;
-const GoogleStrategy = passportGoogle.OAuth2Strategy;
 
 const userService = new UserService();
 
@@ -33,10 +32,11 @@ passport.deserializeUser((id, done) => {
 });
 
 
+
 /**
  * Sign in using Email and Password.
  */
-passport.use(new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
+passport.use(new passportLocal.Strategy({ usernameField: "email" }, (email, password, done) => {
   /*
   authRepo.f({ email: email.toLowerCase() }, (err, user: any) => {
     if (err) { return done(err); }
@@ -54,12 +54,33 @@ passport.use(new LocalStrategy({ usernameField: "email" }, (email, password, don
   */
 }));
 
+const jwtOptions = {
+  // Get the JWT from the "Authorization" header.
+  // By default this looks for a "JWT " prefix
+  jwtFromRequest: passportJwt.ExtractJwt.fromAuthHeaderAsBearerToken(),
+  // The secret that was used to sign the JWT
+  secretOrKey: process.env.AUTH_TOKEN_SECRET,
+  // The issuer stored in the JWT
+  issuer: process.env.AUTH_TOKEN_ISSUER,
+  // The audience stored in the JWT
+  audience: process.env.AUTH_TOKEN_AUDIENCE
+};
+
+passport.use(new passportJwt.Strategy(jwtOptions, async (payload, done) => {
+  console.log("--- JWT Strategy: " + JSON.stringify(payload, undefined, 2));
+  const account = await userService.findAccountByUid(payload.sub);
+  if (account) {
+    return done(undefined, account, payload);
+  }
+  return done(undefined);
+}));
+
 console.log("GOOGLE_CLIENT_ID: " + process.env.GOOGLE_CLIENT_ID);
 console.log("GOOGLE_CLIENT_SECRET: " + process.env.GOOGLE_CLIENT_SECRET);
 /**
  * Sign in with Facebook.
  */
-passport.use(new GoogleStrategy({
+passport.use(new passportGoogle.OAuth2Strategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: "/auth/google/callback",
