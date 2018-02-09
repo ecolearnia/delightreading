@@ -12,7 +12,6 @@ import { UserAuth } from "../entity/UserAuth";
 import { UserService } from "../service/UserService";
 import * as googleUtils from "./google-utils";
 
-
 const userService = new UserService();
 
 passport.serializeUser<any, any>((user, done) => {
@@ -30,7 +29,6 @@ passport.deserializeUser((id, done) => {
       done(err, undefined);
     });
 });
-
 
 
 /**
@@ -75,8 +73,9 @@ passport.use(new passportJwt.Strategy(jwtOptions, async (payload, done) => {
   return done(undefined);
 }));
 
-console.log("GOOGLE_CLIENT_ID: " + process.env.GOOGLE_CLIENT_ID);
-console.log("GOOGLE_CLIENT_SECRET: " + process.env.GOOGLE_CLIENT_SECRET);
+// console.log("GOOGLE_CLIENT_ID: " + process.env.GOOGLE_CLIENT_ID);
+// console.log("GOOGLE_CLIENT_SECRET: " + process.env.GOOGLE_CLIENT_SECRET);
+
 /**
  * Sign in with Facebook.
  */

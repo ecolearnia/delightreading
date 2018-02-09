@@ -16,9 +16,6 @@ dotenv.config({ path: ".env.example" });
 import * as passportConfig from "./config/passport";
 console.log("{\"passportConfig.strategies\"=" + JSON.stringify(passportConfig.strategies) + "}");
 
-// API keys and Passport configuration
-// import * as passportConfig from "./config/passport";
-
 // Create Express server
 const app = express();
 
@@ -35,17 +32,7 @@ app.use(expressValidator());
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-/*
- * OAuth authentication routes. (Sign in)
-app.get("/auth/facebook", passport.authenticate("facebook", { scope: ["email", "public_profile"] }));
-app.get("/auth/facebook/callback", passport.authenticate("facebook", { failureRedirect: "/login" }), (req, res) => {
-  res.redirect(req.session.returnTo || "/");
-});
- */
-
-
-// API keys and Passport configuration
+// Initialize Routers (endpoints)
 import initRoutes from "./routes";
 
 initRoutes(app);

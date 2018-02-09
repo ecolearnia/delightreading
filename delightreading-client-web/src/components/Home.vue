@@ -6,19 +6,19 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="bookTitle">Book Title</label>
-            <input v-model="readLogEntry.referenceTitle" type="text" class="form-control" id="bookTitle" placeholder="The book you read">
+            <input v-model="readLogEntry.referenceTitle" type="text" class="form-control" id="referenceTitle" placeholder="The book you read">
           </div>
           <div class="form-group col-md-3">
             <label for="date">Date</label>
             <div class="input-group date " data-provide="datepicker">
-              <input v-model="readLogEntry.logTimestamp" id="date" type="text" class="form-control">
+              <input v-model="readLogEntry.logTimestamp" id="logTimestamp" type="text" class="form-control">
               <div class="input-group-addon">
             </div>
             </div>
           </div>
           <div class="form-group col-md-2">
             <label for="minutesRead">Mins. Read</label>
-            <input v-model="readLogEntry.quantity" type="number" class="form-control" id="minutesRead" placeholder="Mins. you read">
+            <input v-model="readLogEntry.quantity" type="number" class="form-control" id="quantity" placeholder="Mins. you read">
           </div>
           <div class="form-group col-md-1">
             <button type="button" class="btn btn-outline-primary" v-on:click="submitEntry" >OK</button>
@@ -38,7 +38,7 @@
         <tbody>
           <tr v-for="readLogItem in readLog" v-bind:key="readLogItem.sid">
             <td>{{ readLogItem.referenceTitle }}</td>
-            <td>{{ readLogItem.date }}</td>
+            <td>{{ readLogItem.logTimestamp }}</td>
             <td>{{ readLogItem.quantity }}</td>
             <td>
               <button type="button" class="btn btn-danger" v-on:click="deleteEntry(readLogItem.sid)" >X</button>
@@ -120,7 +120,7 @@ export default {
       this.readLogEntry.quantity = null;
     },
     submitEntry: function() {
-      // alert("Congratulations! for reading " + this.readLogEntry.title + " for " + this.readLogEntry.minsRead + " mins." )
+      console.log("Entering submitEntry");
       if (this.readLogEntry.referenceTitle === "") {
         return;
       }
@@ -138,10 +138,16 @@ export default {
         return;
       }
 
-      activityClient.addActivityLog(this.readLogEntry);
-      this.readLog.push(Object.assign({}, this.readLogEntry));
-      this.clearForm();
-      $("#noteModal").modal();
+      activityClient
+        .addActivityLog(this.readLogEntry)
+        .then(response => {
+          this.readLog.push(Object.assign({}, this.readLogEntry));
+          this.clearForm();
+          $("#noteModal").modal();
+        })
+        .catch(error => {
+          alert("Error: " + error);
+        });
     },
     addNote: function() {
       alert("Hey!!");
