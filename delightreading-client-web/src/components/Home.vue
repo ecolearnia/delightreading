@@ -6,7 +6,7 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="bookTitle">Book Title</label>
-            <input v-model="readLogEntry.referenceTitle" type="text" class="form-control" id="referenceTitle" placeholder="The book you read">
+            <input ref="referenceTitle" v-model="readLogEntry.referenceTitle" type="text" class="form-control" id="referenceTitle" placeholder="The book you read">
           </div>
           <div class="form-group col-md-3">
             <label for="date">Date</label>
@@ -81,6 +81,7 @@
 import "bootstrap";
 import "bootstrap/js/dist/util";
 import "bootstrap/js/dist/modal";
+import Bloodhound from "typeahead.js";
 import * as activityClient from "../utils/activity-client";
 
 export default {
@@ -112,6 +113,48 @@ export default {
       .catch(error => {
         alert(error);
       });
+  },
+  mounted() {
+    // @see: https://forum.vuejs.org/t/typeahead-js-with-vue/22231/2
+    let refTitle = $(this.$refs.referenceTitle);
+
+    var queryUrl = "https://www.googleapis.com/books/v1/volumes?q=%QUERY";
+
+    let filterBook = function(volumeInfo) {
+      if (volumeInfo.maturityRating === "MATURE") {
+        return false;
+      }
+      if (volumeInfo.description) {
+        const nwords = [
+          "violence", "sex", "ero", "sensual", "fetish", "f**k", "fuck"
+        ];
+        for (let i = 0; i < nwords.length; i++) {
+          if (volumeInfo.description.indexOf(nwords[i]) !== -1) {
+            return false;
+          }
+        }
+      }
+      return true;
+    };
+    var referenceTitlesSource = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace("value"),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      remote: {
+        url: queryUrl,
+        wildcard: "%QUERY",
+        transform: function(response) {
+          return response.items
+            .filter(row => filterBook(row.volumeInfo))
+            .map(row => row.volumeInfo.title);
+        }
+      }
+    });
+
+    refTitle.typeahead(
+      { hint: true, highlight: true, minLength: 1 },
+      { name: "referenceTitles", source: referenceTitlesSource }
+    );
+    console.log(refTitle);
   },
   methods: {
     clearForm: function() {
