@@ -1,38 +1,81 @@
 "use strict";
 
 import * as async from "async";
+import * as rootLogger  from "pino";
 import { Response, Request, NextFunction } from "express";
-import { getRepository } from "typeorm";
-import { ActivityLog } from "../entity/activitylog";
+import { ActivityLog } from "../entity/ActivityLog";
+import { ActivityLogService } from "../service/ActivityLogService";
 
+const logger = rootLogger().child({ module: "controller/activitylog" });
 
+const activityLogService =  new ActivityLogService();
 
 /**
  * GET /api
  * List of API examples.
  */
-export let addActivityLog = async (req: Request, res: Response) => {
+export let addMyActivityLog = async (req: Request, res: Response) => {
 
-  console.log(JSON.stringify(req.body, undefined, 2));
+  logger.info({op: "addActivityLog", account: req.user}, "Adding activityLog");
 
-  const activityLogRepo = getRepository(ActivityLog);
+  if (!req.user) {
+    logger.warn({op: "addActivityLog"}, "Unauthorized: No user");
+    return res.status(401).json({message: "Unauthorized: No user"});
+  }
 
-  const savedActivityLog = await activityLogRepo.save(req.body);
+  const activityLog = new ActivityLog(req.body);
+  activityLog.accountSid = req.user.sid;
+  activityLog.logTimestamp = new Date();
 
-  console.log(JSON.stringify(savedActivityLog, undefined, 2));
+  const savedActivityLog = await activityLogService.save(activityLog);
+
+  logger.info({savedActivityLog: savedActivityLog}, "Add activityLog successful");
 
   res.json(savedActivityLog);
 };
 
-export let listActivityLog = async (req: Request, res: Response) => {
+export let listMyActivityLog = async (req: Request, res: Response) => {
 
-  console.log(JSON.stringify(req.body, undefined, 2));
+  logger.info({op: "listMyActivityLog", account: req.user, page: req.query.page, pageSize: req.query.pageSize}, "Listing my activityLog");
 
-  const activityLogRepo = getRepository(ActivityLog);
+  if (!req.user) {
+    logger.warn({op: "listMyActivityLog"}, "Unauthorized: No user");
+    return res.status(401).json({message: "Unauthorized: No user"});
+  }
 
-  const [ActivityLogs, count] = await activityLogRepo.find();
+  const pageSize = req.query.pageSize || 20;
+  const skip = (req.query.page || 0) * pageSize;
 
-  console.log(JSON.stringify(ActivityLogs, undefined, 2));
+  const findCriteria = {
+    accountSid: req.user.sid,
+    skip: skip,
+    take: pageSize
+  };
 
-  res.json(ActivityLogs);
+  const activityLogs = await activityLogService.list(findCriteria);
+
+  logger.info({op: "listMyActivityLog"}, "Listing my activityLog successful");
+
+  res.json(activityLogs);
+};
+
+export let deleteMyActivityLog = async (req: Request, res: Response) => {
+
+  logger.info({op: "deleteMyActivityLog", account: req.user}, "Deleting activityLog");
+
+  if (!req.user) {
+    logger.warn({op: "deleteMyActivityLog"}, "Unauthorized: No user");
+    return res.status(401).json({message: "Unauthorized: No user"});
+  }
+
+  const criteria = {
+    accountSid: req.user.sid,
+    sid: req.params.sid
+  };
+
+  const deletedActivityLog = await activityLogService.delete(criteria);
+
+  logger.info({deletedActivityLog: deletedActivityLog}, "Delete activityLog successful");
+
+  res.json(deletedActivityLog);
 };

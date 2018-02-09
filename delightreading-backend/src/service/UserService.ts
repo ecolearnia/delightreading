@@ -2,9 +2,13 @@
 
 import * as async from "async";
 import * as uuidv4 from "uuid/v4";
+import * as rootLogger  from "pino";
+
 import { getRepository } from "typeorm";
 import { UserAccount } from "../entity/UserAccount";
 import { UserAuth } from "../entity/UserAuth";
+
+const logger = rootLogger().child({ module: "UserService" });
 
 export class UserService {
 
@@ -43,43 +47,42 @@ export class UserService {
 
     async saveAccount(userAccount: UserAccount): Promise<UserAccount> {
 
-        // console.log(JSON.stringify(UserAccount, undefined, 2));
+        logger.trace({op: "saveAccount", userAccount: userAccount}, "Saving account");
 
         const userAccountRepo = getRepository(UserAccount);
         if (userAccount.uid === undefined) {
             userAccount.uid = uuidv4();
         }
         const savedUserAccount = await userAccountRepo.save(userAccount);
-
-        // console.log(JSON.stringify(savedUserAccount, undefined, 2));
+        logger.info({op: "saveAccount", userAccount: savedUserAccount}, "Save account successfufl");
 
         return savedUserAccount;
     }
 
-
     async findAccountBySid(sid: number): Promise<UserAccount> {
-
-        // console.log(JSON.stringify(UserAccount, undefined, 2));
-
-        const userAccountRepo = getRepository(UserAccount);
-        const foundAccount = await userAccountRepo.findOne({sid: sid});
-
-        // console.log(JSON.stringify(savedUserAccount, undefined, 2));
-
-        return foundAccount;
+        return this.findAccountBy({sid: sid});
     }
 
     async findAccountByUid(uid: string): Promise<UserAccount> {
+        return this.findAccountBy({uid: uid});
+    }
 
-        // console.log(JSON.stringify(UserAccount, undefined, 2));
+    async findAccountByUsername(username: string): Promise<UserAccount> {
+        return this.findAccountBy({username: username});
+    }
+
+    async findAccountBy(criteria: any): Promise<UserAccount> {
+
+        logger.trace({op: "findAccountBy", criteria: criteria}, "Retrieving account");
 
         const userAccountRepo = getRepository(UserAccount);
-        const foundAccount = await userAccountRepo.findOne({uid: uid});
+        const foundAccount = await userAccountRepo.findOne(criteria);
 
-        // console.log(JSON.stringify(savedUserAccount, undefined, 2));
+        logger.info({op: "findAccountBy", foundAccount: foundAccount}, "Retrieve account successful");
 
         return foundAccount;
     }
+
     async listAccounts(criteria?: any): Promise<[Array<UserAccount>, number]> {
 
         // console.log(JSON.stringify(criteria, undefined, 2));
@@ -91,7 +94,19 @@ export class UserService {
         return response;
     }
 
+    /**
+     * TODO: Change the return objec to be {UserAcccount, boolean}, where second element is true for existing, false for new
+     * @param account
+     */
     async registerAccount(account: UserAccount): Promise<UserAccount> {
+        logger.trace({op: "registerAccount", account: account}, "Registering account");
+
+        const existingAccount = await this.findAccountByUsername(account.username);
+
+        if (existingAccount) {
+            return existingAccount;
+        }
+
         const savedAccount = await this.saveAccount(account);
         const savedAuths: UserAuth[] = Array();
         if (account.auths) {

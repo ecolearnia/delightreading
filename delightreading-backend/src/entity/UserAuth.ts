@@ -36,11 +36,11 @@ export class UserAuth extends EntityBase {
     })
     expires?: Date;
 
-    // @Column({
-    //     type: "text",
-    //     nullable: true
-    // })
-    // rawProfile?: string;
+    @Column({
+        type: "text",
+        nullable: true
+    })
+    rawProfile?: string;
 
     // To be fetched through leftJoin
     account?: UserAccount;

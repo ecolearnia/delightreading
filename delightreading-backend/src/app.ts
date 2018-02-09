@@ -25,7 +25,7 @@ const app = express();
 // Express configuration
 app.set("port", process.env.PORT || 9090);
 
-app.use(cors())
+app.use(cors());
 
 app.use(compression());
 app.use(logger("dev"));

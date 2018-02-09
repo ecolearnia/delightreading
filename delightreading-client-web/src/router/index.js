@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Goal from '@/components/Goal'
 import Home from '@/components/Home'
-import user from '@/components/user'
+import user from '@/components/User'
 
 Vue.use(Router)
 
@@ -26,7 +26,7 @@ export default new Router({
     },
     {
       path: '/user',
-      name: 'user',
+      name: 'User',
       component: user
     }
   ]

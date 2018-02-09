@@ -7,6 +7,6 @@ const router = express.Router();
 router.get("/me", passport.authenticate("jwt", {session: false}), userController.getMyAccount);
 router.get("/:uid", userController.getUserAccount);
 router.post("/", userController.addUserAccount);
-router.get("/", userController.listUserAccount);
+router.get("/", userController.listUserAccounts);
 
 export = router;

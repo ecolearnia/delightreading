@@ -1,57 +1,54 @@
 "use strict";
 
 import * as async from "async";
+import * as rootLogger  from "pino";
 import { Response, Request, NextFunction } from "express";
-import { getRepository } from "typeorm";
 import { UserAccount } from "../entity/UserAccount";
 import { UserService } from "../service/UserService";
+
+const logger = rootLogger().child({ module: "controller/user" });
 
 const userService =  new UserService();
 
 export let getUserAccount = async (req: Request, res: Response) => {
-
-  // console.log(JSON.stringify(req.body, undefined, 2));
-
-  const userAccount = userService.findAccountBySid(req.params.uid);
-
-  // console.log(JSON.stringify(savedUserAccount, undefined, 2));
+  const userAccount = userService.findAccountByUid(req.params.uid);
+  logger.info({op: "getUserAccount", userAccount: userAccount}, "Retrieve account successful");
 
   res.json(userAccount);
 };
 
 export let getMyAccount = async (req: Request, res: Response) => {
 
-  console.log("-- getMyAccount - user:" + JSON.stringify(req.user, undefined, 2));
+  logger.trace({op: "getMyAccount", user: req.user}, "Retrieving user from context");
 
   if (req.user) {
-    res.json(req.user);
-    return;
+    return res.json(req.user);
   }
 
-  return res.status(401).json({"message": "No Aauthorization header"});
+  return res.status(401).json({"message": "No Authorization header"});
 };
 
 /**
  */
 export let addUserAccount = async (req: Request, res: Response) => {
 
-  // console.log(JSON.stringify(req.body, undefined, 2));
+  logger.trace({op: "addUserAccount", input: req.body}, "Adding account");
 
   const userAccount = userService.newAccountFromObject(req.body);
   const savedUserAccount = await userService.saveAccount(userAccount);
 
-  // console.log(JSON.stringify(savedUserAccount, undefined, 2));
+  logger.info({op: "addUserAccount", user: savedUserAccount}, "Save account successful");
 
   res.json(savedUserAccount);
 };
 
-export let listUserAccount = async (req: Request, res: Response) => {
+export let listUserAccounts = async (req: Request, res: Response) => {
 
-  // console.log(JSON.stringify(req.body, undefined, 2));
+  logger.trace({op: "listUserAccounts"}, "Retrieving accounts");
 
   const [userAccounts, count] = await userService.listAccounts();
 
-  // console.log(JSON.stringify(userAccounts, undefined, 2));
+  logger.info({op: "listUserAccounts", count: count}, "List account successful");
 
   res.json(userAccounts);
 };
@@ -59,11 +56,11 @@ export let listUserAccount = async (req: Request, res: Response) => {
 
 export let registerAccount = async (req: Request, res: Response) => {
 
-  // console.log(JSON.stringify(req.body, undefined, 2));
+  logger.trace({op: "registerAccount", input: req.body}, "Registering account");
 
   const account = await userService.registerAccount(req.body);
 
-  // console.log(JSON.stringify(userAccounts, undefined, 2));
+  logger.info({op: "registerAccount", account: account}, "Register account successful");
 
   res.json(account);
 };

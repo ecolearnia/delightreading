@@ -1,24 +1,28 @@
 import "reflect-metadata";
-import { createConnection } from "typeorm";
+import { createConnection, ConnectionOptions } from "typeorm";
 
 import { UserAccount } from "./entity/UserAccount";
 import { UserAuth } from "./entity/UserAuth";
+import { ActivityLog } from "./entity/ActivityLog";
 
 import * as errorHandler from "errorhandler";
 
-createConnection({
+const connConfig: ConnectionOptions = {
   type: "postgres",
   host: "localhost",
   port: 5432,
-  username: "test",
-  password: "test",
-  database: "test",
+  username: "postgres",
+  password: "",
+  database: "delightreading_test",
   "entities": [
-    UserAccount, UserAuth
+    UserAccount, UserAuth, ActivityLog
   ],
-  synchronize: true,
-  logging: true
-}).then(async connection => {
+  synchronize: false, // --> Re-creates database at every start
+  logging: true // true
+};
+
+
+createConnection(connConfig).then(async connection => {
   const app = require("./app");
 
   /**
