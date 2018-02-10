@@ -5,20 +5,17 @@
       <form>
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="bookTitle">Book Title</label>
             <input ref="referenceTitle" v-model="readLogEntry.referenceTitle" type="text" class="form-control" id="referenceTitle" placeholder="The book you read">
           </div>
           <div class="form-group col-md-3">
-            <label for="date">Date</label>
             <div class="input-group date " data-provide="datepicker">
-              <input v-model="readLogEntry.logTimestamp" id="logTimestamp" type="text" class="form-control">
+              <input v-model="readLogEntry.logTimestamp" id="logTimestamp" type="text" class="form-control" placeholder="Date">
               <div class="input-group-addon">
             </div>
             </div>
           </div>
           <div class="form-group col-md-2">
-            <label for="minutesRead">Mins. Read</label>
-            <input v-model="readLogEntry.quantity" type="number" class="form-control" id="quantity" placeholder="Mins. you read">
+            <input v-model="readLogEntry.quantity" type="number" class="form-control" id="quantity" placeholder="Mins.">
           </div>
           <div class="form-group col-md-1">
             <button type="button" class="btn btn-outline-primary" v-on:click="submitEntry" >OK</button>
@@ -81,8 +78,12 @@
 import "bootstrap";
 import "bootstrap/js/dist/util";
 import "bootstrap/js/dist/modal";
-import Bloodhound from "typeahead.js";
 import * as activityClient from "../utils/activity-client";
+
+import Handlebars from "handlebars";
+import Bloodhound from "typeahead.js";
+import "../assets/typeahead.css";
+import * as sensor from "../utils/sensor";
 
 export default {
   name: "Home",
@@ -105,14 +106,7 @@ export default {
     };
   },
   created() {
-    activityClient
-      .listActivityLog()
-      .then(response => {
-        this.readLog = response.data;
-      })
-      .catch(error => {
-        alert(error);
-      });
+    this.loadLog();
   },
   mounted() {
     // @see: https://forum.vuejs.org/t/typeahead-js-with-vue/22231/2
@@ -120,22 +114,6 @@ export default {
 
     var queryUrl = "https://www.googleapis.com/books/v1/volumes?q=%QUERY";
 
-    let filterBook = function(volumeInfo) {
-      if (volumeInfo.maturityRating === "MATURE") {
-        return false;
-      }
-      if (volumeInfo.description) {
-        const nwords = [
-          "violence", "sex", "ero", "sensual", "fetish", "f**k", "fuck"
-        ];
-        for (let i = 0; i < nwords.length; i++) {
-          if (volumeInfo.description.indexOf(nwords[i]) !== -1) {
-            return false;
-          }
-        }
-      }
-      return true;
-    };
     var referenceTitlesSource = new Bloodhound({
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace("value"),
       queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -144,19 +122,57 @@ export default {
         wildcard: "%QUERY",
         transform: function(response) {
           return response.items
-            .filter(row => filterBook(row.volumeInfo))
-            .map(row => row.volumeInfo.title);
+            .filter(row => sensor.sensorGoogleBook(row.volumeInfo))
+            .map(row => {
+              return {
+                title: row.volumeInfo.title,
+                author: row.volumeInfo.authors && row.volumeInfo.authors[0],
+                link: row.selfLink,
+                imageLink:
+                  row.volumeInfo.imageLinks &&
+                  row.volumeInfo.imageLinks.smallThumbnail,
+                serchInfo: row.searchInfo
+              };
+            });
         }
       }
     });
 
+    refTitle.bind('typeahead:select', function(ev, suggestion) {
+      console.log('Selection: ' + JSON.stringify(suggestion, undefined, 2));
+    });
+
     refTitle.typeahead(
       { hint: true, highlight: true, minLength: 1 },
-      { name: "referenceTitles", source: referenceTitlesSource }
+      {
+        name: "referenceTitles",
+        display: "title",
+        source: referenceTitlesSource,
+        templates: {
+          empty: [
+            '<div class="empty-message">',
+            "unable to find any Best Picture winners that match the current query",
+            "</div>"
+          ].join("\n"),
+          suggestion: Handlebars.compile(
+            "<div><img src='{{imageLink}}' height='40px'> {{title}}<br>by {{author}}</div>"
+          )
+        }
+      }
     );
     console.log(refTitle);
   },
   methods: {
+    loadLog: function() {
+      activityClient
+        .listActivityLog()
+        .then(response => {
+          this.readLog = response.data;
+        })
+        .catch(error => {
+          alert(error);
+        });
+    },
     clearForm: function() {
       this.readLogEntry.referenceTitle = "";
       this.readLogEntry.logTimestamp = "";
@@ -184,7 +200,8 @@ export default {
       activityClient
         .addActivityLog(this.readLogEntry)
         .then(response => {
-          this.readLog.push(Object.assign({}, this.readLogEntry));
+          // this.readLog.push(Object.assign({}, this.readLogEntry));
+          this.loadLog();
           this.clearForm();
           $("#noteModal").modal();
         })
@@ -196,7 +213,9 @@ export default {
       alert("Hey!!");
     },
     deleteEntry: function(sid) {
-      activityClient.deleteActivityLog(sid);
+      activityClient.deleteActivityLog(sid).then(() => {
+        this.loadLog();
+      });
     }
   }
 };
