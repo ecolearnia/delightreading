@@ -1,0 +1,19 @@
+.twitter-typeahead {
+    width: 100%;
+}
+.tt-input {
+background-color: beige;
+color: blue;
+}
+.tt-menu {
+background-color:blue;
+}
+.tt-open {
+background-color: white;
+border: gray
+}
+.tt-suggestion {
+    border-left: 1px solid lightblue;
+    border-right: 1px solid lightblue;
+    border-bottom: 1px solid lightblue;
+}
