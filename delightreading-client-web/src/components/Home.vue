@@ -26,6 +26,7 @@
       <table class="table">
         <thead>
           <tr>
+            <th></th>
             <th>Title</th>
             <th>Date</th>
             <th>Mins</th>
@@ -34,7 +35,8 @@
         </thead>
         <tbody>
           <tr v-for="readLogItem in readLog" v-bind:key="readLogItem.sid">
-            <td>{{ readLogItem.referenceTitle }}</td>
+            <td><img :src="readLogItem.reference.thumbnailImageUrl" height="30"></td>
+            <td>{{ readLogItem.reference.title }}</td>
             <td>{{ readLogItem.logTimestamp }}</td>
             <td>{{ readLogItem.quantity }}</td>
             <td>
@@ -98,7 +100,7 @@ export default {
         situation: null,
         feedContext: null,
         feedBody: null,
-        referenceTitle: "",
+        referenceSourceUri: null,
         referencingLogSid: null
       },
       readLog: [],
@@ -124,8 +126,10 @@ export default {
       }
     });
 
+    const self = this;
     refTitle.bind('typeahead:select', function(ev, suggestion) {
       console.log('Selection: ' + JSON.stringify(suggestion, undefined, 2));
+      self.updateReferenceSoruceUri(suggestion.link);
     });
 
     refTitle.typeahead(
@@ -149,6 +153,9 @@ export default {
     console.log(refTitle);
   },
   methods: {
+    updateReferenceSoruceUri: function(link) {
+      this.readLogEntry.referenceSourceUri = link;
+    },
     loadLog: function() {
       activityClient
         .listActivityLog()

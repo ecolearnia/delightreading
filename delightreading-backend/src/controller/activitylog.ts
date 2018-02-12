@@ -25,9 +25,10 @@ export let addMyActivityLog = async (req: Request, res: Response) => {
   }
 
   // TODO: Create reference if does not exists
-  let reference = await referenceService.findOne({sourceUri: req.body.reference.sourceUri});
+  let reference = await referenceService.findOne({sourceUri: req.body.referenceSourceUri});
   if (!reference) {
-    const gbook = GoogleBooksClient.getBookByUri(req.body.reference.sourceUri);
+    logger.info({op: "addActivityLog", referenceSourceUri: req.body.referenceSourceUri}, "Adding Reference");
+    const gbook = await GoogleBooksClient.getBookByUri(req.body.referenceSourceUri);
     reference = GoogleBooksClient.toReference(gbook);
     reference = await referenceService.save(reference);
   }
@@ -57,12 +58,10 @@ export let listMyActivityLog = async (req: Request, res: Response) => {
   const skip = (req.query.page || 0) * pageSize;
 
   const findCriteria = {
-    accountSid: req.user.sid,
-    skip: skip,
-    take: pageSize
+    accountSid: req.user.sid
   };
 
-  const activityLogs = await activityLogService.list(findCriteria, skip, take);
+  const activityLogs = await activityLogService.list(findCriteria, skip, pageSize);
 
   logger.info({op: "listMyActivityLog"}, "Listing my activityLog successful");
 
