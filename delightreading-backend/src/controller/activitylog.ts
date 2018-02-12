@@ -15,18 +15,8 @@ const referenceService =  new ReferenceService();
 const activityLogService =  new ActivityLogService();
 
 /**
- * GET /api
- * List of API examples.
  */
 export let addMyActivityLog = async (req: Request, res: Response) => {
-
-  // TODO: Create reference if does not exists
-  let reference = await referenceService.findOne({sourceUri: req.body.reference.sourceUri});
-  if (!reference) {
-    const gbook = GoogleBooksClient.getBookByUri(req.body.reference.sourceUri);
-    reference = GoogleBooksClient.toReference(gbook);
-  }
-
   logger.info({op: "addActivityLog", account: req.user}, "Adding activityLog");
 
   if (!req.user) {
@@ -34,9 +24,18 @@ export let addMyActivityLog = async (req: Request, res: Response) => {
     return res.status(401).json({message: "Unauthorized: No user"});
   }
 
+  // TODO: Create reference if does not exists
+  let reference = await referenceService.findOne({sourceUri: req.body.reference.sourceUri});
+  if (!reference) {
+    const gbook = GoogleBooksClient.getBookByUri(req.body.reference.sourceUri);
+    reference = GoogleBooksClient.toReference(gbook);
+    reference = await referenceService.save(reference);
+  }
+
   const activityLog = new ActivityLog(req.body);
   activityLog.accountSid = req.user.sid;
   activityLog.logTimestamp = new Date();
+  activityLog.referenceSid = reference.sid;
 
   const savedActivityLog = await activityLogService.save(activityLog);
 
@@ -63,7 +62,7 @@ export let listMyActivityLog = async (req: Request, res: Response) => {
     take: pageSize
   };
 
-  const activityLogs = await activityLogService.list(findCriteria);
+  const activityLogs = await activityLogService.list(findCriteria, skip, take);
 
   logger.info({op: "listMyActivityLog"}, "Listing my activityLog successful");
 

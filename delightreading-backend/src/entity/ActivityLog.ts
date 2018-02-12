@@ -14,7 +14,7 @@ export class ActivityLog extends EntityBase {
     @Column({
         type: "bigint"
     })
-    referenceSid?: string;
+    referenceSid?: number;
 
     @Column({
         type: "bigint",

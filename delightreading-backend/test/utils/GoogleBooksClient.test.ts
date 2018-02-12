@@ -3,9 +3,6 @@ import GoogleBooksClient from "../../src/utils/GoogleBooksClient";
 
 const expectedJson = require("../sample-data/reference.hole.sample.json");
 
-// const chai = require("chai");
-// const expect = chai.expect;
-
 describe("GoogleBooksClient", () => {
 
     describe("getBookByUri",  async () => {
