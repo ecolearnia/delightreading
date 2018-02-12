@@ -1,42 +1,22 @@
 import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn, Generated } from "typeorm";
 import { EntityBase } from "./EntityBase";
 
+/**
+ * This entity represents an instance of the user reading a reference(literature)
+ * A user may read a book more than once.
+ */
 @Entity("referencing_log")
 export class ReferencingLog extends EntityBase {
 
     @Column({
-        type: "varchar",
-        length: 256
+        type: "bigint"
     })
-    title: string;
+    accountSid: number;
 
     @Column({
-        type: "varchar",
-        length: 128,
-        nullable: true
+        type: "bigint"
     })
-    author: string;
-
-    @Column({
-        type: "varchar",
-        length: 64,
-        nullable: true
-    })
-    isbn: string;
-
-    @Column({
-        type: "varchar",
-        length: 256,
-        nullable: true
-    })
-    bookUrl: string;
-
-    @Column({
-        type: "varchar",
-        length: 256,
-        nullable: true
-    })
-    imageUrl: string;
+    referenceSid: number;
 
     @Column({
         type: "date",
@@ -54,7 +34,7 @@ export class ReferencingLog extends EntityBase {
         type: "int",
         nullable: true
     })
-    myRate: number; // my rate out of 10
+    myRating: number; // my rate out of 10
 
     @Column({
         type: "text",
@@ -73,4 +53,20 @@ export class ReferencingLog extends EntityBase {
         nullable: true
     })
     synopsys: string;
+
+    constructor(obj: any = undefined) {
+        super(obj);
+        if (obj) {
+            this.accountSid = obj.accountSid;
+            this.referenceSid = obj.referenceSid;
+            this.startDate = obj.startDate;
+            this.endDate = obj.endDate;
+            this.myRating = obj.myRating;
+            this.review = obj.review;
+            this.likeReason = obj.likeReason;
+            this.synopsys = obj.synopsys;
+        }
+        // this.createdAt = new Date();
+    }
+
 }

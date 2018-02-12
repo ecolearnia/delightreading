@@ -1,5 +1,12 @@
 import { Connection, createConnection } from "typeorm";
 
+import { ActivityLog } from "../src/entity/ActivityLog";
+import { Goal } from "../src/entity/Goal";
+import { Reference } from "../src/entity/Reference";
+import { ReferencingLog } from "../src/entity/ReferencingLog";
+import { UserAccount } from "../src/entity/UserAccount";
+import { UserAuth } from "../src/entity/UserAuth";
+
 export async function createTestConnection( entities: any) {
     return await createConnection({
         type: "postgres",
@@ -8,9 +15,9 @@ export async function createTestConnection( entities: any) {
         username: "test",
         password: "test",
         database: "test",
-        entities: entities,
+        entities: [ActivityLog, Goal, Reference, ReferencingLog, UserAccount, UserAuth],
         logging: true,
         dropSchema: true, // Isolate each test case
-        synchronize: true
+        synchronize: true // regenerate tables
       });
 }

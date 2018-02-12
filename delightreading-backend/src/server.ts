@@ -1,9 +1,12 @@
 import "reflect-metadata";
 import { createConnection, ConnectionOptions } from "typeorm";
 
+import { ActivityLog } from "./entity/ActivityLog";
+import { Goal } from "./entity/Goal";
+import { Reference } from "./entity/Reference";
+import { ReferencingLog } from "./entity/ReferencingLog";
 import { UserAccount } from "./entity/UserAccount";
 import { UserAuth } from "./entity/UserAuth";
-import { ActivityLog } from "./entity/ActivityLog";
 
 import * as errorHandler from "errorhandler";
 
@@ -15,12 +18,11 @@ const connConfig: ConnectionOptions = {
   password: "",
   database: "delightreading_test",
   "entities": [
-    UserAccount, UserAuth, ActivityLog
+    ActivityLog, Goal, Reference, ReferencingLog, UserAccount, UserAuth
   ],
   synchronize: false, // --> Re-creates database at every start
   logging: true // true
 };
-
 
 createConnection(connConfig).then(async connection => {
   const app = require("./app");

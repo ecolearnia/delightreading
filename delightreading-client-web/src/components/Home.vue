@@ -83,7 +83,7 @@ import * as activityClient from "../utils/activity-client";
 import Handlebars from "handlebars";
 import Bloodhound from "typeahead.js";
 import "../assets/typeahead.css";
-import * as sensor from "../utils/sensor";
+import * as googlebooksUtils from "../utils/googlebooks-utils";
 
 export default {
   name: "Home",
@@ -120,21 +120,7 @@ export default {
       remote: {
         url: queryUrl,
         wildcard: "%QUERY",
-        transform: function(response) {
-          return response.items
-            .filter(row => sensor.sensorGoogleBook(row.volumeInfo))
-            .map(row => {
-              return {
-                title: row.volumeInfo.title,
-                author: row.volumeInfo.authors && row.volumeInfo.authors[0],
-                link: row.selfLink,
-                imageLink:
-                  row.volumeInfo.imageLinks &&
-                  row.volumeInfo.imageLinks.smallThumbnail,
-                serchInfo: row.searchInfo
-              };
-            });
-        }
+        transform: googlebooksUtils.transform
       }
     });
 

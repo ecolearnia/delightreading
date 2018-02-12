@@ -5,9 +5,13 @@ import * as rootLogger  from "pino";
 import { Response, Request, NextFunction } from "express";
 import { ActivityLog } from "../entity/ActivityLog";
 import { ActivityLogService } from "../service/ActivityLogService";
+import { Reference } from "../entity/Reference";
+import { ReferenceService } from "../service/ReferenceService";
+import GoogleBooksClient from "../utils/GoogleBooksClient";
 
 const logger = rootLogger().child({ module: "controller/activitylog" });
 
+const referenceService =  new ReferenceService();
 const activityLogService =  new ActivityLogService();
 
 /**
@@ -15,6 +19,13 @@ const activityLogService =  new ActivityLogService();
  * List of API examples.
  */
 export let addMyActivityLog = async (req: Request, res: Response) => {
+
+  // TODO: Create reference if does not exists
+  let reference = await referenceService.findOne({sourceUri: req.body.reference.sourceUri});
+  if (!reference) {
+    const gbook = GoogleBooksClient.getBookByUri(req.body.reference.sourceUri);
+    reference = GoogleBooksClient.toReference(gbook);
+  }
 
   logger.info({op: "addActivityLog", account: req.user}, "Adding activityLog");
 

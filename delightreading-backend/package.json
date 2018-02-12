@@ -52,6 +52,7 @@
     "pg": "^7.4.1",
     "pino": "^4.10.4",
     "request": "^2.83.0",
+    "request-promise": "^4.2.2",
     "typeorm": "^0.1.11",
     "uuid": "^3.2.1"
   },
@@ -79,6 +80,7 @@
     "@types/passport-local": "^1.0.32",
     "@types/pino": "^4.7.1",
     "@types/request": "^2.0.9",
+    "@types/request-promise": "^4.1.41",
     "@types/shelljs": "^0.7.7",
     "@types/supertest": "^2.0.4",
     "@types/uuid": "^3.4.3",

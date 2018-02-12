@@ -1,18 +1,19 @@
 import * as request from "supertest";
 import { Connection, createConnection } from "typeorm";
-import { createTestConnection } from "../ormconnect"
-import * as app from "../../src/app";
-import { UserAccount } from "../../src/entity/UserAccount";
-import { UserAuth } from "../../src/entity/UserAuth";
+import { createTestConnection } from "../ormconnect";
 
-var chai = require('chai');
+var chai = require("chai");
 var expect = chai.expect;
 
 describe("POST /user/", () => {
 
   let connection: Connection;
+  let app;
+
   beforeEach(async () => {
-    connection = await createTestConnection([UserAccount, UserAuth]);
+    connection = await createTestConnection(undefined);
+
+    app = require("../../src/app");
   });
 
   afterEach(async () => {

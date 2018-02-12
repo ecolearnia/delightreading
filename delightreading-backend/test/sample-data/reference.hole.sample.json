@@ -1,0 +1,33 @@
+{
+    "createdBy": null,
+    "sourceUri": "https://www.googleapis.com/books/v1/volumes/U_zINMa9cAAC",
+    "title": "Holes",
+    "authors": [
+        "Louis Sachar"
+    ],
+    "publisher": "Random House Children's Books",
+    "publishedDate": "2011-06-01",
+    "description": "<p><b>Winner of the Newbery Medal and the National Book Award! This #1 <i>New York Times </i>bestselling, modern classic in which boys are forced to dig holes day in and day out is now available with a splashy new look.</b><br><br>Stanley Yelnats is under a curse. A curse that began with his no-good-dirty-rotten-pig-stealing-great-great-grandfather and has since followed generations of Yelnatses. Now Stanley has been unjustly sent to a boys’ detention center, Camp Green Lake, where the boys build character by spending all day, every day digging holes exactly five feet wide and five feet deep. There is no lake at Camp Green Lake. But there are an awful lot of holes.<br><br>It doesn’t take long for Stanley to realize there’s more than character improvement going on at Camp Green Lake. The boys are digging holes because the warden is looking for something. But what could be buried under a dried-up lake? Stanley tries to dig up the truth in this inventive and darkly humorous tale of crime and punishment—and redemption.<br><br><b>Includes a double bonus: an excerpt from <i>Small Steps,</i> the follow-up to <i>Holes,</i> as well as an excerpt from Louis Sachar’s new middle-grade novel, <i>Fuzzy Mud.<br><br></i>\"A smart jigsaw puzzle of a novel.\" --<i>The New York Times <br><br></i>WINNER OF THE <i>BOSTON GLOBE-HORN BOOK</i> AWARD<br>A <i>NEW YORK TIMES</i> BOOK REVIEW NOTABLE CHILDREN'S BOOK<br>SELECTED FOR NUMEROUS BEST BOOK OF THE YEAR AND ALA HONORS </b></p><br><br><br><i>From the Paperback edition.</i>",
+    "synopsys": null,
+    "identifiers": [
+        {
+            "type": "ISBN_10",
+            "identifier": "0307798364"
+        },
+        {
+            "type": "ISBN_13",
+            "identifier": "9780307798367"
+        }
+    ],
+    "pageCount": 272,
+    "categories": [
+        "Juvenile Fiction / Mysteries & Detective Stories",
+        "Juvenile Fiction / Action & Adventure / General",
+        "Juvenile Fiction / Social Themes / Friendship"
+    ],
+    "maturityRating": "NOT_MATURE",
+    "language": "en",
+    "imageUrl": "http://books.google.com/books/content?id=U_zINMa9cAAC&printsec=frontcover&img=1&zoom=2&edge=curl&imgtk=AFLRE73hYO85F8yUcP7iAzeIAWone7nbB4HkZOAiZisoMMT7lwEZKWjn9Q39FLlCykBMWWagnhiG1v2cgM9rNSxvb9ZyRakrY4D-09VKpX7m6D1tj3rYWykI5LpQ7c7AL_5YgIUQrN-l&source=gbs_api",
+    "thumbnailImageUrl": "http://books.google.com/books/content?id=U_zINMa9cAAC&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE706nr5jnmqB2D75UV9t0QoTqqqldzneeDoxbPRUcDTmppQb_rpOaPxHh4ZopY0_td_O0lEtA2p1fYjuAGuB3TlyD2C_sy4T05EVF1f2CmR1POK3l448cjpPT44UbE_aQzk9TdwV&source=gbs_api",
+    "awards": ["Newbery", "National Book Award"]
+}

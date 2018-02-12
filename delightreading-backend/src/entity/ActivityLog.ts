@@ -1,6 +1,7 @@
 import * as _  from "lodash";
 import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn, Generated } from "typeorm";
 import { EntityBase } from "./EntityBase";
+import { Reference } from "./Reference";
 
 @Entity("activity_log")
 export class ActivityLog extends EntityBase {
@@ -9,6 +10,17 @@ export class ActivityLog extends EntityBase {
         type: "bigint"
     })
     accountSid: number;
+
+    @Column({
+        type: "bigint"
+    })
+    referenceSid?: string;
+
+    @Column({
+        type: "bigint",
+        nullable: true
+    })
+    referencingLogSid?: number;
 
     @Column({
         type: "bigint"
@@ -52,23 +64,14 @@ export class ActivityLog extends EntityBase {
     })
     feedBody?: string;
 
-    @Column({
-        type: "varchar",
-        length: 256,
-        nullable: true
-    })
-    referenceTitle?: string;
-
-    @Column({
-        type: "bigint",
-        nullable: true
-    })
-    referencingLogSid?: number;
+    reference?: Reference;
 
     constructor(obj: any = undefined) {
         super(obj);
         if (obj) {
             this.accountSid = obj.accountSid;
+            this.referenceSid = obj.referenceSid;
+            this.referencingLogSid = obj.referencingLogSid;
             this.goalSid = obj.goalSid;
             this.activity = obj.activity;
             if (_.isString(obj.logTimestamp)) {
@@ -81,8 +84,6 @@ export class ActivityLog extends EntityBase {
             this.situation = obj.situation;
             this.feedContext = obj.feedContext;
             this.feedBody = obj.feedBody;
-            this.referenceTitle = obj.referenceTitle;
-            this.referencingLogSid = obj.referencingLogSid;
         }
     }
 }
