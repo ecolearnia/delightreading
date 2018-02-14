@@ -46,12 +46,12 @@ export class UserAuth extends EntityBase {
     account?: UserAccount;
 
     constructor(obj: any = undefined) {
+        super(obj);
         if (obj) {
-            super(obj);
             this.accountSid = obj.accountSid;
             this.provider = obj.provider;
             this.providerAccountId = obj.providerAccountId;
-            // this.rawProfile = obj.rawProfile;
+            this.rawProfile = obj.rawProfile;
             this.token = obj.token;
         }
     }

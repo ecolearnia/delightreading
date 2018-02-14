@@ -1,0 +1,40 @@
+{
+    "accountSid": 1,
+    "emails": ["test@tester.com"],
+    "synopsys": "I am me",
+    "hometown": "Seoul",
+    "education": [{
+        "kind": "education",
+        "institution": "La Salle",
+        "location": "Panama",
+        "title": "High School",
+        "subject": "Ciencias y Letras",
+        "description": "It was great",
+        "achievements": "1st place.",
+        "fromDate": "20150200",
+        "toDate": "20150200"
+    }],
+    "expertise": null,
+    "experiences": [],
+    "accomplishments": [{
+        "kind": "competition",
+        "institution": "Weekend Hackaton Org",
+        "location": "Boston",
+        "title": "Participated in 12th Weekend Hackhaton",
+        "subject": "Enterpreneurship",
+        "description": "It was great",
+        "achievements": "1st place.",
+        "fromDate": "20150200",
+        "toDate": "20150200"
+    }],
+    "style": "my style",
+    "interests": null,
+    "languages": [
+        "es",
+        "en"
+    ],
+    "gender": "M",
+    "websites": [
+        "websites"
+    ]
+}

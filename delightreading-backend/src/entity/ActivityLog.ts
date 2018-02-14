@@ -31,7 +31,7 @@ export class ActivityLog extends EntityBase {
         type: "varchar",
         length: 64
     })
-    activity: string;
+    activity: string; // "read", "write", etc.
 
     @Column({
         type: "timestamp"
@@ -44,6 +44,12 @@ export class ActivityLog extends EntityBase {
         scale: 3
     })
     quantity: number;
+
+    @Column({
+        type: "text",
+        nullable: true
+    })
+    postEmotion: string;
 
     @Column({
         type: "text",
@@ -64,6 +70,12 @@ export class ActivityLog extends EntityBase {
     })
     feedBody?: string;
 
+    @Column({
+        type: "text",
+        nullable: true
+    })
+    retrospective?: string;
+
     reference?: Reference;
 
     constructor(obj: any = undefined) {
@@ -81,8 +93,10 @@ export class ActivityLog extends EntityBase {
                 this.logTimestamp = obj.logTimestamp;
             }
             this.quantity = obj.quantity;
+            this.postEmotion = obj.postEmotion;
             this.situation = obj.situation;
             this.feedContext = obj.feedContext;
+            this.retrospective = obj.retrospective;
             this.feedBody = obj.feedBody;
         }
     }

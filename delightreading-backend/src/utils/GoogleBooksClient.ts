@@ -42,14 +42,15 @@ export default class GoogleBooksClient {
                     awards.push(GoogleBooksClient.AWARDS[i]);
                 }
             }
-        }
 
-        // Double check for NOT_MATURE labeled content for words
-        if (gbookVol.volumeInfo.maturityRating === GoogleBooksClient.RATING_NOT_MATURE) {}
-        for (let i = 0; i < GoogleBooksClient.NWORDS.length; i++) {
-            if (gbookVol.volumeInfo.description.indexOf(GoogleBooksClient.NWORDS[i]) !== -1) {
-                gbookVol.volumeInfo.maturityRating = GoogleBooksClient.RATING_MATURE;
+            // Double check for NOT_MATURE labeled content for words
+            if (gbookVol.volumeInfo.maturityRating === GoogleBooksClient.RATING_NOT_MATURE) {}
+            for (let i = 0; i < GoogleBooksClient.NWORDS.length; i++) {
+                if (gbookVol.volumeInfo.description.indexOf(GoogleBooksClient.NWORDS[i]) !== -1) {
+                    gbookVol.volumeInfo.maturityRating = GoogleBooksClient.RATING_MATURE;
+                }
             }
+
         }
 
         return new Reference({

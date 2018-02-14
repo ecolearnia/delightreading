@@ -111,6 +111,7 @@ export class Reference extends EntityBase {
             this.title = obj.title;
             this.authors = obj.authors;
             this.publisher = obj.publisher;
+            // TODO: parse date. Note: it is possible that the date is partial, e.g. only year.
             this.publishedDate = obj.publishedDate;
             this.description = obj.description;
             this.synopsys = obj.synopsys;

@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Initial from '@/components/Initial'
 import Goal from '@/components/Goal'
 import Home from '@/components/Home'
-import user from '@/components/User'
+import UserProfile from '@/components/UserProfile'
 
 Vue.use(Router)
 
@@ -11,8 +11,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'Initial',
+      component: Initial
     },
     {
       path: '/goal',
@@ -25,9 +25,9 @@ export default new Router({
       component: Home
     },
     {
-      path: '/user',
-      name: 'User',
-      component: user
+      path: '/userprofile',
+      name: 'UserProfile',
+      component: UserProfile
     }
   ]
 })

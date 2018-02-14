@@ -7,11 +7,14 @@ import { ActivityLog } from "../entity/ActivityLog";
 import { ActivityLogService } from "../service/ActivityLogService";
 import { Reference } from "../entity/Reference";
 import { ReferenceService } from "../service/ReferenceService";
+import { ReferencingLog } from "../entity/ReferencingLog";
+import { ReferencingLogService } from "../service/ReferencingLogService";
 import GoogleBooksClient from "../utils/GoogleBooksClient";
 
 const logger = rootLogger().child({ module: "controller/activitylog" });
 
 const referenceService =  new ReferenceService();
+const referencingLogService =  new ReferencingLogService();
 const activityLogService =  new ActivityLogService();
 
 /**
@@ -24,7 +27,7 @@ export let addMyActivityLog = async (req: Request, res: Response) => {
     return res.status(401).json({message: "Unauthorized: No user"});
   }
 
-  // TODO: Create reference if does not exists
+  // TODO: make it transactional
   let reference = await referenceService.findOne({sourceUri: req.body.referenceSourceUri});
   if (!reference) {
     logger.info({op: "addActivityLog", referenceSourceUri: req.body.referenceSourceUri}, "Adding Reference");
@@ -33,10 +36,23 @@ export let addMyActivityLog = async (req: Request, res: Response) => {
     reference = await referenceService.save(reference);
   }
 
+  // TODO: create ReferencingLog
+  let referencingLog = await referencingLogService.findOne({accountSid: req.user.sid, referenceSid: reference.sid});
+  if (!referencingLog) {
+    logger.info({op: "addActivityLog", referenceSourceUri: req.body.referenceSourceUri}, "Adding Reference");
+    referencingLog = new ReferencingLog({
+      accountSid: req.user.sid,
+      referenceSid: reference.sid
+    });
+
+    referencingLog = await referencingLogService.save(referencingLog);
+  }
+
   const activityLog = new ActivityLog(req.body);
   activityLog.accountSid = req.user.sid;
   activityLog.logTimestamp = new Date();
   activityLog.referenceSid = reference.sid;
+  activityLog.referencingLogSid = referencingLog.sid;
 
   const savedActivityLog = await activityLogService.save(activityLog);
 

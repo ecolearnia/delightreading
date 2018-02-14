@@ -33,11 +33,11 @@ export class ReferenceService {
 
     async findOne(criteria?: any): Promise<Reference> {
 
-        logger.info({ op: "list", criteria: criteria }, "Listing reference");
+        logger.info({ op: "findOne", criteria: criteria }, "Retrieving single reference");
 
         const reference = await this.referenceRepo.findOne(criteria);
 
-        logger.info({ op: "list", reference: reference }, "Listing reference successful");
+        logger.info({ op: "findOne", reference: reference }, "Retrieving single reference successful");
 
         return reference;
     }

@@ -31,6 +31,12 @@ export class ReferencingLog extends EntityBase {
     endDate: Date;
 
     @Column({
+        type: "text",
+        nullable: true
+    })
+    postEmotion: string;
+
+    @Column({
         type: "int",
         nullable: true
     })
@@ -61,6 +67,7 @@ export class ReferencingLog extends EntityBase {
             this.referenceSid = obj.referenceSid;
             this.startDate = obj.startDate;
             this.endDate = obj.endDate;
+            this.postEmotion = obj.postEmotion;
             this.myRating = obj.myRating;
             this.review = obj.review;
             this.likeReason = obj.likeReason;

@@ -31,7 +31,7 @@ export function put(urlPath, data) {
     headers: createAuthHeaders()
   }
   console.log("req opts: " + JSON.stringify(reqOpts, undefined, 2));
-  return axios.post(serverBaseUrl + urlPath, data, reqOpts);
+  return axios.put(serverBaseUrl + urlPath, data, reqOpts);
 }
 
 export function del(urlPath) {

@@ -7,7 +7,7 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#/home">Home</a>
+            <a class="nav-link" href="#/home">About</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#/goal">Explore</a>
@@ -32,7 +32,6 @@
 <script>
 import "bootstrap";
 import * as userClient from "../utils/user-client";
-import * as cookieUtils from "../utils/cookie-utils";
 
 export default {
   name: "TopNav",
@@ -41,19 +40,16 @@ export default {
       userAccount: {}
     };
   },
-  mounted() {
-    // userClient.getSessionUser().then(account => {
-    //   this.userAcccount = Object.assign({}, account);
-
-    //   console.log("Me: " + JSON.stringify(this.userAcccount, undefined, 2));
-    // });
+  created() {
+    this.userAcccount = userClient.getSessionUser();
+    /*
     let accessToken = cookieUtils.getCookie("dr_token");
     if (accessToken) {
       userClient
         .getMyAccount()
         .then(response => {
           this.userAccount = response.data;
-          console.log("Me: " + JSON.stringify(this.userAccount, undefined, 2));
+          // alert("Me: " + JSON.stringify(response, undefined, 2));
         })
         .catch(error => {
           alert("Error: " + error);
@@ -62,9 +58,9 @@ export default {
     } else {
       alert("No Cookie found");
     }
+    */
   },
   methods: {
-    initSession: function(account) {},
     clearForm: function() {
       this.readGoal = "";
     },

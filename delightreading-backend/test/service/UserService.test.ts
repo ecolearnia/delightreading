@@ -3,9 +3,9 @@ import { createTestConnection } from "../ormconnect";
 import { UserService } from "../../src/service/UserService";
 import { UserAccount } from "../../src/entity/UserAccount";
 import { UserAuth } from "../../src/entity/UserAuth";
+import { UserProfile } from "../../src/entity/UserProfile";
 
-var chai = require("chai");
-var expect = chai.expect;
+const expect = require("chai").expect;
 
 describe("UserService", () => {
 
@@ -28,8 +28,8 @@ describe("UserService", () => {
     await connection.close();
   });
 
-  describe("Save", () => {
-    it("should save User", async () => {
+  describe("Account", () => {
+    it("should save Account", async () => {
       const service = new UserService();
 
       const account = service.newAccount("savetest", "savetest@testland.com", "st", "Tester", "Testez");
@@ -38,12 +38,28 @@ describe("UserService", () => {
       expect(saved.givenName).equal("Tester");
     });
 
-    it("should list User", async () => {
+    it("should list Accounts", async () => {
       const service = new UserService();
 
       const result = await service.listAccounts();
       expect(result).to.have.lengthOf(2);
     });
+  });
+
+  describe("Profile", () => {
+    it("should save Profile", async () => {
+
+      const sampleProfile = require("../sample-data/userprofile.sample.json");
+
+      const profile = new UserProfile(sampleProfile);
+
+      const saved = await sut.saveProfile(profile);
+
+      const found = await sut.findProfileByAccountSid(saved.sid);
+
+      expect(found.hometown).equal("Seoul");
+    });
+
   });
 
   describe("Register and SignIn", () => {
@@ -72,20 +88,4 @@ describe("UserService", () => {
     });
   });
 
-  // describe("Register", () => {
-  //   it("should save Account and Auth", async () => {
-  //     let service = new UserService()
-
-  //     let auth  = service.newAuth({
-  //       accountSid: null,
-  //       provider: "testsite",
-  //       providerAccountId: "testsidteid"
-  //     });
-  //     let account = service.newAccount("savetest", "savetest@testland.com", "st", "Tester", "Testez", auth);
-
-  //     let registered = await service.registerAccount(account);
-  //     expect(account.givenName).equal("Tester");
-  //     expect(account.auths).to.have.lengthOf(1);
-  //   });
-  // });
 });

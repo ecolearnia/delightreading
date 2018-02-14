@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{ pageTitle }}</h1>
+    <h2>{{ pageTitle }}</h2>
     <div class="container">
       <form>
         <div class="form-row">
@@ -15,10 +15,18 @@
             </div>
           </div>
           <div class="form-group col-md-2">
-            <input v-model="readLogEntry.quantity" type="number" class="form-control" id="quantity" placeholder="Mins.">
+            <select class="custom-select" id="readLogEntry.quantity">
+              <option selected>Mins.</option>
+              <option value="5">5 mins</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="40">40</option>
+              <option value="60">60</option>
+            </select>
           </div>
           <div class="form-group col-md-1">
-            <button type="button" class="btn btn-outline-primary" v-on:click="submitEntry" >OK</button>
+            <button type="button" class="btn btn-primary" v-on:click="submitEntry" >OK</button>
             <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#noteModal">Done</button> -->
           </div>
         </div>

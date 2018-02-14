@@ -7,6 +7,7 @@ import * as rootLogger  from "pino";
 import { getRepository } from "typeorm";
 import { UserAccount } from "../entity/UserAccount";
 import { UserAuth } from "../entity/UserAuth";
+import { UserProfile } from "../entity/UserProfile";
 
 const logger = rootLogger().child({ module: "UserService" });
 
@@ -153,7 +154,7 @@ export class UserService {
 
     }
 
-    async findAuth2(provider: string, providerAccountId: string): Promise<UserAuth> {
+    async findAuthByProviderId(provider: string, providerAccountId: string): Promise<UserAuth> {
         const auth = new UserAuth({provider: provider, providerAccountId: providerAccountId});
         return await this.findAuth(auth);
     }
@@ -169,5 +170,53 @@ export class UserService {
             { provider: auth.provider, providerAccountId: auth.providerAccountId })
             .getOne();
         return foundAuth;
+    }
+
+    /**********
+     * Profile
+     */
+
+    newProfileFromObject(obj: any, accountSid: number): UserProfile {
+        const profile = new UserProfile(obj);
+        profile.accountSid = accountSid;
+        profile.createdAt = new Date();
+        return profile;
+    }
+
+    async saveProfile(profile: UserProfile): Promise<UserProfile> {
+
+        logger.info({ op: "saveProfile", profile: profile }, "Saving profile");
+
+        if (!profile.uid) {
+            profile.uid = uuidv4();
+            profile.createdAt = new Date();
+        }
+        const profileRepo = getRepository(UserProfile);
+        const foundProfile = await this.findProfileByAccountSid(profile.accountSid);
+        if (foundProfile) {
+            profile.sid = foundProfile.sid;
+        }
+        const savedProfile = await profileRepo.save(profile);
+
+        logger.info({ op: "saveProfile", profile: profile }, "Save profile successful");
+
+        return savedProfile;
+    }
+
+    async findProfileByAccountSid(accountSid: number): Promise<UserProfile> {
+        return this.findProfile({accountSid: accountSid});
+    }
+
+    async findProfile(criteria?: any): Promise<UserProfile> {
+
+        logger.info({ op: "findProfile", criteria: criteria }, "Retrieving single userProfile");
+
+        const profileRepo = getRepository(UserProfile);
+
+        const profile = await profileRepo.findOne(criteria);
+
+        logger.info({ op: "findProfile", profile: profile }, "Retrieving single userProfile successful");
+
+        return profile;
     }
 }

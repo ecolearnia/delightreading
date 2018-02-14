@@ -13,8 +13,8 @@ export default class TypeOrmUtils {
             alias += ".";
         }
         const conditions: string[] = [];
-        for (const field in criteria) {
-            conditions.push(alias + field + " = :" + field);
+        for (const prop in criteria) {
+            conditions.push(alias + prop + " = :" + prop);
         }
 
         return conditions.join(" AND ");

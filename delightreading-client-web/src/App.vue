@@ -2,6 +2,12 @@
   <div id="app">
     <TopNav />
     <router-view/>
+    <footer class="site-footer">
+      <p>DelightReading by Seojin & Young-Suk</p>
+      <p>
+        <a href="#">Back to top</a>
+      </p>
+    </footer>
   </div>
 </template>
 
@@ -27,4 +33,18 @@ body  {
   height: 30px;
 }
 
+/*
+ * Footer
+ */
+.site-footer {
+  margin-top: 5rem;
+  padding: 2.5rem 0;
+  color: #999;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-top: .05rem solid #e5e5e5;
+}
+.site-footer p:last-child {
+  margin-bottom: 0;
+}
 </style>
