@@ -12,10 +12,11 @@
 </template>
 
 <script>
+// import { USER_REQUEST } from "actions/user"
 import TopNav from "./components/TopNav.vue"
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     TopNav
   }

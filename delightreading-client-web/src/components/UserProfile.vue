@@ -64,6 +64,7 @@
 <script>
 import "bootstrap";
 import "bootstrap-datepicker";
+import { mapGetters, mapState } from "vuex";
 import * as userClient from "../utils/user-client";
 
 export default {
@@ -107,6 +108,13 @@ export default {
         };
       }
     });
+    this.account = this.myAccount;
+  },
+  computed: {
+    ...mapGetters(["myAccount", "isAuthenticated", "isAccountLoaded"]),
+    ...mapState({
+      authLoading: state => state.auth.status === "loading"
+    })
   },
   methods: {
     clearForm: function() {},

@@ -15,8 +15,8 @@
             </div>
           </div>
           <div class="form-group col-md-2">
-            <select class="custom-select" id="readLogEntry.quantity">
-              <option selected>Mins.</option>
+            <select v-model="readLogEntry.quantity" class="custom-select" id="readLogEntry.quantity">
+              <option >Mins.</option>
               <option value="5">5 mins</option>
               <option value="10">10</option>
               <option value="20">20</option>

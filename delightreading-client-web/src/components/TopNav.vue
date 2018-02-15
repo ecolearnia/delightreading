@@ -21,7 +21,7 @@
             <a class="nav-link" href="#/goal">My Readings</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#/userprofile"><img :src="userAccount.pictureUri" class="rounded-circle nav-pic" ></a>
+            <a class="nav-link" href="#/userprofile"><img :src="myAccount.pictureUri" class="rounded-circle nav-pic" ></a>
           </li>
         </ul>
 
@@ -30,9 +30,7 @@
 </template>
 
 <script>
-import "bootstrap";
-import * as userClient from "../utils/user-client";
-import * as cookieUtils from "../utils/cookie-utils";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "TopNav",
@@ -42,26 +40,12 @@ export default {
     };
   },
   mounted() {
-    // userClient.getSessionUser().then(account => {
-    //   this.userAcccount = Object.assign({}, account);
-
-    //   console.log("Me: " + JSON.stringify(this.userAcccount, undefined, 2));
-    // });
-    let accessToken = cookieUtils.getCookie("dr_token");
-    if (accessToken) {
-      userClient
-        .getMyAccount()
-        .then(response => {
-          this.userAccount = response.data;
-          console.log("Me: " + JSON.stringify(this.userAccount, undefined, 2));
-        })
-        .catch(error => {
-          alert("Error: " + error);
-        });
-      console.log("Created");
-    } else {
-      alert("No Cookie found");
-    }
+  },
+  computed: {
+    ...mapGetters(["myAccount", "isAuthenticated", "isAccountLoaded"]),
+    ...mapState({
+      authLoading: state => state.auth.status === "loading"
+    })
   },
   methods: {
     initSession: function(account) {},
