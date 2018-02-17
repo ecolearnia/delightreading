@@ -40,6 +40,7 @@ const actions = {
   [AUTH_LOGOUT]: ({ commit, dispatch }) => {
     return new Promise((resolve, reject) => {
       commit(AUTH_LOGOUT);
+      cookieUtils.deleteCookie(COOKIE_KEY);
       localStorage.removeItem(STORAGE_KEY);
       resolve();
     })

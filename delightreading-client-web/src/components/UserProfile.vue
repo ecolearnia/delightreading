@@ -100,12 +100,14 @@ export default {
   created() {
     // this.account = userClient.getSessionUser();
     userClient.getMyProfile().then(response => {
-      this.profile = response.data;
-      if (this.profile.education) {
-        this.school = {
-          name: this.profile.education[0].institution,
-          grade: this.profile.education[0].title
-        };
+      if (response.data) {
+        this.profile = response.data;
+        if (this.profile && this.profile.education) {
+          this.school = {
+            name: this.profile.education[0].institution,
+            grade: this.profile.education[0].title
+          };
+        }
       }
     });
     this.account = this.myAccount;
@@ -119,6 +121,7 @@ export default {
   methods: {
     clearForm: function() {},
     submitEntry: function() {
+      debugger
       // alert("Congratulations! for reading " + this.readLogEntry.title + " for " + this.readLogEntry.minsRead + " mins." )
       this.profile.education = [
         {

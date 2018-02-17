@@ -64,6 +64,8 @@ export default class GoogleBooksClient {
             identifiers: gbookVol.volumeInfo.industryIdentifiers,
             pageCount: gbookVol.volumeInfo.pageCount,
             categories: gbookVol.volumeInfo.categories,
+            averageRating: gbookVol.volumeInfo.averageRating,
+            ratingsCount: gbookVol.volumeInfo.ratingsCount,
             maturityRating: gbookVol.volumeInfo.maturityRating,
             language: gbookVol.volumeInfo.language,
             imageUrl: gbookVol.volumeInfo.imageLinks.small,

@@ -34,10 +34,11 @@ export class Reference extends EntityBase {
     publisher: string;
 
     @Column({
-        type: "date",
+        type: "varchar",
+        length: 12,
         nullable: true
     })
-    publishedDate: Date;
+    publishedDate: string;
 
     @Column({
         type: "text",
@@ -69,6 +70,20 @@ export class Reference extends EntityBase {
         nullable: true
     })
     categories: object;
+
+    @Column({
+        type: "decimal",
+        precision: 3,
+        scale: 1,
+        nullable: true
+    })
+    averageRating: number;
+
+    @Column({
+        type: "int",
+        nullable: true
+    })
+    ratingsCount: number;
 
     @Column({
         type: "varchar",
