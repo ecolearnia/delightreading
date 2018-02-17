@@ -39,28 +39,28 @@ const actions = {
   },
   [AUTH_LOGOUT]: ({ commit, dispatch }) => {
     return new Promise((resolve, reject) => {
-      commit(AUTH_LOGOUT)
-      localStorage.removeItem("user-token")
-      resolve()
+      commit(AUTH_LOGOUT);
+      localStorage.removeItem(STORAGE_KEY);
+      resolve();
     })
   }
 }
 
 const mutations = {
   [AUTH_SET_TOKEN]: (state) => {
-    state.status = "loading"
+    state.status = "loading";
   },
-  [AUTH_SUCCESS]: (state, resp) => {
-    state.status = "success"
-    state.token = resp.token
-    state.hasLoadedOnce = true
+  [AUTH_SUCCESS]: (state, token) => {
+    state.status = "success";
+    state.token = token;
+    state.hasLoadedOnce = true;
   },
   [AUTH_ERROR]: (state) => {
-    state.status = "error"
-    state.hasLoadedOnce = true
+    state.status = "error";
+    state.hasLoadedOnce = true;
   },
   [AUTH_LOGOUT]: (state) => {
-    state.token = ""
+    state.token = undefined;
   }
 }
 

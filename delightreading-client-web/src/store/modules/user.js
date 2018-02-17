@@ -28,18 +28,18 @@ const actions = {
 
 const mutations = {
   [USER_ACCOUNT_REQUEST]: (state) => {
-    state.status = "loading"
+    state.status = "loading";
   },
   [USER_ACCOUNT_SUCCESS]: (state, resp) => {
-    state.status = "success"
-    Vue.set(state, "account", resp)
+    state.status = "success";
+    Vue.set(state, "account", resp);
   },
   [USER_ACCOUNT_ERROR]: (state) => {
-    state.status = "error"
+    state.status = "error";
   },
   [AUTH_LOGOUT]: (state) => {
-    state.account = {}
-    state.account = {}
+    state.account = undefined;
+    state.profile = undefined;
   }
 }
 
