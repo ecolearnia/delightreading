@@ -5,6 +5,8 @@ import Goal from '@/components/Goal'
 import Home from '@/components/Home'
 import UserProfile from '@/components/UserProfile'
 
+import Team from '@/components/content/Team'
+
 import store from '../store'
 
 const theStore = store;
@@ -36,6 +38,11 @@ const router = new Router({
       name: 'UserProfile',
       component: UserProfile,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/team',
+      name: 'Team',
+      component: Team
     }
   ]
 });

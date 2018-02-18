@@ -11,8 +11,8 @@ import axios from "axios";
 const theStore = store;
 const theRouter = router;
 
-axios.interceptors.response.use(undefined, function (err) {
-  return new Promise(function (resolve, reject) {
+axios.interceptors.response.use(undefined, function(err) {
+  return new Promise(function(resolve, reject) {
     if (
       err.response.status === 401 &&
       err.config &&

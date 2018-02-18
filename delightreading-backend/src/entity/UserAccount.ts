@@ -19,10 +19,11 @@ export class UserAccount extends EntityBase {
 
     @Column({
         type: "varchar",
-        length: 64
+        length: 64,
+        nullable: true
     })
-    password: string;
-
+    nickname?: string;
+    
     @Column({
         type: "varchar",
         length: 64
@@ -102,7 +103,7 @@ export class UserAccount extends EntityBase {
         if (obj) {
             this.username = obj.username;
             this.email = obj.email;
-            this.password = obj.password;
+            this.nickname = obj.nickname;
             this.givenName = obj.givenName;
             this.familyName = obj.familyName;
             this.middleName = obj.middleName;

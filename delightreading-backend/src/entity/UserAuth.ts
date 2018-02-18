@@ -28,6 +28,13 @@ export class UserAuth extends EntityBase {
         length: 64,
         nullable: true
     })
+    password?: string;
+
+    @Column({
+        type: "varchar",
+        length: 64,
+        nullable: true
+    })
     token?: string;
 
     @Column({
@@ -51,8 +58,10 @@ export class UserAuth extends EntityBase {
             this.accountSid = obj.accountSid;
             this.provider = obj.provider;
             this.providerAccountId = obj.providerAccountId;
-            this.rawProfile = obj.rawProfile;
+            this.password = obj.password;
             this.token = obj.token;
+            this.expires = obj.expires;
+            this.rawProfile = obj.rawProfile;
         }
     }
 }

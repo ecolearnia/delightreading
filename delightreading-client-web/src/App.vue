@@ -5,6 +5,7 @@
     <footer class="site-footer">
       <p>DelightReading by Seojin & Young-Suk</p>
       <p>
+        <a href="#/team">The Team</a>
         <a href="#">Back to top</a>
       </p>
     </footer>

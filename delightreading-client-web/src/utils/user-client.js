@@ -42,6 +42,6 @@ export function getMyProfile() {
   return requestUtil.get("/api/users/myprofile");
 }
 
-export function saveMyProfile(account, profile) {
+export function saveMyProfile(profile) {
   return requestUtil.put("/api/users/myprofile", profile);
 }

@@ -48,7 +48,7 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import { AUTH_LOGOUT } from "../store/actions/auth"
+import { AUTH_LOGOUT } from "../store/actions/auth";
 
 export default {
   name: "TopNav",
@@ -57,8 +57,7 @@ export default {
       userAccount: {}
     };
   },
-  mounted() {
-  },
+  mounted() {},
   computed: {
     ...mapGetters(["myAccount", "isAuthenticated", "isAccountLoaded"]),
     ...mapState({
@@ -67,10 +66,8 @@ export default {
   },
   methods: {
     doLogout: function() {
-      debugger
       let theRouter = this.$router;
-      this.$store.dispatch(AUTH_LOGOUT)
-      .then(() => {
+      this.$store.dispatch(AUTH_LOGOUT).then(() => {
         theRouter.push("/");
       });
     }

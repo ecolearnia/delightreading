@@ -105,6 +105,7 @@ export class UserProfile extends EntityBase {
             this.languages = obj.languages;
             this.gender = obj.gender;
             this.websites = obj.websites;
+            this.account = obj.account;
         }
     }
 }

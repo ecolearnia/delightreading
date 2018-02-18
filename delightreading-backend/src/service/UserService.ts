@@ -2,16 +2,19 @@
 
 import * as async from "async";
 import * as uuidv4 from "uuid/v4";
-import * as rootLogger  from "pino";
+import * as rootLogger from "pino";
 
 import { getRepository } from "typeorm";
 import { UserAccount } from "../entity/UserAccount";
 import { UserAuth } from "../entity/UserAuth";
 import { UserProfile } from "../entity/UserProfile";
+import { ServiceBase } from "./ServiceBase";
+
+import TypeOrmUtils from "../utils/TypeOrmUtils";
 
 const logger = rootLogger().child({ module: "UserService" });
 
-export class UserService {
+export class UserService extends ServiceBase {
 
     newAccount(username: string, email: string, password: string, givenName: string, familyName: string, auth?: UserAuth): UserAccount {
         const account = new UserAccount({
@@ -36,50 +39,59 @@ export class UserService {
     }
 
     newAuth(obj: any): UserAuth {
-        const auth: UserAuth = {
+        const auth = new UserAuth({
             accountSid: obj.accountSid,
             provider: obj.provider,
             providerAccountId: obj.providerAccountId,
             token: obj.token,
             createdAt: new Date()
-        };
+        });
         return auth;
     }
 
     async saveAccount(userAccount: UserAccount): Promise<UserAccount> {
 
-        logger.trace({op: "saveAccount", userAccount: userAccount}, "Saving account");
+        logger.trace({ op: "saveAccount", userAccount: userAccount }, "Saving account");
 
         const userAccountRepo = getRepository(UserAccount);
         if (userAccount.uid === undefined) {
             userAccount.uid = uuidv4();
         }
         const savedUserAccount = await userAccountRepo.save(userAccount);
-        logger.info({op: "saveAccount", userAccount: savedUserAccount}, "Save account successfufl");
+        logger.info({ op: "saveAccount", userAccount: savedUserAccount }, "Save account successfufl");
 
         return savedUserAccount;
     }
 
+    async updateAccount(criteria: any, fields: any): Promise<void> {
+
+        logger.trace({ op: "updateAccount", criteria: criteria, fields: fields }, "Updating account");
+
+        const userAccountRepo = getRepository(UserAccount);
+        await userAccountRepo.update(criteria, fields);
+        logger.info({ op: "updateAccount", criteria: criteria, fields: fields }, "Update account successfufl");
+    }
+
     async findAccountBySid(sid: number): Promise<UserAccount> {
-        return this.findAccountBy({sid: sid});
+        return this.findAccountBy({ sid: sid });
     }
 
     async findAccountByUid(uid: string): Promise<UserAccount> {
-        return this.findAccountBy({uid: uid});
+        return this.findAccountBy({ uid: uid });
     }
 
     async findAccountByUsername(username: string): Promise<UserAccount> {
-        return this.findAccountBy({username: username});
+        return this.findAccountBy({ username: username });
     }
 
     async findAccountBy(criteria: any): Promise<UserAccount> {
 
-        logger.trace({op: "findAccountBy", criteria: criteria}, "Retrieving account");
+        logger.trace({ op: "findAccountBy", criteria: criteria }, "Retrieving account");
 
         const userAccountRepo = getRepository(UserAccount);
         const foundAccount = await userAccountRepo.findOne(criteria);
 
-        logger.info({op: "findAccountBy", foundAccount: foundAccount}, "Retrieve account successful");
+        logger.info({ op: "findAccountBy", foundAccount: foundAccount }, "Retrieve account successful");
 
         return foundAccount;
     }
@@ -100,7 +112,7 @@ export class UserService {
      * @param account
      */
     async registerAccount(account: UserAccount): Promise<UserAccount> {
-        logger.trace({op: "registerAccount", account: account}, "Registering account");
+        logger.trace({ op: "registerAccount", account: account }, "Registering account");
 
         const existingAccount = await this.findAccountByUsername(account.username);
 
@@ -155,7 +167,7 @@ export class UserService {
     }
 
     async findAuthByProviderId(provider: string, providerAccountId: string): Promise<UserAuth> {
-        const auth = new UserAuth({provider: provider, providerAccountId: providerAccountId});
+        const auth = new UserAuth({ provider: provider, providerAccountId: providerAccountId });
         return await this.findAuth(auth);
     }
 
@@ -167,7 +179,7 @@ export class UserService {
         const foundAuth = await authRepo.createQueryBuilder("user_auth")
             .leftJoinAndMapOne("user_auth.account", UserAccount, "user_account", "user_account.sid=user_auth.accountSid")
             .where("user_auth.provider = :provider AND user_auth.providerAccountId = :providerAccountId",
-            { provider: auth.provider, providerAccountId: auth.providerAccountId })
+                { provider: auth.provider, providerAccountId: auth.providerAccountId })
             .getOne();
         return foundAuth;
     }
@@ -187,10 +199,22 @@ export class UserService {
 
         logger.info({ op: "saveProfile", profile: profile }, "Saving profile");
 
-        if (!profile.uid) {
-            profile.uid = uuidv4();
-            profile.createdAt = new Date();
+        super.prepareForSaving(profile);
+        if (profile.account) {
+            const fields: any = {};
+            if (profile.account.nickname) {
+                fields["nickname"] = profile.account.nickname.trim();
+            }
+            if (profile.account.givenName) {
+                fields["givenName"] = profile.account.givenName.trim();
+            }
+            if (profile.account.familyName) {
+                fields["familyName"] = profile.account.familyName.trim();
+            }
+            await this.updateAccount({ sid: profile.accountSid }, fields);
+            profile.account = await this.findAccountBySid(profile.accountSid);
         }
+
         const profileRepo = getRepository(UserProfile);
         const foundProfile = await this.findProfileByAccountSid(profile.accountSid);
         if (foundProfile) {
@@ -204,7 +228,7 @@ export class UserService {
     }
 
     async findProfileByAccountSid(accountSid: number): Promise<UserProfile> {
-        return this.findProfile({accountSid: accountSid});
+        return this.findProfile({ accountSid: accountSid });
     }
 
     async findProfile(criteria?: any): Promise<UserProfile> {
@@ -213,7 +237,12 @@ export class UserService {
 
         const profileRepo = getRepository(UserProfile);
 
-        const profile = await profileRepo.findOne(criteria);
+        // const profile = await profileRepo.findOne(criteria);
+        const profile = await profileRepo.createQueryBuilder("user_profile")
+            .leftJoinAndMapOne("user_profile.account", UserAccount, "account", "user_profile.accountSid=account.sid")
+            .where(TypeOrmUtils.andedWhereClause(criteria, "user_profile"), criteria)
+            .getOne();
+
 
         logger.info({ op: "findProfile", profile: profile }, "Retrieving single userProfile successful");
 

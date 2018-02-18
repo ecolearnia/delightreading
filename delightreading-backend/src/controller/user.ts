@@ -47,8 +47,8 @@ export let saveMyProfile = async (req: Request, res: Response) => {
   if (!req.user) {
     return res.status(401).json({"message": NO_AUTH_MESSAGE});
   }
-  const profile = await userService.newProfileFromObject(req.body, req.user.sid);
-  const savedProfile = userService.saveProfile(profile);
+  const profile = userService.newProfileFromObject(req.body, req.user.sid);
+  const savedProfile = await userService.saveProfile(profile);
 
   return res.json(profile);
 };
