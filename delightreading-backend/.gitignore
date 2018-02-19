@@ -28,9 +28,16 @@ bower_components
 *.iml
 
 # OS metadata
-.DS_Store
+.DS_Storev
 Thumbs.db
 
 # Ignore built ts files
 dist/**/*
 coverage/
+
+# Ignore Nuxt generated files
+.nuxt
+
+# Ignore build copied from ../*-client-web
+web-ui/static/static/**/*
+web-ui/static/index.html

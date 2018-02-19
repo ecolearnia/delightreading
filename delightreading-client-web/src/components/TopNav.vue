@@ -15,7 +15,7 @@
         </ul>
         <ul class="navbar-nav mt-2 mt-md-0"  v-if="!isAuthenticated">
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost:9090/auth/google">Sign in</a>
+            <a class="nav-link" :href="serverBaseUrl + '/auth/google'">Sign in</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Sign up</a>
@@ -54,6 +54,7 @@ export default {
   name: "TopNav",
   data() {
     return {
+      serverBaseUrl: process.env.SERVER_BASE_URL,
       userAccount: {}
     };
   },
