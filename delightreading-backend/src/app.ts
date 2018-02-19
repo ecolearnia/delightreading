@@ -10,8 +10,12 @@ import * as passport from "passport";
 import * as expressValidator from "express-validator";
 import * as bluebird from "bluebird";
 
-// Load environment variables from .env file, where API keys and passwords are configured
-dotenv.config({ path: ".env.example" });
+/**
+ * Load environment variables from .env file, where API keys and passwords are configured.
+ */
+const APP_ENV = process.env.APP_ENV || ".env.localdev";
+console.log("{\"envpath\"=\"" + APP_ENV + "\"}");
+dotenv.config({ path: APP_ENV });
 
 import * as passportConfig from "./config/passport";
 console.log("{\"passportConfig.strategies\"=" + JSON.stringify(passportConfig.strategies) + "}");
