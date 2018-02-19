@@ -2,23 +2,18 @@
   <div id="app">
     <TopNav />
     <router-view/>
-    <footer class="site-footer">
-      <p>DelightReading by Seojin & Young-Suk</p>
-      <p>
-        <a href="#/team">The Team</a>
-        <a href="#">Back to top</a>
-      </p>
-    </footer>
+    <Footer />
   </div>
 </template>
 
 <script>
-import TopNav from "./components/TopNav.vue";
+import TopNav from "./parts/shared/TopNav.vue";
+import Footer from "./parts/shared/Footer.vue";
 
 export default {
   name: "App",
   components: {
-    TopNav
+    TopNav, Footer
   },
   created: function() {
   }
@@ -27,25 +22,7 @@ export default {
 
 <style>
 body {
-  padding: 100px;
+  padding-top: 100px;
 }
 
-.nav-icon {
-  height: 30px;
-}
-
-/*
- * Footer
- */
-.site-footer {
-  margin-top: 5rem;
-  padding: 2.5rem 0;
-  color: #999;
-  text-align: center;
-  background-color: #f9f9f9;
-  border-top: 0.05rem solid #e5e5e5;
-}
-.site-footer p:last-child {
-  margin-bottom: 0;
-}
 </style>

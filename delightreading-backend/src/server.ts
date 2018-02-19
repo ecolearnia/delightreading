@@ -32,9 +32,6 @@ const connConfig: ConnectionOptions = {
 
 createConnection(connConfig).then(async connection => {
   const app = require("./app");
-
-  // This is where we are servicing the SPA from ../delightreading-client-web
-  app.use(express.static("web-ui/static"));
   
   // @see: https://github.com/nuxt-community/express-template/blob/master/template/server/index.js
   process.env.DEBUG = 'nuxt:*'
@@ -48,6 +45,10 @@ createConnection(connConfig).then(async connection => {
   }
   // Give nuxt middleware to express
   app.use(nuxt.render);
+
+  
+  // Following not needed as Nuxt already exposes!
+  // app.use(express.static("web-ui/static"));
 
   /**
    * Error Handler. Provides full stack - remove for production

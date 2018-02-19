@@ -12,7 +12,7 @@
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
     "build": "node build/build.js",
-    "dist": "cp -R ./dist/* ../delightreading-backend/web-ui/static/"
+    "dist": "cp -R ./dist/* ../delightreading-backend/web-ui/static/;cp -R ./src/parts/shared/* ../delightreading-backend/web-ui/parts/shared"
   },
   "dependencies": {
     "axios": "^0.17.1",

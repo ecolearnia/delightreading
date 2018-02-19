@@ -19,7 +19,8 @@ module.exports = {
             { src: "https://code.jquery.com/jquery-3.2.1.min.js" }
         ],
         link: [
-            { rel: "icon", type: "image/x-icon", href: "/favicon.ico" }
+            { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+            { rel: "stylesheet", type: "text/css", href: "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css", crossorigin: "anonymous", integrity:"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"}
         ]
     },
     /*
