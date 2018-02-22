@@ -1,7 +1,7 @@
 import { Connection, createConnection } from "typeorm";
 import { createTestConnection } from "../ormconnect";
+import { ActivityLog } from "../../src/entity/ActivityLog";
 import { ActivityLogService } from "../../src/service/ActivityLogService";
-import { ActivityLog } from "../../src/entity/activitylog";
 
 import { Reference } from "../../src/entity/Reference";
 import { ReferenceService } from "../../src/service/ReferenceService";

@@ -1,59 +1,57 @@
 <template>
-  <div class="hello">
+  <div >
     <h2>{{ pageTitle }}</h2>
-    <div class="container">
-      <form>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <input ref="referenceTitle" v-model="readLogEntry.referenceTitle" type="text" class="form-control" id="referenceTitle" placeholder="The book you read">
-          </div>
-          <div class="form-group col-md-3">
-            <div class="input-group date " data-provide="datepicker">
-              <input v-model="readLogEntry.logTimestamp" id="logTimestamp" type="text" class="form-control" placeholder="Date">
-              <div class="input-group-addon">
+    <form>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <input ref="referenceTitle" v-model="readLogEntry.referenceTitle" type="text" class="form-control" id="referenceTitle" placeholder="The book you read">
+        </div>
+        <div class="form-group col-md-3">
+          <div class="input-group date " data-provide="datepicker">
+            <input v-model="readLogEntry.logTimestamp" id="logTimestamp" type="text" class="form-control" placeholder="Date">
+            <div class="input-group-addon">
             </div>
-            </div>
-          </div>
-          <div class="form-group col-md-2">
-            <select v-model="readLogEntry.quantity" class="custom-select" id="readLogEntry.quantity">
-              <option >Mins.</option>
-              <option value="5">5 mins</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="30">30</option>
-              <option value="40">40</option>
-              <option value="60">60</option>
-            </select>
-          </div>
-          <div class="form-group col-md-1">
-            <button type="button" class="btn btn-primary" v-on:click="submitEntry" >OK</button>
-            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#noteModal">Done</button> -->
           </div>
         </div>
-      </form>
-      <table class="table">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Title</th>
-            <th>Date</th>
-            <th>Mins</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="readLogItem in readLog" v-bind:key="readLogItem.sid">
-            <td><img :src="readLogItem.reference.thumbnailImageUrl" height="30"></td>
-            <td>{{ readLogItem.reference.title }}</td>
-            <td>{{ readLogItem.logTimestamp }}</td>
-            <td>{{ readLogItem.quantity }}</td>
-            <td>
-              <button type="button" class="btn btn-danger" v-on:click="deleteEntry(readLogItem.sid)" >X</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+        <div class="form-group col-md-2">
+          <select v-model="readLogEntry.quantity" class="custom-select" id="readLogEntry.quantity">
+            <option >Mins.</option>
+            <option value="5">5 mins</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="60">60</option>
+          </select>
+        </div>
+        <div class="form-group col-md-1">
+          <button type="button" class="btn btn-primary" v-on:click="submitEntry" >OK</button>
+          <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#noteModal">Done</button> -->
+        </div>
+      </div>
+    </form>
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Title</th>
+          <th>Date</th>
+          <th>Mins</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="readLogItem in readLog" v-bind:key="readLogItem.sid">
+          <td><img :src="readLogItem.reference.thumbnailImageUrl" height="30"></td>
+          <td>{{ readLogItem.reference.title }}</td>
+          <td>{{ readLogItem.logTimestamp }}</td>
+          <td>{{ readLogItem.quantity }}</td>
+          <td>
+            <button type="button" class="btn btn-danger" v-on:click="deleteEntry(readLogItem.sid)" >X</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     <!-- Modal -->
     <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

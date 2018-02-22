@@ -5,6 +5,7 @@
         <a href="/about">About</a>
         <a href="/team">The Team</a>
         </p>
+        <p class="mt-5 mb-3 text-muted">&copy; {{siteName}} 2017-2018</p>
     </footer>
 </template>
 
@@ -13,6 +14,11 @@
  * This commponent is shared with server-side rendered in delightreadingb-backend/web-ui/components
  */
 export default {
+  data() {
+    return {
+      siteName: "DelightReading"
+    };
+  },
 };
 </script>
 

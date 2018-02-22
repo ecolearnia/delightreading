@@ -4,6 +4,7 @@ import * as activityLogController from "../controller/activitylog";
 
 const router = express.Router();
 
+// No need to guard with passport.authenticate("jwt"), it is done at index.js
 router.post("/", activityLogController.addMyActivityLog);
 router.get("/", activityLogController.listMyActivityLog);
 router.delete("/:sid", activityLogController.deleteMyActivityLog);

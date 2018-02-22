@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Initial from '@/components/Initial'
-import Goal from '@/components/Goal'
+import Readings from '@/components/Readings'
 import Home from '@/components/Home'
 import UserProfile from '@/components/UserProfile'
 
@@ -15,14 +14,9 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-      path: '/',
-      name: 'Initial',
-      component: Initial
-    },
-    {
-      path: '/goal',
-      name: 'Goal',
-      component: Goal,
+      path: '/readings',
+      name: 'Readings',
+      component: Readings,
       meta: { requiresAuth: true }
     },
     {

@@ -15,7 +15,6 @@ router.get("/google/callback", passport.authenticate("google", { failureRedirect
     res.cookie("dr_token", drToken, { maxAge: 3 * 60 * 60 * 1000 });
 
     const returnUrl = process.env.UI_BASE_URL + "/#/home";
-    //const returnUrl = "http://localhost:8080/#/home";
 
     logger.info({op: "GET:google/callback", accessToken: drToken, returnUrl: returnUrl}, "Redirecting from Google auth callback");
     res.redirect(req.session.returnTo || returnUrl);

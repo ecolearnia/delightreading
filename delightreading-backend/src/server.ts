@@ -32,9 +32,9 @@ const connConfig: ConnectionOptions = {
 
 createConnection(connConfig).then(async connection => {
   const app = require("./app");
-  
+
   // @see: https://github.com/nuxt-community/express-template/blob/master/template/server/index.js
-  process.env.DEBUG = 'nuxt:*'
+  process.env.DEBUG = "nuxt:*";
   const nuxtConfig = require("../nuxt.config.js");
   nuxtConfig.dev = !(process.env.NODE_ENV === "production");
   const nuxt = new Nuxt(nuxtConfig);
@@ -46,7 +46,6 @@ createConnection(connConfig).then(async connection => {
   // Give nuxt middleware to express
   app.use(nuxt.render);
 
-  
   // Following not needed as Nuxt already exposes!
   // app.use(express.static("web-ui/static"));
 

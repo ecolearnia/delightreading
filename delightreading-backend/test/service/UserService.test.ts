@@ -1,9 +1,9 @@
 import { Connection, createConnection } from "typeorm";
 import { createTestConnection } from "../ormconnect";
-import { UserService } from "../../src/service/UserService";
 import { UserAccount } from "../../src/entity/UserAccount";
 import { UserAuth } from "../../src/entity/UserAuth";
 import { UserProfile } from "../../src/entity/UserProfile";
+import { UserService } from "../../src/service/UserService";
 
 const expect = require("chai").expect;
 

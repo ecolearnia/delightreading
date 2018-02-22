@@ -23,7 +23,7 @@ export class UserAccount extends EntityBase {
         nullable: true
     })
     nickname?: string;
-    
+
     @Column({
         type: "varchar",
         length: 64

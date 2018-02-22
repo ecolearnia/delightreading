@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <TopNav />
-    <router-view/>
+    <div class="container">
+      <router-view/>
+    </div>
     <Footer />
   </div>
 </template>

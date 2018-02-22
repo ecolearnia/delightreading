@@ -1,29 +1,29 @@
 <template>
-  <div >
-    <h1>{{ pageTitle }}</h1>
-    <div class="container">
+  <div class="card">
+    <div class="card-body">
       <form class="form-inline">
         <div class="form-group">
-          <label for="minutes">My Goal is to read at least </label>
-          <input type="number" id="minutes" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
+          <label for="quantity">My Goal is to read at least </label>
+          <input type="number" v-model="goal.quantity" id="quantity" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
           minutes
         </div>
         <div class="form-group">
-          <label for="fromDate">From</label>
+          <label for="startDate">From</label>
           <div class="input-group date  mx-sm-3" data-provide="datepicker">
-            <input id="fromDate" type="text" class="form-control">
+            <input v-model="goal.startDate" id="startDate" type="text" class="form-control">
             <div class="input-group-addon">
                 <span class="glyphicon glyphicon-th"></span>
             </div>
           </div>
           <label for="toDate">To</label>
           <div class="input-group date  mx-sm-3" data-provide="datepicker">
-            <input id="endDate" type="text" class="form-control">
+            <input v-model="goal.endDate" id="endDate" type="text" class="form-control">
             <div class="input-group-addon">
                 <span class="glyphicon glyphicon-th"></span>
             </div>
           </div>
         </div>
+        <button type="submit" class="btn btn-primary" v-on:click="submitEntry">Save</button>
       </form>
     </div>
   </div>
@@ -33,24 +33,37 @@
 import "bootstrap";
 import "bootstrap-datepicker";
 
+import * as goalClient from "../utils/goal-client";
+
 export default {
   name: "Goal",
   data() {
     return {
       pageTitle: "Reading Goal",
-      readGoal: {}
+      goal: {
+        quantity: undefined,
+        startDate: undefined,
+        endDate: undefined
+      }
     };
   },
   methods: {
     clearForm: function() {
-      this.readGoal = "";
+      this.goal = {};
     },
     submitEntry: function() {
-      // alert("Congratulations! for reading " + this.readLogEntry.title + " for " + this.readLogEntry.minsRead + " mins." )
-    },
-
-    addNote: function() {
-      alert("Hey!!");
+      this.goal.title = "title";
+      this.goal.activity = "reading";
+      this.goal.quantityUnit = "minutes";
+      console.log(JSON.stringify(this.goal, undefined, 2));
+      goalClient
+        .addGoal(this.goal)
+        .then(response => {
+          console.log(JSON.stringify(response.data, undefined, 2));
+        })
+        .catch(error => {
+          alert("Error:" + error);
+        });
     }
   }
 };

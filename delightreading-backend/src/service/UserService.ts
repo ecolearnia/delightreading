@@ -14,7 +14,11 @@ import TypeOrmUtils from "../utils/TypeOrmUtils";
 
 const logger = rootLogger().child({ module: "UserService" });
 
-export class UserService extends ServiceBase {
+export class UserService extends ServiceBase<UserAccount> {
+
+    constructor() {
+        super(UserAccount);
+    }
 
     newAccount(username: string, email: string, password: string, givenName: string, familyName: string, auth?: UserAuth): UserAccount {
         const account = new UserAccount({
@@ -69,7 +73,7 @@ export class UserService extends ServiceBase {
 
         const userAccountRepo = getRepository(UserAccount);
         await userAccountRepo.update(criteria, fields);
-        logger.info({ op: "updateAccount", criteria: criteria, fields: fields }, "Update account successfufl");
+        logger.info({ op: "updateAccount", criteria: criteria, fields: fields }, "Update account successful");
     }
 
     async findAccountBySid(sid: number): Promise<UserAccount> {
