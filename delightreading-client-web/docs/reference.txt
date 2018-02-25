@@ -2,3 +2,19 @@ https://code.luasoftware.com/tutorials/bootstrap/setup-bootstrap4-with-npm-and-w
 
 Books API
 https://www.programmableweb.com/news/53-books-apis-google-books-goodreads-and-sharedbook/2012/03/13
+
+VueJS framewoorks:
+https://matthiashager.com/vuejs-frontend-ui-frameworks-comparison/
+https://github.com/apache/incubator-weex
+
+VueJS DatePickers:
+From 
+- https://github.com/vuejs/awesome-vue#calendar
+- https://github.com/vuejs/awesome-vue#date-picker
+Libraries:
+- https://github.com/charliekassel/vuejs-datepicker, stars: 822
+- https://github.com/nathanreyes/v-calendar, stars: 412
+- http://element.eleme.io/#/es/component/date-picker, strs: 23,500
+- https://vuetifyjs.com/en/components/date-pickers, srs: 8780
+- https://vuematerial.io/components/datepicker, stars: 5513
+- http://quasar-framework.org/quasar-play/android/index.html#/showcase/forms/datetime/datetime-input, strs: 5200

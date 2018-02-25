@@ -7,7 +7,6 @@
 
 <script>
 import "bootstrap";
-import "bootstrap-datepicker";
 import Goal from "./Goal.vue";
 
 export default {

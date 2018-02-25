@@ -9,19 +9,13 @@
         </div>
         <div class="form-group">
           <label for="startDate">From</label>
-          <div class="input-group date  mx-sm-3" data-provide="datepicker">
-            <input v-model="goal.startDate" id="startDate" type="text" class="form-control">
-            <div class="input-group-addon">
-                <span class="glyphicon glyphicon-th"></span>
-            </div>
-          </div>
+          <v-date-picker  v-model="goal.startDate" >
+            <input id="startDate" type="text" class="form-control"  slot-scope='props' :value='props.inputValue'  @change.native='props.updateValue($event.target.value)'>
+          </v-date-picker>
           <label for="toDate">To</label>
-          <div class="input-group date  mx-sm-3" data-provide="datepicker">
-            <input v-model="goal.endDate" id="endDate" type="text" class="form-control">
-            <div class="input-group-addon">
-                <span class="glyphicon glyphicon-th"></span>
-            </div>
-          </div>
+          <v-date-picker  v-model="goal.endDate" >
+            <input id="endDate" type="text" class="form-control"  slot-scope='props' :value='props.inputValue'  @change.native='props.updateValue($event.target.value)'>
+          </v-date-picker>
         </div>
         <button type="submit" class="btn btn-primary" v-on:click="submitEntry">Save</button>
       </form>
@@ -31,7 +25,6 @@
 
 <script>
 import "bootstrap";
-import "bootstrap-datepicker";
 
 import * as goalClient from "../utils/goal-client";
 

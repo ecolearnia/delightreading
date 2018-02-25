@@ -4,6 +4,7 @@ import * as async from "async";
 import * as rootLogger from "pino";
 import { Response, Request, NextFunction } from "express";
 
+import ObjectUtils from "../utils/ObjectUtils";
 import * as controllerHelper from "./controller-helper";
 import { Goal } from "../entity/Goal";
 import { GoalService } from "../service/GoalService";
@@ -67,7 +68,7 @@ export let updateMyGoal = async (req: Request, res: Response) => {
     sid: req.params.sid
   };
 
-  const updateFields = assignProperties({}, req.body,
+  const updateFields = ObjectUtils.assignProperties({}, req.body,
     ["title", "startDate", "endDate", "activity", "quantity", "quantityUnit"]);
 
   const updatedGoal = await goalService.update(criteria, updateFields);
@@ -76,10 +77,3 @@ export let updateMyGoal = async (req: Request, res: Response) => {
 
   res.json(updatedGoal);
 };
-
-function assignProperties(target: any, source: any, fields: string[]) {
-  for (const field of fields) {
-    target[field] = source[field];
-  }
-  return target;
-}

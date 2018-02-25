@@ -7,11 +7,9 @@
           <input ref="referenceTitle" v-model="readLogEntry.referenceTitle" type="text" class="form-control" id="referenceTitle" placeholder="The book you read">
         </div>
         <div class="form-group col-md-3">
-          <div class="input-group date " data-provide="datepicker">
-            <input v-model="readLogEntry.logTimestamp" id="logTimestamp" type="text" class="form-control" placeholder="Date">
-            <div class="input-group-addon">
-            </div>
-          </div>
+          <v-date-picker  v-model="readLogEntry.logTimestamp" >
+            <input id="logTimestamp" type="text" class="form-control"  slot-scope='props' :value='props.inputValue'  @change.native='props.updateValue($event.target.value)'>
+          </v-date-picker>
         </div>
         <div class="form-group col-md-2">
           <select v-model="readLogEntry.quantity" class="custom-select" id="readLogEntry.quantity">

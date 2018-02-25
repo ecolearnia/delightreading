@@ -6,7 +6,13 @@ import { default as router, LOGIN_PAGE_PATH } from "./router"
 import store from "./store"
 import { AUTH_EXTRACT_TOKEN, AUTH_LOGOUT } from "./store/actions/auth"
 
+import VCalendar from 'v-calendar';
+import 'v-calendar/lib/v-calendar.min.css';
+
 import axios from "axios";
+
+// Use v-calendar, v-date-picker & v-popover components
+Vue.use(VCalendar);
 
 const theStore = store;
 const theRouter = router;
