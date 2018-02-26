@@ -11,6 +11,20 @@ import 'v-calendar/lib/v-calendar.min.css';
 
 import axios from "axios";
 
+import moment from 'moment'
+
+Vue.filter("formatDate", function(value) {
+  if (value) {
+    return moment(String(value)).format("MM/DD/YYYY");
+  }
+});
+
+Vue.filter("formatDateTime", function(value) {
+  if (value) {
+    return moment(String(value)).format("MM/DD/YYYY - hh:mm")
+  }
+});
+
 // Use v-calendar, v-date-picker & v-popover components
 Vue.use(VCalendar);
 

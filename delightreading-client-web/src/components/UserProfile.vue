@@ -79,7 +79,6 @@
 
 <script>
 import "bootstrap";
-import "bootstrap-datepicker";
 import { mapGetters, mapState } from "vuex";
 import { USER_ACCOUNT_SUCCESS } from "../store/actions/user"
 import * as userClient from "../utils/user-client";

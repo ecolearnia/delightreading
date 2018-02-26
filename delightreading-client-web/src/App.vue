@@ -11,6 +11,7 @@
 <script>
 import TopNav from "./parts/shared/TopNav.vue";
 import Footer from "./parts/shared/Footer.vue";
+import "./assets/delightreading.css";
 
 export default {
   name: "App",

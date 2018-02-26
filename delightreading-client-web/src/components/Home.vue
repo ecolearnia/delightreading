@@ -8,7 +8,7 @@
         </div>
         <div class="form-group col-md-3">
           <v-date-picker  v-model="readLogEntry.logTimestamp" >
-            <input id="logTimestamp" type="text" class="form-control"  slot-scope='props' :value='props.inputValue'  @change.native='props.updateValue($event.target.value)'>
+            <input id="logTimestamp" type="text" class="form-control "  slot-scope='props' :value='props.inputValue'  @change.native='props.updateValue($event.target.value)'>
           </v-date-picker>
         </div>
         <div class="form-group col-md-2">
@@ -22,6 +22,7 @@
             <option value="60">60</option>
           </select>
         </div>
+
         <div class="form-group col-md-1">
           <button type="button" class="btn btn-primary" v-on:click="submitEntry" >OK</button>
           <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#noteModal">Done</button> -->
@@ -42,7 +43,7 @@
         <tr v-for="readLogItem in readLog" v-bind:key="readLogItem.sid">
           <td><img :src="readLogItem.reference.thumbnailImageUrl" height="30"></td>
           <td>{{ readLogItem.reference.title }}</td>
-          <td>{{ readLogItem.logTimestamp }}</td>
+          <td>{{ readLogItem.logTimestamp | formatDate}}</td>
           <td>{{ readLogItem.quantity }}</td>
           <td>
             <button type="button" class="btn btn-danger" v-on:click="deleteEntry(readLogItem.sid)" >X</button>
@@ -64,10 +65,20 @@
           <div class="modal-body">
             <form>
               <div class="form-group">
-              <label for="feed">One question I had was</label>
-              <textarea v-model="readLogEntry.note" class="form-control" id="note" rows="3"></textarea>
-            </div>
-          </form>
+                <label for="feed">One question I had was</label>
+                <textarea v-model="readLogEntry.note" class="form-control" id="note" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="feed">Emotion</label>
+                <multiselect v-model="readLogEntry.postEmotion" label="title" track-by="title" :options="emotionOptions" select-label="" style="width: 12em;" >
+                  <template slot="option" slot-scope="props">
+                    <img class="option__image" :src="props.option.img" height="30"  style="float: left; padding-right: 3px" >
+                    <div class="option__desc"><span class="option__title">{{ props.option.title }}</span>
+                    </div>
+                  </template>
+                </multiselect>
+              </div>
+            </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -86,20 +97,27 @@ import "bootstrap/js/dist/util";
 import "bootstrap/js/dist/modal";
 import * as activityClient from "../utils/activity-client";
 
+// Typeahead:
 import Handlebars from "handlebars";
 import Bloodhound from "typeahead.js";
 import "../assets/typeahead.css";
 import * as googlebooksUtils from "../utils/googlebooks-utils";
 
+import Multiselect from "vue-multiselect";
+import "vue-multiselect/dist/vue-multiselect.min.css";
+
 export default {
   name: "Home",
+  components: {
+    Multiselect
+  },
   data() {
     return {
       pageTitle: "Log your reading",
       readLogEntry: {
         goalSid: 1,
         activity: "read",
-        logTimestamp: null,
+        logTimestamp: new Date(),
         quantity: null,
         situation: null,
         feedContext: null,
@@ -108,7 +126,20 @@ export default {
         referencingLogSid: null
       },
       readLog: [],
-      userPicUrl: undefined
+      emotionOptions: [
+        { title: "warm/touched", img: "https://emojipedia-us.s3.amazonaws.com/thumbs/144/twitter/131/smiling-face-with-smiling-eyes_1f60a.png" },
+        { title: "glad", img: "https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/grinning-face_1f600.png" },
+        { title: "hopeful/positive", img: "https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/smiling-face-with-open-mouth_1f603.png" },
+        { title: "tears of joy", img: "https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/face-with-tears-of-joy_1f602.png" },
+        { title: "delighted", img: "https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/hugging-face_1f917.png" },
+        { title: "curious", img: "https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/thinking-face_1f914.png" },
+        { title: "amazed/impressed", img: "https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/grinning-face-with-star-eyes_1f929.png" },
+        { title: "sad", img: "https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/crying-face_1f622.png" },
+        { title: "angry", img: "https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/angry-face_1f620.png" },
+        { title: "mistrustful", img: "https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/expressionless-face_1f611.png" },
+        { title: "astonished/scared", img: "https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/astonished-face_1f632.png" },
+        { title: "bored", img: "https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/sleepy-face_1f62a.png" }
+      ]
     };
   },
   created() {
@@ -172,15 +203,15 @@ export default {
     },
     clearForm: function() {
       this.readLogEntry.referenceTitle = "";
-      this.readLogEntry.logTimestamp = "";
+      this.readLogEntry.logTimestamp = new Date();
       this.readLogEntry.quantity = null;
     },
     submitEntry: function() {
       console.log("Entering submitEntry");
-      if (this.readLogEntry.referenceTitle === "") {
+      if (!this.readLogEntry.referenceTitle) {
         return;
       }
-      if (this.readLogEntry.logTimestamp === "") {
+      if (!this.readLogEntry.logTimestamp) {
         return;
       }
       if (this.readLogEntry.quantity < 1) {
@@ -219,6 +250,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped>
 
 </style>

@@ -4,17 +4,20 @@
       <form class="form-inline">
         <div class="form-group">
           <label for="quantity">My Goal is to read at least </label>
-          <input type="number" v-model="goal.quantity" id="quantity" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
-          minutes
+          <input type="number" v-model="goal.quantity" id="quantity" class="form-control  mx-sm-2" aria-describedby="quantity" style="width:5em">
+          <select id="quantityUnit" v-model="goal.quantityUnit" class="form-control">
+            <option value="books">books</option>
+            <option value="minutes">minutes</option>
+          </select>,
         </div>
-        <div class="form-group">
-          <label for="startDate">From</label>
+        <div class="form-group  mx-sm-2">
+          <label for="startDate">from</label>
           <v-date-picker  v-model="goal.startDate" >
-            <input id="startDate" type="text" class="form-control"  slot-scope='props' :value='props.inputValue'  @change.native='props.updateValue($event.target.value)'>
+            <input id="startDate" type="text" class="form-control mx-sm-2 datepicker"  slot-scope='props' :value='props.inputValue'  @change.native='props.updateValue($event.target.value)'>
           </v-date-picker>
-          <label for="toDate">To</label>
+          <label for="toDate">to</label>
           <v-date-picker  v-model="goal.endDate" >
-            <input id="endDate" type="text" class="form-control"  slot-scope='props' :value='props.inputValue'  @change.native='props.updateValue($event.target.value)'>
+            <input id="endDate" type="text" class="form-control mx-sm-2 datepicker"  slot-scope='props' :value='props.inputValue'  @change.native='props.updateValue($event.target.value)'>
           </v-date-picker>
         </div>
         <button type="submit" class="btn btn-primary" v-on:click="submitEntry">Save</button>
@@ -25,6 +28,7 @@
 
 <script>
 import "bootstrap";
+import "../assets/delightreading.css"
 
 import * as goalClient from "../utils/goal-client";
 
@@ -42,7 +46,9 @@ export default {
   },
   methods: {
     clearForm: function() {
-      this.goal = {};
+      this.goal = {
+        quantityUnit: "books"
+      };
     },
     submitEntry: function() {
       this.goal.title = "title";
