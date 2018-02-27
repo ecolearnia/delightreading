@@ -3,6 +3,7 @@
 import * as async from "async";
 import * as rootLogger  from "pino";
 import { Response, Request, NextFunction } from "express";
+import { default as ObjectUtils } from "../utils/ObjectUtils";
 import { ActivityLog } from "../entity/ActivityLog";
 import { ActivityLogService } from "../service/ActivityLogService";
 import { Reference } from "../entity/Reference";
@@ -80,6 +81,30 @@ export let listMyActivityLog = async (req: Request, res: Response) => {
   const activityLogs = await activityLogService.list(findCriteria, skip, pageSize);
 
   logger.info({op: "listMyActivityLog"}, "Listing my activityLog successful");
+
+  res.json(activityLogs);
+};
+
+
+export let updateMyActivityLog = async (req: Request, res: Response) => {
+
+  logger.info({op: "updateMyActivityLog", account: req.user, activityLogSid: req.params.sid}, "Updating my activityLog");
+
+  if (!req.user) {
+    logger.warn({op: "updateMyActivityLog"}, "Unauthorized: No user");
+    return res.status(401).json({message: "Unauthorized: No user"});
+  }
+
+  const criteria = {
+    accountSid: req.user.sid,
+    sid: req.params.sid
+  };
+
+  const fields = ObjectUtils.assignProperties({}, req.body,
+    ["postEmotion", "situation", "feedContext", "feedBody", "retrospective"]);
+  const activityLogs = await activityLogService.update(criteria, fields);
+
+  logger.info({op: "updateMyActivityLog"}, "Updating my activityLog successful");
 
   res.json(activityLogs);
 };

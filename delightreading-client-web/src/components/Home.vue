@@ -34,6 +34,7 @@
         <tr>
           <th></th>
           <th>Title</th>
+          <th>&nbsp;</th>
           <th>Date</th>
           <th>Mins</th>
           <th></th>
@@ -41,8 +42,9 @@
       </thead>
       <tbody>
         <tr v-for="readLogItem in readLog" v-bind:key="readLogItem.sid">
-          <td><img :src="readLogItem.reference.thumbnailImageUrl" height="30"></td>
+          <td><img :src="readLogItem.reference.thumbnailImageUrl" height="40"></td>
           <td>{{ readLogItem.reference.title }}</td>
+          <td :title="readLogItem.postEmotion"><img :src="emotionToImageSrc(readLogItem.postEmotion)" class="entry-icon"></td>
           <td>{{ readLogItem.logTimestamp | formatDate}}</td>
           <td>{{ readLogItem.quantity }}</td>
           <td>
@@ -57,7 +59,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Reading Log of {{ readLogEntry.title }}</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Reading Log of {{ readLogEntry.referenceTitle }}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -66,7 +68,7 @@
             <form>
               <div class="form-group">
                 <label for="feed">One question I had was</label>
-                <textarea v-model="readLogEntry.note" class="form-control" id="note" rows="3"></textarea>
+                <textarea v-model="readLogEntry.feedBody" class="form-control" id="feedBody" rows="3"></textarea>
               </div>
               <div class="form-group">
                 <label for="feed">Emotion</label>
@@ -82,7 +84,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button"  v-on:click="updateLogWithFeedback()" class="btn btn-primary">Save</button>
           </div>
         </div>
       </div>
@@ -106,6 +108,21 @@ import * as googlebooksUtils from "../utils/googlebooks-utils";
 import Multiselect from "vue-multiselect";
 import "vue-multiselect/dist/vue-multiselect.min.css";
 
+const LOG_ENTRY_NEW = {
+  sid: null,
+  goalSid: null,
+  referenceSourceUri: null,
+  referencingLogSid: null,
+  activity: "read",
+  logTimestamp: new Date(),
+  quantity: null,
+  postEmotion: null,
+  situation: null,
+  feedContext: null,
+  feedBody: null,
+  retrospective: null
+}
+
 export default {
   name: "Home",
   components: {
@@ -114,18 +131,14 @@ export default {
   data() {
     return {
       pageTitle: "Log your reading",
-      readLogEntry: {
-        goalSid: 1,
-        activity: "read",
-        logTimestamp: new Date(),
-        quantity: null,
-        situation: null,
-        feedContext: null,
-        feedBody: null,
-        referenceSourceUri: null,
-        referencingLogSid: null
-      },
+      readLogEntry: Object.assign({}, LOG_ENTRY_NEW),
       readLog: [],
+      feedContexts: [
+        "One question I had was",
+        "One word I learned",
+        "How did I feel after reading?",
+        "How would you change the story?"
+      ],
       emotionOptions: [
         { title: "warm/touched", img: "https://emojipedia-us.s3.amazonaws.com/thumbs/144/twitter/131/smiling-face-with-smiling-eyes_1f60a.png" },
         { title: "glad", img: "https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/grinning-face_1f600.png" },
@@ -164,7 +177,7 @@ export default {
     const self = this;
     refTitle.bind('typeahead:select', function(ev, suggestion) {
       console.log('Selection: ' + JSON.stringify(suggestion, undefined, 2));
-      self.updateReferenceSoruceUri(suggestion.link);
+      self.assignReferenceSoruceUri(suggestion.link);
     });
 
     refTitle.typeahead(
@@ -188,7 +201,13 @@ export default {
     console.log(refTitle);
   },
   methods: {
-    updateReferenceSoruceUri: function(link) {
+    emotionToImageSrc: function(emotion) {
+      const item = this.emotionOptions.find(function(element) {
+        return element.title === emotion;
+      });
+      return (item) && item.img;
+    },
+    assignReferenceSoruceUri: function(link) {
       this.readLogEntry.referenceSourceUri = link;
     },
     loadLog: function() {
@@ -202,9 +221,7 @@ export default {
         });
     },
     clearForm: function() {
-      this.readLogEntry.referenceTitle = "";
-      this.readLogEntry.logTimestamp = new Date();
-      this.readLogEntry.quantity = null;
+      this.readLogEntry = Object.assign({}, LOG_ENTRY_NEW);
     },
     submitEntry: function() {
       console.log("Entering submitEntry");
@@ -228,17 +245,28 @@ export default {
       activityClient
         .addActivityLog(this.readLogEntry)
         .then(response => {
-          // this.readLog.push(Object.assign({}, this.readLogEntry));
+          this.readLogEntry.sid = response.data.sid;
           this.loadLog();
-          this.clearForm();
           $("#noteModal").modal();
+          // this.clearForm();
         })
         .catch(error => {
           alert("Error: " + error);
         });
     },
-    addNote: function() {
-      alert("Hey!!");
+    updateLogWithFeedback: function() {
+      const readLogEntry = Object.assign({}, this.readLogEntry);
+      readLogEntry.postEmotion = this.readLogEntry.postEmotion && this.readLogEntry.postEmotion.title;
+      activityClient
+        .updateActivityLog(readLogEntry.sid, readLogEntry)
+        .then(response => {
+          this.loadLog();
+          this.clearForm();
+          $("#noteModal").modal("hide");
+        })
+        .catch(error => {
+          alert("Error: " + error);
+        });
     },
     deleteEntry: function(sid) {
       activityClient.deleteActivityLog(sid).then(() => {

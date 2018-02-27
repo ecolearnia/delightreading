@@ -23,9 +23,10 @@ export class ActivityLog extends EntityBase {
     referencingLogSid?: number;
 
     @Column({
-        type: "bigint"
+        type: "bigint",
+        nullable: true
     })
-    goalSid: number;
+    goalSid?: number;
 
     @Column({
         type: "varchar",

@@ -67,6 +67,17 @@ export class ServiceBase<T extends EntityBase> {
         this.logger.info({ op: "update", criteria: criteria, fields: fields }, "Update successful");
     }
 
+    async findOne(criteria?: any): Promise<T> {
+
+        this.logger.info({ op: "findOne", criteria: criteria }, "Retrieving single record");
+
+        const reference = await this.repo.findOne(criteria);
+
+        this.logger.info({ op: "findOne", reference: reference }, "Retrieving single record successful");
+
+        return reference;
+    }
+
     async list(criteria?: any, skip: number = 0, take: number = 20): Promise<Array<T>> {
         this.logger.info({ op: "list", criteria: criteria }, "Listing");
 

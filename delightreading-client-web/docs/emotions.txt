@@ -1,0 +1,17 @@
+https://github.com/mazipan/vue-select-image
+
+https://emojipedia.org/emojione/
+https://emojipedia.org/twitter/
+
+warm/touched:  https://emojipedia-us.s3.amazonaws.com/thumbs/144/twitter/131/smiling-face-with-smiling-eyes_1f60a.png
+glad: https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/grinning-face_1f600.png 
+hopeful/positive: https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/smiling-face-with-open-mouth_1f603.png
+tears of joy: https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/face-with-tears-of-joy_1f602.png
+delighted: https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/hugging-face_1f917.png
+curious: https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/thinking-face_1f914.png
+amazed/impressed: https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/grinning-face-with-star-eyes_1f929.png
+sad: https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/crying-face_1f622.png
+angry: https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/angry-face_1f620.png
+mistrustful: https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/expressionless-face_1f611.png
+astonished/scared: https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/astonished-face_1f632.png
+bored: https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/sleepy-face_1f62a.png

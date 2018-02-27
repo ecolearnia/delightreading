@@ -11,6 +11,10 @@ export function addActivityLog(logEntry) {
   return requestUtil.post(baseUrlPath, logEntry);
 }
 
+export function updateActivityLog(sid, logEntry) {
+  return requestUtil.put(baseUrlPath + sid, logEntry);
+}
+
 export function deleteActivityLog(sid) {
   return requestUtil.del(baseUrlPath + sid);
 }
