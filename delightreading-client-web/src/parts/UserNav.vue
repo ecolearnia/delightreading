@@ -14,6 +14,9 @@
         <a class="nav-link" href="#"><img class="nav-icon" src="../assets/coin-icon.png"></a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="/#/goal">My Goal</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="/#/readings">My Readings</a>
       </li>
       <li class="nav-item">

@@ -73,6 +73,7 @@ export class ReferencingLog extends EntityBase {
             this.referenceSid = obj.referenceSid;
             this.startDate = obj.startDate;
             this.endDate = obj.endDate;
+            this.percentageComplete = obj.percentageComplete;
             this.postEmotion = obj.postEmotion;
             this.myRating = obj.myRating;
             this.review = obj.review;

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Goal from '@/components/Goal'
 import Readings from '@/components/Readings'
 import Home from '@/components/Home'
 import UserProfile from '@/components/UserProfile'
@@ -14,15 +15,21 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
+      path: '/home',
+      name: 'Home',
+      component: Home,
+      meta: { requiresAuth: true }
+    },
+    {
       path: '/readings',
       name: 'Readings',
       component: Readings,
       meta: { requiresAuth: true }
     },
     {
-      path: '/home',
-      name: 'Home',
-      component: Home,
+      path: '/goal',
+      name: 'Goal',
+      component: Goal,
       meta: { requiresAuth: true }
     },
     {
