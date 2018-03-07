@@ -127,7 +127,7 @@ export class UserService extends ServiceBase<UserAccount> {
         const savedAccount = await this.saveAccount(account);
         const savedAuths: UserAuth[] = Array();
         if (account.auths) {
-            console.log("-- ENTERING AUTH LOOP --: " + account.auths.length);
+            // console.log("-- ENTERING AUTH LOOP --: " + account.auths.length);
             for (const auth of account.auths) {
 
                 const savedAuth = await this.linkAuth(savedAccount, auth);
@@ -145,9 +145,7 @@ export class UserService extends ServiceBase<UserAccount> {
         const authRepo = getRepository(UserAuth);
         auth.uid = uuidv4();
         auth.accountSid = account.sid;
-        console.log("-- AUTH TO SAVE: " + JSON.stringify(auth, undefined, 2));
         const savedAuth = await authRepo.save(auth);
-        console.log("-- SAVED AUTH: " + JSON.stringify(savedAuth, undefined, 2));
 
         return savedAuth;
     }
@@ -157,9 +155,8 @@ export class UserService extends ServiceBase<UserAccount> {
 
         if (auth.provider && auth.providerAccountId) {
             // const foundAuth = await authRepo.findOne({provider: auth.provider, providerAccountId: auth.providerAccountId});
-            console.log("-- FINDING AUTH: " + JSON.stringify(auth, undefined, 2));
             const foundAuth = await this.findAuth(auth);
-            console.log("-- FOUND AUTH: " + JSON.stringify(foundAuth, undefined, 2));
+            // console.log("-- FOUND AUTH: " + JSON.stringify(foundAuth, undefined, 2));
             account = foundAuth.account;
             account.addAuth(foundAuth);
             foundAuth.account = undefined;

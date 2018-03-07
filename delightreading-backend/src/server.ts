@@ -46,7 +46,7 @@ createConnection(connConfig).then(async connection => {
   // Give nuxt middleware to express
   app.use(nuxt.render);
 
-  // Following not needed as Nuxt already exposes!
+  // Following not needed as Nuxt already exposes the folder defined in  nuxt.config.json/srcDir
   // app.use(express.static("web-ui/static"));
 
   /**

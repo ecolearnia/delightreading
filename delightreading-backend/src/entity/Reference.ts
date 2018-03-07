@@ -20,11 +20,10 @@ export class Reference extends EntityBase {
     title: string;
 
     @Column({
-        type: "varchar",
-        length: 128,
+        type: "json",
         nullable: true
     })
-    authors: string;
+    authors: object;
 
     @Column({
         type: "varchar",

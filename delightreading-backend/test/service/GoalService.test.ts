@@ -51,7 +51,7 @@ describe("GoalService", () => {
       await service.saveMany(goals);
 
       const result = await service.list({accountSid: 1});
-      console.log("Goals: " + JSON.stringify(result, undefined, 2));
+      // console.log("Goals: " + JSON.stringify(result, undefined, 2));
 
       expect(result).to.have.lengthOf(2);
       expect(result[0].title).to.equal("Test  Goal A");

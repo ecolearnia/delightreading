@@ -57,7 +57,7 @@ describe("ActivityLogService", () => {
       const service = new ActivityLogService();
 
       const result = await service.list({accountSid: 1});
-      console.log("ActivityLogs: " + JSON.stringify(result, undefined, 2));
+      // console.log("ActivityLogs: " + JSON.stringify(result, undefined, 2));
 
       expect(result).to.have.lengthOf(2);
       expect(result[0].reference).to.be.not.null;

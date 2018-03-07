@@ -54,7 +54,6 @@ describe("UserService", () => {
       const profile = new UserProfile(sampleProfile);
 
       const saved = await sut.saveProfile(profile);
-
       const found = await sut.findProfileByAccountSid(saved.sid);
 
       expect(found.hometown).equal("Seoul");

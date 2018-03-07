@@ -2,18 +2,17 @@
 
 import * as async from "async";
 import * as rootLogger from "pino";
-import * as uuidv4 from "uuid/v4";
 import { Repository, getRepository } from "typeorm";
-import { ActivityLog } from "../entity/ActivityLog";
-import { Reference } from "../entity/Reference";
 import { ServiceBase } from "./ServiceBase";
+import { Reference } from "../entity/Reference";
+import { ActivityLog } from "../entity/ActivityLog";
 
 import TypeOrmUtils from "../utils/TypeOrmUtils";
 
 const logger = rootLogger().child({ module: "ActivityLogService" });
 
 
-export class ActivityLogService extends ServiceBase<ActivityLog>  {
+export class ActivityLogService extends ServiceBase<ActivityLog> {
 
     constructor() {
         super(ActivityLog);
