@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn, Generated } from "typeorm";
 import { EntityBase } from "./EntityBase";
+import { Reference } from "./Reference";
 
 /**
  * This entity represents an instance of the user reading a reference(literature)
@@ -65,6 +66,8 @@ export class ReferencingLog extends EntityBase {
         nullable: true
     })
     synopsys: string;
+
+    reference?: Reference;
 
     constructor(obj: any = undefined) {
         super(obj);

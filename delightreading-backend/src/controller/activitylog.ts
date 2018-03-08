@@ -37,8 +37,8 @@ export let addMyActivityLog = async (req: Request, res: Response) => {
     reference = await referenceService.save(reference);
   }
 
-  // TODO: create ReferencingLog
-  let referencingLog = await referencingLogService.findOne({accountSid: req.user.sid, referenceSid: reference.sid});
+  // Create ReferencingLog
+  let referencingLog = await referencingLogService.findOneRecentByAccountSidAndReferenceSid(req.user.sid, reference.sid);
   if (!referencingLog) {
     logger.info({op: "addActivityLog", referenceSourceUri: req.body.referenceSourceUri}, "Adding Reference");
     referencingLog = new ReferencingLog({

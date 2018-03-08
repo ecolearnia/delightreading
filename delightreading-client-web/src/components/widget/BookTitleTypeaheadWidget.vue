@@ -2,7 +2,7 @@
   <input ref="referenceTitle"
     v-bind:value="value"
     @input="value => { referenceTitle = value }"
-    type="text" :class="cssClass" :placeholder="placeholder">
+    type="text" :placeholder="placeholder">
 </template>
 
 <script>
@@ -16,7 +16,6 @@ export default {
   name: "BookTitleTypeaheadWidget",
   props: {
     value: String,
-    class: String,
     placeholder: {
       type: String,
       default: "Book title"
@@ -26,17 +25,6 @@ export default {
     return {
       referenceTitle: ""
     };
-  },
-  computed: {
-    cssClass: function() {
-      var classArray = this.class ? this.class.split(' ') : [];
-
-      if (this.value) {
-        classArray.push('active');
-      }
-
-      return classArray;
-    }
   },
   created() {
   },
@@ -68,8 +56,8 @@ export default {
       }
      */
     refTitle.bind('typeahead:select', function(ev, suggestion) {
-      console.log('Selection: ' + JSON.stringify(suggestion, undefined, 2));
-      self.$emit('BookTitleTypeaheadWidget::selected', suggestion);
+      // console.log('Selection: ' + JSON.stringify(suggestion, undefined, 2));
+      self.$emit('selected', suggestion);
     });
 
     refTitle.typeahead(

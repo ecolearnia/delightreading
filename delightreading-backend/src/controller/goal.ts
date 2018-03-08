@@ -6,6 +6,7 @@ import { Response, Request, NextFunction } from "express";
 
 import ObjectUtils from "../utils/ObjectUtils";
 import * as controllerHelper from "./controller-helper";
+
 import { Goal } from "../entity/Goal";
 import { GoalService } from "../service/GoalService";
 
