@@ -104,8 +104,8 @@ export default {
     },
     onTitleBlur: function(event) {
       console.log("title: " + event.target.value);
-      if (event.target.value != this.referencingLogEntry.referenceTitle) {
-        alert ("Please select a book");
+      if (event.target.value !== this.referencingLogEntry.referenceTitle) {
+        alert("Please select a book");
       }
       console.log(this.referencingLogEntry.referenceTitle);
     },

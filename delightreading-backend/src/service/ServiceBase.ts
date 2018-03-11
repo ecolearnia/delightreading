@@ -7,7 +7,7 @@ import { UserAccount } from "../entity/UserAccount";
 
 export class ServiceBase<T extends EntityBase> {
 
-    logger: any = undefined;
+    logger: rootLogger.Logger = undefined;
 
     entityType: string;
     repo: Repository<T>;

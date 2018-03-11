@@ -42,13 +42,17 @@ export let listMyGoals = async (req: Request, res: Response) => {
     return res.status(401).json({ message: "Unauthorized: No user" });
   }
 
-  const pageRequest = controllerHelper.getPageRequest(req);
+  let goals: Array<Goal>;
+  if (req.query.active) {
+    goals = await goalService.findActiveGoals(req.user.sid);
+  } else {
+    const pageRequest = controllerHelper.getPageRequest(req);
+    const findCriteria = {
+      accountSid: req.user.sid
+    };
 
-  const findCriteria = {
-    accountSid: req.user.sid
-  };
-
-  const goals = await goalService.list(findCriteria, pageRequest.skip(), pageRequest.pageSize);
+    goals = await goalService.list(findCriteria, pageRequest.skip(), pageRequest.pageSize);
+  }
 
   logger.info({ op: "listMyGoal" }, "Listing my goal successful");
 
@@ -77,4 +81,20 @@ export let updateMyGoal = async (req: Request, res: Response) => {
   logger.info({ updatedGoal: updatedGoal }, "Update goal successful");
 
   res.json(updatedGoal);
+};
+
+export let getMyActiveGoals = async (req: Request, res: Response) => {
+
+  logger.info({ op: "getMyActiveGoals", account: req.user, page: req.query.page, pageSize: req.query.pageSize }, "Listing my goal");
+
+  if (!req.user) {
+    logger.warn({ op: "getMyActiveGoals" }, "Unauthorized: No user");
+    return res.status(401).json({ message: "Unauthorized: No user" });
+  }
+
+  const goals = await goalService.findActiveGoals(req.user.sid);
+
+  logger.info({ op: "getMyActiveGoals" }, "Listing my goal successful");
+
+  res.json(goals);
 };

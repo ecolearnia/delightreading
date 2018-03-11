@@ -37,13 +37,16 @@ export let addMyActivityLog = async (req: Request, res: Response) => {
     reference = await referenceService.save(reference);
   }
 
+  const activityTimestamp = req.body.logTimestamp || new Date();
+
   // Create ReferencingLog
   let referencingLog = await referencingLogService.findOneRecentByAccountSidAndReferenceSid(req.user.sid, reference.sid);
   if (!referencingLog) {
     logger.info({op: "addActivityLog", referenceSourceUri: req.body.referenceSourceUri}, "Adding Reference");
     referencingLog = new ReferencingLog({
       accountSid: req.user.sid,
-      referenceSid: reference.sid
+      referenceSid: reference.sid,
+      startDate: activityTimestamp
     });
 
     referencingLog = await referencingLogService.save(referencingLog);
@@ -51,7 +54,7 @@ export let addMyActivityLog = async (req: Request, res: Response) => {
 
   const activityLog = new ActivityLog(req.body);
   activityLog.accountSid = req.user.sid;
-  activityLog.logTimestamp = new Date();
+  activityLog.logTimestamp = activityTimestamp;
   activityLog.referenceSid = reference.sid;
   activityLog.referencingLogSid = referencingLog.sid;
 

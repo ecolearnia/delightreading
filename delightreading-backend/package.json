@@ -54,7 +54,7 @@
     "pino": "^4.10.4",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
-    "typeorm": "^0.1.11",
+    "typeorm": "^0.1.16",
     "uuid": "^3.2.1"
   },
   "devDependencies": {

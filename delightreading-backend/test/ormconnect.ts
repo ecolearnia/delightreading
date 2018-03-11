@@ -17,7 +17,7 @@ export async function createTestConnection( entities: any) {
         password: "test",
         database: "test",
         entities: [ActivityLog, Goal, Reference, ReferencingLog, UserAccount, UserAuth, UserProfile],
-        // logging: true,
+        logging: true,
         dropSchema: true, // Isolate each test case
         synchronize: true // regenerate tables
       });

@@ -2,6 +2,10 @@ import * as requestUtil from "./request-utils"
 
 const baseUrlPath = "/api/goals/"
 
+export function getActiveGoal() {
+  return requestUtil.get(baseUrlPath + "?active=true");
+}
+
 export function listGoal(page, pageSize) {
   let qs = requestUtil.toQueryString({page: page, pageSize: pageSize});
   return requestUtil.get(baseUrlPath + qs);

@@ -1,15 +1,12 @@
 "use strict";
 
 import * as async from "async";
-import * as rootLogger from "pino";
 import { Repository, getRepository } from "typeorm";
 import { ServiceBase } from "./ServiceBase";
 import { Reference } from "../entity/Reference";
 import { ReferencingLog } from "../entity/ReferencingLog";
 
 import TypeOrmUtils from "../utils/TypeOrmUtils";
-
-const logger = rootLogger().child({ module: "ReferencingLogService" });
 
 export class ReferencingLogService extends ServiceBase<ReferencingLog> {
 
@@ -28,7 +25,7 @@ export class ReferencingLogService extends ServiceBase<ReferencingLog> {
 
     async list(criteria?: any, skip: number = 0, take: number = 20): Promise<Array<ReferencingLog>> {
 
-        logger.info({ op: "list", criteria: criteria }, "Listing referencingLog");
+        this.logger.info({ op: "list", criteria: criteria }, "Listing referencingLog");
 
         // const logs = await this.referencingLogRepo.find(criteria);
 
@@ -41,7 +38,7 @@ export class ReferencingLogService extends ServiceBase<ReferencingLog> {
             .take(take)
             .getMany();
 
-        logger.info({ op: "list", logs: logs }, "Listing referencingLog successful");
+        this.logger.info({ op: "list", logs: logs }, "Listing referencingLog successful");
 
         return logs;
     }
