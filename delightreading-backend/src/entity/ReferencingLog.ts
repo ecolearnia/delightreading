@@ -35,7 +35,7 @@ export class ReferencingLog extends EntityBase {
         type: "int",
         nullable: true
     })
-    percentageComplete?: Date;
+    percentageComplete?: number;
 
     @Column({
         type: "text",

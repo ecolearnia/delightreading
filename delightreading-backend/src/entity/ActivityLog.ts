@@ -42,9 +42,29 @@ export class ActivityLog extends EntityBase {
     @Column({
         type: "decimal",
         precision: 6,
-        scale: 3
+        scale: 2,
+        nullable: true
     })
-    quantity: number;
+    quantity?: number;
+
+    // Time spent with the activity (in minutes)
+    @Column({
+        type: "int",
+        nullable: true
+    })
+    duration?: number;
+
+    @Column({
+        type: "int",
+        nullable: true
+    })
+    currentPage?: number;
+
+    @Column({
+        type: "int",
+        nullable: true
+    })
+    percentageComplete?: number;
 
     @Column({
         type: "text",
@@ -94,6 +114,9 @@ export class ActivityLog extends EntityBase {
                 this.logTimestamp = obj.logTimestamp;
             }
             this.quantity = obj.quantity;
+            this.duration = obj.duration;
+            this.currentPage = obj.currentPage;
+            this.percentageComplete = obj.percentageComplete;
             this.postEmotion = obj.postEmotion;
             this.situation = obj.situation;
             this.feedContext = obj.feedContext;

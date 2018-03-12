@@ -1,58 +1,71 @@
 <template>
   <div >
     <h2>{{ pageTitle }}</h2>
-    <form>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <input ref="referenceTitle" v-model="readLogEntry.referenceTitle" type="text" class="form-control" id="referenceTitle" placeholder="The book you read">
-        </div>
-        <div class="form-group col-md-3">
-          <v-date-picker  v-model="readLogEntry.logTimestamp" >
-            <input id="logTimestamp" type="text" class="form-control "  slot-scope='props' :value='props.inputValue'  @change.native='props.updateValue($event.target.value)'>
-          </v-date-picker>
-        </div>
-        <div class="form-group col-md-2">
-          <select v-model="readLogEntry.quantity" class="custom-select" id="readLogEntry.quantity">
-            <option >Mins.</option>
-            <option value="5">5 mins</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option value="40">40</option>
-            <option value="60">60</option>
-          </select>
-        </div>
+    <div class="row">
+      <div class="col-9">
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <input ref="referenceTitle" v-model="readLogEntry.referenceTitle" type="text" class="form-control" id="referenceTitle" placeholder="The book you read">
+            </div>
+            <div class="form-group col-md-3">
+              <v-date-picker  v-model="readLogEntry.logTimestamp" >
+                <input id="logTimestamp" type="text" class="form-control" slot-scope='props' :value='props.inputValue'  @change.native='props.updateValue($event.target.value)'>
+              </v-date-picker>
+            </div>
+            <div class="form-group col-md-2">
+              <select v-model="readLogEntry.duration" class="custom-select" id="duration" placeholder="Time read">
+                <option value="5">5 mins</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="60">60</option>
+              </select>
+            </div>
 
-        <div class="form-group col-md-1">
-          <button type="button" class="btn btn-primary" v-on:click="submitEntry" >OK</button>
-          <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#noteModal">Done</button> -->
+            <div class="form-group col-md-1">
+              <button type="button" class="btn btn-primary" v-on:click="submitEntry" >OK</button>
+              <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#noteModal">Done</button> -->
+            </div>
+          </div>
+        </form>
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Title</th>
+              <th>&nbsp;</th>
+              <th>Date</th>
+              <th>Mins</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="readLogItem in readLog" v-bind:key="readLogItem.sid">
+              <td><img :src="readLogItem.reference.thumbnailImageUrl" height="40"></td>
+              <td>{{ readLogItem.reference.title }}</td>
+              <td :title="readLogItem.postEmotion"><img :src="emotionToImageSrc(readLogItem.postEmotion)" class="entry-icon"></td>
+              <td>{{ readLogItem.logTimestamp | formatDate}}</td>
+              <td class="numeric">{{ readLogItem.duration }}</td>
+              <td>
+                <button type="button" class="btn btn-danger" v-on:click="deleteEntry(readLogItem.sid)" >X</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-3">
+        <div class="card">
+          <div class="card-header">How am I doing?</div>
+          <ul class="list-group ">
+            <li class="list-group-item">This month: {{ stats.month.activityDuration }} mins</li>
+            <li class="list-group-item">This week: {{ stats.week.activityDuration }} mins</li>
+            <li class="list-group-item">Today: {{ stats.day.activityDuration }} mins</li>
+          </ul>
         </div>
       </div>
-    </form>
-    <table class="table">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Title</th>
-          <th>&nbsp;</th>
-          <th>Date</th>
-          <th>Mins</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="readLogItem in readLog" v-bind:key="readLogItem.sid">
-          <td><img :src="readLogItem.reference.thumbnailImageUrl" height="40"></td>
-          <td>{{ readLogItem.reference.title }}</td>
-          <td :title="readLogItem.postEmotion"><img :src="emotionToImageSrc(readLogItem.postEmotion)" class="entry-icon"></td>
-          <td>{{ readLogItem.logTimestamp | formatDate}}</td>
-          <td>{{ readLogItem.quantity }}</td>
-          <td>
-            <button type="button" class="btn btn-danger" v-on:click="deleteEntry(readLogItem.sid)" >X</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -115,7 +128,7 @@ const LOG_ENTRY_NEW = {
   referencingLogSid: null,
   activity: "read",
   logTimestamp: new Date(),
-  quantity: null,
+  duration: null,
   postEmotion: null,
   situation: null,
   feedContext: null,
@@ -133,6 +146,7 @@ export default {
       pageTitle: "Log your reading",
       readLogEntry: Object.assign({}, LOG_ENTRY_NEW),
       readLog: [],
+      stats: {},
       feedContexts: [
         "One question I had was",
         "One word I learned",
@@ -157,6 +171,7 @@ export default {
   },
   created() {
     this.loadLog();
+    this.loadStats();
   },
   mounted() {
     // @see: https://forum.vuejs.org/t/typeahead-js-with-vue/22231/2
@@ -220,19 +235,36 @@ export default {
           alert(error);
         });
     },
+    loadStats: function() {
+      debugger;
+      activityClient
+        .getStats()
+        .then(response => {
+          this.stats = response.data;
+        })
+        .catch(error => {
+          alert(error);
+        });
+    },
     clearForm: function() {
       this.readLogEntry = Object.assign({}, LOG_ENTRY_NEW);
     },
     submitEntry: function() {
       console.log("Entering submitEntry");
       if (!this.readLogEntry.referenceTitle) {
+        alert("Title not provided.");
         return;
       }
       if (!this.readLogEntry.logTimestamp) {
+        alert("Date not provided.");
         return;
       }
       if (this.readLogEntry.quantity < 1) {
         alert("" + this.readLogEntry.quantity + " is not resonable.");
+        return;
+      }
+      if (this.readLogEntry.duration < 1) {
+        alert("" + this.readLogEntry.duration + " is not resonable.");
         return;
       }
       let now = new Date();

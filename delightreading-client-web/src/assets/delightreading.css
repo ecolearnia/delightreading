@@ -4,3 +4,6 @@
 .entry-icon {
     height: 30px !important; 
 }
+td.numeric {
+    text-align: right;
+}

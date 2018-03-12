@@ -5,6 +5,10 @@ import * as activityLogController from "../controller/activitylog";
 const router = express.Router();
 
 // No need to guard with passport.authenticate("jwt"), it is done at index.js
+
+router.get("/stats", activityLogController.getMyActivityStats);
+router.get("/timeseries", activityLogController.getMyActivityTimeSeries);
+
 router.post("/", activityLogController.addMyActivityLog);
 router.put("/:sid", activityLogController.updateMyActivityLog);
 router.get("/", activityLogController.listMyActivityLog);

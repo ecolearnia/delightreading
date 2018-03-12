@@ -66,7 +66,6 @@ export let addMyActivityLog = async (req: Request, res: Response) => {
 };
 
 export let listMyActivityLog = async (req: Request, res: Response) => {
-
   logger.info({op: "listMyActivityLog", account: req.user, page: req.query.page, pageSize: req.query.pageSize}, "Listing my activityLog");
 
   if (!req.user) {
@@ -90,7 +89,6 @@ export let listMyActivityLog = async (req: Request, res: Response) => {
 
 
 export let updateMyActivityLog = async (req: Request, res: Response) => {
-
   logger.info({op: "updateMyActivityLog", account: req.user, activityLogSid: req.params.sid}, "Updating my activityLog");
 
   if (!req.user) {
@@ -113,7 +111,6 @@ export let updateMyActivityLog = async (req: Request, res: Response) => {
 };
 
 export let deleteMyActivityLog = async (req: Request, res: Response) => {
-
   logger.info({op: "deleteMyActivityLog", account: req.user}, "Deleting activityLog");
 
   if (!req.user) {
@@ -131,4 +128,38 @@ export let deleteMyActivityLog = async (req: Request, res: Response) => {
   logger.info({deletedActivityLog: deletedActivityLog}, "Delete activityLog successful");
 
   res.json(deletedActivityLog);
+};
+
+///////// Statistics //////////
+
+export let getMyActivityStats = async (req: Request, res: Response) => {
+  logger.info({op: "getMyActivityStats", account: req.user}, "Stats activityLog");
+
+  if (!req.user) {
+    logger.warn({op: "getMyActivityStats"}, "Unauthorized: No user");
+    return res.status(401).json({message: "Unauthorized: No user"});
+  }
+
+  const activityStats = await activityLogService.stats(req.user.sid, new Date());
+
+  logger.info({activityStats: activityStats}, "Stats activityLog successful");
+
+  res.json(activityStats);
+};
+
+export let getMyActivityTimeSeries = async (req: Request, res: Response) => {
+  logger.info({op: "getMyActivityTimeSeries", account: req.user}, "TimeSeries activityLog");
+
+  if (!req.user) {
+    logger.warn({op: "getMyActivityTimeSeries"}, "Unauthorized: No user");
+    return res.status(401).json({message: "Unauthorized: No user"});
+  }
+
+  const ofUnit = req.query.of || "week";
+
+  const activityStats = await activityLogService.timeSeriesOf(req.user.sid, "day", ofUnit, "read");
+
+  logger.info({activityStats: activityStats}, "TimeSeries activityLog successful");
+
+  res.json(activityStats);
 };

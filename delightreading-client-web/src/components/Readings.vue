@@ -24,9 +24,9 @@
         <tr>
           <th></th>
           <th>Title</th>
-          <th>startDate</th>
-          <th>endDate</th>
-          <th>myRating</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Rating</th>
           <th></th>
         </tr>
       </thead>
@@ -38,7 +38,7 @@
           <td>{{ referencingLog.endDate | formatDate}}</td>
           <td>{{ referencingLog.myRating }}</td>
           <td>
-            <button type="button" class="btn btn-danger" v-on:click="deleteEntry(readLogItem.sid)" >X</button>
+            <button type="button" class="btn btn-danger" v-on:click="deleteEntry(referencingLog.sid)" >X</button>
           </td>
         </tr>
       </tbody>
@@ -119,6 +119,11 @@ export default {
         .catch(error => {
           alert("Error: " + error);
         });
+    },
+    deleteEntry: function(sid) {
+      referencingLogClient.deleteReferencingLog(sid).then(() => {
+        this.loadLog();
+      });
     }
 
   }

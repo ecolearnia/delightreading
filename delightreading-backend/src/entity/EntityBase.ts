@@ -8,6 +8,7 @@ export class EntityBase {
 
     @Column({
         type: "varchar",
+        name: "uid",
         length: 80
     })
     uid?: string;
@@ -21,7 +22,6 @@ export class EntityBase {
 
     @Column({
         type: "timestamp",
-        name: "createdat",
         nullable: true
     })
     createdAt: Date;
