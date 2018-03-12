@@ -20,7 +20,7 @@ export function deleteActivityLog(sid) {
 }
 
 export function getStats() {
-  return requestUtil.get(baseUrlPath + "stats" );
+  return requestUtil.get(baseUrlPath + "stats");
 }
 
 export function getTimeSeries(from, to) {

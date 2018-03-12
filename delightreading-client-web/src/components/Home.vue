@@ -136,6 +136,10 @@ const LOG_ENTRY_NEW = {
   retrospective: null
 }
 
+const STATS_ENTRY_NEW = {
+  activityDuration: 0
+}
+
 export default {
   name: "Home",
   components: {
@@ -146,7 +150,11 @@ export default {
       pageTitle: "Log your reading",
       readLogEntry: Object.assign({}, LOG_ENTRY_NEW),
       readLog: [],
-      stats: {},
+      stats: {
+        month: STATS_ENTRY_NEW,
+        week: STATS_ENTRY_NEW,
+        day: STATS_ENTRY_NEW
+      },
       feedContexts: [
         "One question I had was",
         "One word I learned",
@@ -236,7 +244,6 @@ export default {
         });
     },
     loadStats: function() {
-      debugger;
       activityClient
         .getStats()
         .then(response => {
