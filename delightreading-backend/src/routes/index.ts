@@ -7,11 +7,13 @@ import * as usersRoute from "./users";
 import * as activityLogRoute from "./activitylog";
 import * as referencingLogRoute from "./referencinglog";
 import * as goalRoute from "./goal";
+import * as referenceRoute from "./reference";
 
 const apiRouter = express.Router();
 
 apiRouter.use("/_manage", manageRoute);
 apiRouter.use("/users", usersRoute);
+apiRouter.use("/references", referenceRoute);
 apiRouter.use("/activitylogs", passport.authenticate("jwt", {session: false}), activityLogRoute);
 apiRouter.use("/referencinglogs", passport.authenticate("jwt", {session: false}), referencingLogRoute);
 apiRouter.use("/goals", passport.authenticate("jwt", {session: false}), goalRoute);

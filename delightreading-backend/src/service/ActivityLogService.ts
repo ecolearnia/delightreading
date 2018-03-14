@@ -161,6 +161,9 @@ export class ActivityLogService extends ServiceBase<ActivityLog> {
         //         queryParams)
         //     .groupBy("period")
         //     .getRawMany();
+
+        // @see: http://www.craigkerstiens.com/2017/06/08/working-with-time-in-postgres/
+        // @see: https://stackoverflow.com/questions/22114824/postgres-entries-per-week-for-every-week
         const sql =
         "WITH periods as ( \
         SELECT period \

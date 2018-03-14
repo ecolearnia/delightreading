@@ -16,11 +16,11 @@
             <div class="form-group col-md-2">
               <select v-model="readLogEntry.duration" class="custom-select" id="duration" placeholder="Time read">
                 <option value="5">5 mins</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-                <option value="40">40</option>
-                <option value="60">60</option>
+                <option value="10">10 mins</option>
+                <option value="20">20 mins</option>
+                <option value="30">30 mins</option>
+                <option value="40">40 mins</option>
+                <option value="60">60 mins</option>
               </select>
             </div>
 

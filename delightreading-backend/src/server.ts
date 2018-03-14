@@ -18,11 +18,12 @@ import * as errorHandler from "errorhandler";
 
 const connConfig: ConnectionOptions = {
   type: "postgres",
-  host: "localhost",
-  port: 5432,
-  username: "postgres",
-  password: "",
-  database: "delightreading_test",
+  url: process.env.DATABASE_URL || "postgresql://delightreading:delightreading@localhost:5432/delightreading_dev",
+  // host: "localhost",
+  // port: 5432,
+  // username: "postgres",
+  // password: "",
+  // database: "delightreading_dev",
   "entities": [
     ActivityLog, Goal, Reference, ReferencingLog, UserAccount, UserAuth, UserProfile
   ],

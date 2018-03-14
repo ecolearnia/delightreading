@@ -28,10 +28,11 @@
             <div class="form-group col-md-6">
               <label for="inputGender">Gender</label>
               <select id="inputGender" v-model="profile.gender" class="form-control">
-                <option>Choose...</option>
                 <option value="">N/A</option>
-                <option value="F">Girl</option>
-                <option value="M">Boy</option>
+                <option value="m">Boy</option>
+                <option value="f">Girl</option>
+                <option value="m">Man</option>
+                <option value="f">Woman</option>
               </select>
             </div>
           </div>
@@ -43,7 +44,7 @@
             <div class="form-group col-md-4">
               <label for="inputGrade">Grade</label>
               <select id="inputGrade" v-model="school.grade" class="form-control">
-                <option>Choose...</option>
+                <option value="pre-k">Pre-K</option>
                 <option value="K">K</option>
                 <option value="1">1 Grade</option>
                 <option value="2">2 Grade</option>

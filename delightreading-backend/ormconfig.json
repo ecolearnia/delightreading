@@ -1,10 +1,13 @@
 {
     "type": "postgres",
-    "host": "localhost",
-    "port": 5432,
-    "username": "postgres",
-    "password": "",
-    "database": "delightreading_test",
+    "url": "postgresql://delightreading:delightreading@localhost:5432/delightreading_dev",
+    "unused": {
+        "host": "localhost",
+        "port": 5432,
+        "username": "delightreading",
+        "password": "delightreading",
+        "database": "delightreading_dev"
+    },
     "synchronize": false,
     "logging": true,
     "entities": [

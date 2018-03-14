@@ -97,6 +97,19 @@ export class ActivityLog extends EntityBase {
     })
     retrospective?: string;
 
+    @Column({
+        type: "varchar",
+        length: 80,
+        nullable: true
+    })
+    approvedByUid?: string;
+
+    @Column({
+        type: "timestamp",
+        nullable: true
+    })
+    approvedAt?: Date;
+
     reference?: Reference;
 
     constructor(obj: any = undefined) {

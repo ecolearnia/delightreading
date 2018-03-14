@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Explore from '@/components/Explore'
 import Goal from '@/components/Goal'
 import Readings from '@/components/Readings'
 import Home from '@/components/Home'
@@ -14,6 +15,11 @@ Vue.use(Router)
 
 const router = new Router({
   routes: [
+    {
+      path: '/explore',
+      name: 'Explore',
+      component: Explore
+    },
     {
       path: '/home',
       name: 'Home',

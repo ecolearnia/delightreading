@@ -10,7 +10,7 @@
     </ul>
 
     <ul class="navbar-nav mt-2 mt-md-0"  v-if="isAuthenticated">
-      <li class="nav-item">
+      <li class="nav-item" v-if="false">
         <a class="nav-link" href="#"><img class="nav-icon" src="../assets/coin-icon.png"></a>
       </li>
       <li class="nav-item">
