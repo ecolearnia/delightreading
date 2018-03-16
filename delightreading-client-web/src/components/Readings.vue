@@ -38,7 +38,7 @@
           <td>{{ referencingLog.endDate | formatDate}}</td>
           <td>{{ referencingLog.myRating }}</td>
           <td>
-            <button type="button" class="btn btn-danger" v-on:click="deleteEntry(referencingLog.sid)" >X</button>
+            <button v-if="isDeletable(referencingLog)" type="button" class="btn btn-danger" v-on:click="deleteEntry(referencingLog.sid)" >X</button>
           </td>
         </tr>
       </tbody>
@@ -119,6 +119,12 @@ export default {
         .catch(error => {
           alert("Error: " + error);
         });
+    },
+    isDeletable: function(refencingLog) {
+      if (refencingLog.activityStat && refencingLog.activityStat.totalCount) {
+        return (refencingLog.activityStat.totalCount === 0)
+      }
+      return true;
     },
     deleteEntry: function(sid) {
       referencingLogClient.deleteReferencingLog(sid).then(() => {

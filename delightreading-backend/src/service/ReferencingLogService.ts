@@ -6,13 +6,17 @@ import { ServiceBase } from "./ServiceBase";
 import { Reference } from "../entity/Reference";
 import { ReferencingLog } from "../entity/ReferencingLog";
 import { ActivityLog } from "../entity/ActivityLog";
+import { ActivityLogService } from "./ActivityLogService";
 
 import TypeOrmUtils from "../utils/TypeOrmUtils";
 
 export class ReferencingLogService extends ServiceBase<ReferencingLog> {
 
+    activityLogService: ActivityLogService;
+
     constructor() {
         super(ReferencingLog);
+        this.activityLogService = new ActivityLogService();
     }
 
     async findOneRecentByAccountSidAndReferenceSid(accountSid: number, referenceSid: number): Promise<ReferencingLog> {
@@ -29,21 +33,21 @@ export class ReferencingLogService extends ServiceBase<ReferencingLog> {
         this.logger.info({ op: "list", criteria: criteria }, "Listing referencingLog");
 
         // This was used as subquery...
-        const activityStatSelect = getRepository(ActivityLog).createQueryBuilder("activity_log")
-            .select("activity_log.\"referencingLogSid\"")
-            .addSelect("sum(activity_log.duration)", "totalActivityDuration")
-            .addSelect("count(activity_log.sid)", "totalActivityCount")
-            .groupBy("activity_log.\"referencingLogSid\"");
+        // const activityStatSelect = getRepository(ActivityLog).createQueryBuilder("activity_log")
+        //     .select("activity_log.\"referencingLogSid\"")
+        //     .addSelect("sum(activity_log.duration)", "totalActivityDuration")
+        //     .addSelect("count(activity_log.sid)", "totalActivityCount")
+        //     .groupBy("activity_log.\"referencingLogSid\"");
 
         const logs = await this.repo.createQueryBuilder("referencing_log")
             .leftJoinAndMapOne("referencing_log.reference", Reference, "reference", "referencing_log.\"referenceSid\" = reference.sid")
             // .leftJoinAndSelect(`(${activityStatSelect.getSql()})`, "activityStat", "referencing_log.sid = \"activityStat\".\"referencingLogSid\"" )
             // .leftJoinAndMapOne("referencing_log.activityStat", `(${activityStatSelect.getSql()})`, "activitystat", "referencing_log.sid = activitystat.\"referencingLogSid\"" )
-            .leftJoinAndMapOne("referencingLog.\"activityStat\"", (qb) => { 
+            .leftJoinAndMapOne("referencingLog.\"activityStat\"", (qb) => {
                 return qb.subQuery()
                     .select("activity_log.\"referencingLogSid\"")
-                    .addSelect("sum(activity_log.duration)", "totalActivityDuration")
-                    .addSelect("count(activity_log.sid)", "totalActivityCount")
+                    .addSelect("sum(activity_log.duration)", "totalDuration")
+                    .addSelect("count(activity_log.sid)", "totalCount")
                     .from(ActivityLog, "activity_log")
                     .groupBy("activity_log.\"referencingLogSid\"");
             } , "activityStat", "referencing_log.sid = \"activityStat\".\"referencingLogSid\"" )
@@ -53,8 +57,12 @@ export class ReferencingLogService extends ServiceBase<ReferencingLog> {
             .skip(skip)
             .take(take)
             .getMany();
-        
-        console.log(JSON.stringify(logs, undefined, 3));        
+
+        // Not very performant, but workaround until I figure out how to do as subquery
+        for (const logItem of logs) {
+            logItem.activityStat = await this.activityLogService.statsByReferencingLog(logItem.sid);
+        }
+        // console.log(JSON.stringify(logs, undefined, 3));
 
         this.logger.info({ op: "list", logs: logs }, "Listing referencingLog successful");
 

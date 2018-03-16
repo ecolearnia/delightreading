@@ -16,11 +16,12 @@ describe("ActivityLogService", () => {
   let sut: ActivityLogService;
 
   function newActivityLog(accountSid: number, referenceSid: number, goalSid: number, 
-    activity: string, duration: number, logTimestamp: Date = new Date()): ActivityLog 
+    activity: string, duration: number, logTimestamp: Date = new Date(), referencingLogSid = 1): ActivityLog 
   {
     const activityLog = new ActivityLog({
         accountSid: accountSid,
         referenceSid: referenceSid,
+        referencingLogSid: referencingLogSid,
         goalSid: goalSid,
         activity: activity,
         logTimestamp: logTimestamp,
@@ -45,12 +46,12 @@ describe("ActivityLogService", () => {
 
     const reference = await createReference("TEST-TITLE");
     // 2018-02-21 is the Monday 
-    activityLogs.push(newActivityLog(1, reference.sid, 0, "read", 11, new Date(2018,1,21)));
-    activityLogs.push(newActivityLog(1, 0, 0, "read", 12, new Date(2018,1,22)));
-    activityLogs.push(newActivityLog(1, reference.sid, 0, "read", 13, new Date(2018,1,26)));
-    activityLogs.push(newActivityLog(1, reference.sid, 0, "read", 14, new Date(2018,1,26)));
-    activityLogs.push(newActivityLog(1, 0, 0, "read", 15, new Date(2018,2,2)));
-    activityLogs.push(newActivityLog(2, 0, 0, "read", 13, new Date(2018,1,27)));
+    activityLogs.push(newActivityLog(1, reference.sid, 0, "read", 11, new Date(2018,1,21), 1));
+    activityLogs.push(newActivityLog(1, 0, 0, "read", 12, new Date(2018,1,22), 1));
+    activityLogs.push(newActivityLog(1, reference.sid, 0, "read", 13, new Date(2018,1,26), 2));
+    activityLogs.push(newActivityLog(1, reference.sid, 0, "read", 14, new Date(2018,1,26), 2));
+    activityLogs.push(newActivityLog(1, 0, 0, "read", 15, new Date(2018,2,2), 2));
+    activityLogs.push(newActivityLog(2, 0, 0, "read", 13, new Date(2018,1,27), 3));
 
     const saved = await sut.saveMany(activityLogs);
   });
@@ -88,7 +89,7 @@ describe("ActivityLogService", () => {
       const service = new ActivityLogService();
 
       const result = await service.stats(1, new Date(2018, 1, 26), "read");
-      // console.log("status: " + JSON.stringify(result, undefined, 2));
+      // console.log("stats: " + JSON.stringify(result, undefined, 2));
 
       expect(result.month.activityDuration).to.equal(50);
       expect(result.month.activityCount).to.equal(4);
@@ -98,6 +99,19 @@ describe("ActivityLogService", () => {
       expect(result.day.activityCount).to.equal(2);
     });
   });
+
+  describe("statsByReferencingLog", () => {
+    it("should return statistics for specific referencingLog", async () => {
+      const service = new ActivityLogService();
+
+      const result = await service.statsByReferencingLog(1);
+      console.log("statsByReferencingLog: " + JSON.stringify(result, undefined, 2));
+
+      expect(result.totalDuration).to.equal(23);
+      expect(result.totalCount).to.equal(2);
+    });
+  });
+
 
   describe("timeSeries", () => {
     it("should return time series for day", async () => {

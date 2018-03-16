@@ -55,7 +55,7 @@ describe("ReferencingLogService", () => {
     const saved = await sut.saveMany(referencingLogs);
 
     const activityLogRepo = getRepository(ActivityLog);
-    activityLogRepo.save(entityUtils.newActivityLog(1, reference.sid, 0, "read", 11, new Date(2018,1,21), saved[0].sid));
+    await activityLogRepo.save(entityUtils.newActivityLog(1, reference.sid, 0, "read", 11, new Date(2018,1,21), saved[0].sid));
   });
 
   afterEach(async () => {

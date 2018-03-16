@@ -7,6 +7,8 @@ import { Repository, getRepository } from "typeorm";
 import { ServiceBase } from "./ServiceBase";
 import { Reference } from "../entity/Reference";
 import { ActivityLog } from "../entity/ActivityLog";
+import { ActivityStat } from "../entity/valueobject/ActivityStat";
+
 
 import TypeOrmUtils from "../utils/TypeOrmUtils";
 
@@ -55,6 +57,14 @@ export class ActivityLogService extends ServiceBase<ActivityLog> {
         return logs;
     }
 
+    async statsByReferencingLog(referencingLogSid: number): Promise<any> {
+        const criteria = [referencingLogSid];
+        const stats = await this.repo.query("select \"referencingLogSid\", sum(duration) as \"totalDuration\", count(sid) as \"totalCount\" \
+            from activity_log where \"referencingLogSid\" = $1 group by \"referencingLogSid\"", criteria);
+
+        // console.log("ActivityStat: " + JSON.stringify(stats, undefined, 2));
+        return stats && stats.length > 0 && new ActivityStat(stats[0].totalDuration, stats[0].totalCount) || new ActivityStat(0, 0);
+    }
 
     /**
      * Returns statistics
@@ -81,7 +91,7 @@ export class ActivityLogService extends ServiceBase<ActivityLog> {
      * }
      * @param accountSid - The account number
      */
-    async stats(accountSid: number, date: Date = new Date(), activity: string = "read") {
+    async stats(accountSid: number, date: Date = new Date(), activity: string = "read"): Promise<any> {
         logger.info({ op: "currentStats", accountSid: accountSid }, "Stats activityLog");
 
         const startOfMonth = moment(date).startOf("month");
@@ -105,7 +115,7 @@ export class ActivityLogService extends ServiceBase<ActivityLog> {
         return stats;
     }
 
-    async timeSeriesOf(accountSid: number, period: string, ofUnit: string, activity: string) {
+    async timeSeriesOf(accountSid: number, period: string, ofUnit: string, activity: string): Promise<any> {
         const date = new Date();
         let startOf;
         let endOf;
@@ -145,7 +155,7 @@ export class ActivityLogService extends ServiceBase<ActivityLog> {
      * @param fromDate - Range start for the time serie (innclusive)
      * @param toDate - Range end for the time serie
      */
-    async timeSeries(accountSid: number, period: string, fromDate: Date, toDate: Date, activity: string) {
+    async timeSeries(accountSid: number, period: string, fromDate: Date, toDate: Date, activity: string): Promise<any> {
         // TODO: validate period
 
         logger.info({ op: "timeSeries", accountSid: accountSid, period: period, fromDate: fromDate, toDate: toDate }, "TimeSeries activityLog");
