@@ -1,10 +1,13 @@
-import { Connection, createConnection } from "typeorm";
+import { Connection, createConnection, getRepository } from "typeorm";
 import { createTestConnection } from "../ormconnect";
 import { ReferencingLog } from "../../src/entity/ReferencingLog";
 import { ReferencingLogService } from "../../src/service/ReferencingLogService";
 
 import { Reference } from "../../src/entity/Reference";
 import { ReferenceService } from "../../src/service/ReferenceService";
+
+import { ActivityLog } from "../../src/entity/ActivityLog";
+import * as entityUtils from "../utils/EntityUtils";
 
 const sampleReference = require("../sample-data/reference.hole.sample.json");
 
@@ -50,6 +53,9 @@ describe("ReferencingLogService", () => {
     referencingLogs.push(newReferencingLog(2, reference.sid, new Date(2017, 6, 2),  new Date(2017, 7, 19), "r3"));
 
     const saved = await sut.saveMany(referencingLogs);
+
+    const activityLogRepo = getRepository(ActivityLog);
+    activityLogRepo.save(entityUtils.newActivityLog(1, reference.sid, 0, "read", 11, new Date(2018,1,21), saved[0].sid));
   });
 
   afterEach(async () => {

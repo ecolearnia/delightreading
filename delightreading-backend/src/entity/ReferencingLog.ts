@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn, Generated } from "typeorm";
+import { ActivityStat } from "./valueobject/ActivityStat";
 import { EntityBase } from "./EntityBase";
 import { Reference } from "./Reference";
 
@@ -66,6 +67,8 @@ export class ReferencingLog extends EntityBase {
         nullable: true
     })
     synopsys: string;
+
+    activityStat: ActivityStat;
 
     reference?: Reference;
 
