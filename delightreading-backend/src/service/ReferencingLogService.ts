@@ -54,10 +54,7 @@ export class ReferencingLogService extends ServiceBase<ReferencingLog> {
             .take(take)
             .getMany();
         
-        // const activityStat = await activityStatSelect.getOne();
-        // console.log("activityStat: " + JSON.stringify(activityStat, undefined, 3));
-        
-        console.log(JSON.stringify(logs, undefined, 3));
+        console.log(JSON.stringify(logs, undefined, 3));        
 
         this.logger.info({ op: "list", logs: logs }, "Listing referencingLog successful");
 
