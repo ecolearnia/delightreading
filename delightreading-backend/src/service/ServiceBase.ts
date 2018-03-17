@@ -59,7 +59,6 @@ export class ServiceBase<T extends EntityBase> {
     }
 
     async update(criteria: any, fields: any): Promise<void> {
-
         this.logger.trace({ op: "update", criteria: criteria, fields: fields }, "Updating");
 
         await this.repo.update(criteria, fields);
@@ -68,14 +67,23 @@ export class ServiceBase<T extends EntityBase> {
     }
 
     async findOne(criteria?: any): Promise<T> {
-
         this.logger.info({ op: "findOne", criteria: criteria }, "Retrieving single record");
 
-        const reference = await this.repo.findOne(criteria);
+        const resource = await this.repo.findOne(criteria);
 
-        this.logger.info({ op: "findOne", reference: reference }, "Retrieving single record successful");
+        this.logger.info({ op: "findOne", resource: resource }, "Retrieving single record successful");
 
-        return reference;
+        return resource;
+    }
+
+    async findOneBySid(sid: number): Promise<T> {
+        this.logger.info({ op: "findOneBySid", sid: sid }, "Retrieving single record");
+
+        const resource = await this.repo.findOneById(sid);
+
+        this.logger.info({ op: "findOneBySid", resource: resource }, "Retrieving single record successful");
+
+        return resource;
     }
 
     async list(criteria?: any, skip: number = 0, take: number = 20): Promise<Array<T>> {

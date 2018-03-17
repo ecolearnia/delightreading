@@ -46,10 +46,14 @@ export let addMyActivityLog = async (req: Request, res: Response) => {
     referencingLog = new ReferencingLog({
       accountSid: req.user.sid,
       referenceSid: reference.sid,
-      startDate: activityTimestamp
+      startDate: activityTimestamp,
+      percentageComplete: req.body.percentageComplete
     });
 
     referencingLog = await referencingLogService.save(referencingLog);
+  } else if (req.body.percentageComplete) {
+    logger.info({op: "addActivityLog", percentageComplete: req.body.percentageComplete}, "Updating referencingLog's percentageComplete");
+    referencingLogService.update(referencingLog.sid, {percentageComplete: req.body.percentageComplete});
   }
 
   const activityLog = new ActivityLog(req.body);
@@ -103,11 +107,19 @@ export let updateMyActivityLog = async (req: Request, res: Response) => {
 
   const fields = ObjectUtils.assignProperties({}, req.body,
     ["currentPage", "percentageComplete", "postEmotion", "situation", "feedContext", "feedBody", "retrospective"]);
-  const activityLogs = await activityLogService.update(criteria, fields);
+  await activityLogService.update(criteria, fields);
+  const activityLog = await activityLogService.findOneBySid(req.params.sid);
+
+  // Update ReferencingLog's percentageCompletion
+  const refLogCriteria = {
+    accountSid: req.user.sid,
+    sid: activityLog.referencingLogSid
+  };
+  await referencingLogService.update(refLogCriteria, {percentageComplete: req.body.percentageComplete});
 
   logger.info({op: "updateMyActivityLog"}, "Updating my activityLog successful");
 
-  res.json(activityLogs);
+  res.json(activityLog);
 };
 
 export let deleteMyActivityLog = async (req: Request, res: Response) => {

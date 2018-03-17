@@ -70,4 +70,18 @@ export class ReferencingLogService extends ServiceBase<ReferencingLog> {
     }
 
     // TODO: override delete adding check if associated activity exists.
+
+    async update(criteria: any, fields: any): Promise<void> {
+        this.logger.trace({ op: "update", criteria: criteria, fields: fields }, "Updating");
+
+        const refLogsForUpdate = await this.repo.find(criteria);
+
+        if (fields && fields.percentageComplete >= 100) {
+            fields.percentageComplete = 100;
+            fields.endDate = new Date();
+        }
+        await this.repo.update(criteria, fields);
+
+        this.logger.info({ op: "update", criteria: criteria, fields: fields }, "Update successful");
+    }
 }

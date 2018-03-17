@@ -2,6 +2,7 @@
   <div >
     <h2>{{ pageTitle }}</h2>
     <div class="row">
+
       <div class="col-9">
         <form>
           <div class="form-row">
@@ -57,6 +58,7 @@
           </tbody>
         </table>
       </div>
+      <!-- Right Pane -->
       <div class="col-3">
         <div class="card">
           <div class="card-header">How am I doing?</div>
@@ -69,7 +71,7 @@
       </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal {{ -->
     <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -110,6 +112,7 @@
         </div>
       </div>
     </div>
+    <!-- }} Modal -->
 
   </div>
 </template>

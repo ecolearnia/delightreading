@@ -19,6 +19,7 @@ Vue.filter("formatDate", function(value) {
   }
 });
 
+// @see https://docs.vcalendar.io/#custom-defaults
 Vue.filter("formatDateTime", function(value) {
   if (value) {
     return moment(String(value)).format("MM/DD/YYYY - hh:mm")

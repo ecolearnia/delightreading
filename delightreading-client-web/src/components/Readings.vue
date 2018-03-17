@@ -37,7 +37,7 @@
           <td>{{ referencingLog.reference.title }}</td>
           <td>{{ referencingLog.startDate | formatDate}}</td>
           <td>{{ referencingLog.endDate | formatDate}}</td>
-          <td>{{ referencingLog.activityStat && referencingLog.activityStat.totalDuration }} mins</td>
+          <td>{{ referencingLog.activityStat && referencingLog.activityStat.totalDuration }} mins {{ displayPercentage(referencingLog.percentageComplete) }}</td>
           <td><VueStars :name="'myRating-'+referencingLog.sid" v-model="referencingLog.myRating" @input="(rating) => onRatingInput(referencingLog.sid, rating)" />
           </td>
           <td>
@@ -46,6 +46,33 @@
         </tr>
       </tbody>
     </table>
+
+    <!-- Modal {{ -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reviewModalLabel">{{ selectedEntry.reference.title }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="feed">What did you like from this book?</label>
+                <textarea v-model="selectedEntry.likeReason" class="form-control" id="likeReason" rows="3"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button"  v-on:click="updateLogWithFeedback()" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- }} Modal -->
   </div>
 </template>
 
@@ -58,6 +85,7 @@ import VueStars from "./widget/VueStars.vue"
 const LOG_ENTRY_NEW = {
   sid: null,
   accountSid: null,
+  reference: {title: null},
   referenceSid: null,
   startDate: null,
   endDate: null,
@@ -79,6 +107,7 @@ export default {
     return {
       pageTitle: "Readings",
       referencingLogEntry: Object.assign({}, LOG_ENTRY_NEW),
+      selectedEntry: Object.assign({}, LOG_ENTRY_NEW),
       referencingLogs: []
     };
   },
@@ -124,11 +153,14 @@ export default {
     },
     onRatingInput: function(referencingLogSid, rating) {
       // alert("Rating of [" + referencingLogSid + "] =" + rating);
-      // TODO: update server
+      this.selectedEntry = this.referencingLogs.find((el) => { return el.sid === referencingLogSid});
       referencingLogClient
         .updateReferencingLog(referencingLogSid, {myRating: rating})
         .then(response => {
           console.log("OK updating " + referencingLogSid);
+          if (rating > 3) {
+            $("#feedbackModal").modal("show");
+          }
         })
         .catch(error => {
           alert(error);
@@ -145,6 +177,20 @@ export default {
           alert("Error: " + error);
         });
     },
+    updateLogWithFeedback: function() {
+      if (!this.selectedEntry.sid) {
+        return;
+      }
+      referencingLogClient
+        .updateReferencingLog(this.selectedEntry.sid, {likeReason: this.selectedEntry.likeReason})
+        .then(response => {
+          this.clearForm();
+          $("#feedbackModal").modal("hide");
+        })
+        .catch(error => {
+          alert("Error: " + error);
+        });
+    },
     isDeletable: function(refencingLog) {
       if (refencingLog.activityStat && refencingLog.activityStat.totalCount) {
         return (refencingLog.activityStat.totalCount === 0)
@@ -155,8 +201,14 @@ export default {
       referencingLogClient.deleteReferencingLog(sid).then(() => {
         this.loadLog();
       });
-    }
+    },
 
+    displayPercentage(val) {
+      if (val && (val > 0) || val === 0) {
+        return "(" + val + " %)";
+      }
+      return ""
+    }
   }
 };
 </script>
