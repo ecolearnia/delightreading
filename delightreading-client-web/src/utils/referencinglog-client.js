@@ -11,8 +11,9 @@ export function addReferencingLog(logEntry) {
   return requestUtil.post(baseUrlPath, logEntry);
 }
 
-export function updateReferencingLog(sid, logEntry) {
-  return requestUtil.put(baseUrlPath + sid, logEntry);
+// Partial udpate
+export function updateReferencingLog(sid, logUpdateFields) {
+  return requestUtil.put(baseUrlPath + sid, logUpdateFields);
 }
 
 export function deleteReferencingLog(sid) {

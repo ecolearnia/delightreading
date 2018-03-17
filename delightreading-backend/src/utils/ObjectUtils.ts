@@ -9,7 +9,9 @@ export default class ObjectUtils {
    */
   static assignProperties(target: any, source: any, fields: string[]) {
     for (const field of fields) {
-      target[field] = source[field];
+      if (source.hasOwnProperty(field)) {
+        target[field] = source[field];
+      }
     }
     return target;
   }

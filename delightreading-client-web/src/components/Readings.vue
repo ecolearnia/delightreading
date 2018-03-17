@@ -26,6 +26,7 @@
           <th>Title</th>
           <th>Start Date</th>
           <th>End Date</th>
+          <th>Read</th>
           <th>Rating</th>
           <th></th>
         </tr>
@@ -36,7 +37,9 @@
           <td>{{ referencingLog.reference.title }}</td>
           <td>{{ referencingLog.startDate | formatDate}}</td>
           <td>{{ referencingLog.endDate | formatDate}}</td>
-          <td>{{ referencingLog.myRating }}</td>
+          <td>{{ referencingLog.activityStat && referencingLog.activityStat.totalDuration }} mins</td>
+          <td><VueStars :name="'myRating-'+referencingLog.sid" v-model="referencingLog.myRating" @input="(rating) => onRatingInput(referencingLog.sid, rating)" />
+          </td>
           <td>
             <button v-if="isDeletable(referencingLog)" type="button" class="btn btn-danger" v-on:click="deleteEntry(referencingLog.sid)" >X</button>
           </td>
@@ -50,6 +53,7 @@
 import "bootstrap";
 import BookTitleTypeaheadWidget from "./widget/BookTitleTypeaheadWidget.vue";
 import * as referencingLogClient from "../utils/referencinglog-client";
+import VueStars from "./widget/VueStars.vue"
 
 const LOG_ENTRY_NEW = {
   sid: null,
@@ -68,7 +72,8 @@ const LOG_ENTRY_NEW = {
 export default {
   name: "Readings",
   components: {
-    BookTitleTypeaheadWidget
+    BookTitleTypeaheadWidget,
+    VueStars
   },
   data() {
     return {
@@ -88,7 +93,15 @@ export default {
       referencingLogClient
         .listReferencingLog()
         .then(response => {
-          this.referencingLogs = response.data;
+          // this.referencingLogs = Object.assign({}, response.data);
+          if (response.data && response.data.length > 0) {
+            response.data.forEach((element) => {
+              if (element.myRating == null) {
+                element.myRating = 0;
+              }
+              this.referencingLogs.push(element);
+            });
+          }
         })
         .catch(error => {
           alert(error);
@@ -108,6 +121,18 @@ export default {
         alert("Please select a book");
       }
       console.log(this.referencingLogEntry.referenceTitle);
+    },
+    onRatingInput: function(referencingLogSid, rating) {
+      // alert("Rating of [" + referencingLogSid + "] =" + rating);
+      // TODO: update server
+      referencingLogClient
+        .updateReferencingLog(referencingLogSid, {myRating: rating})
+        .then(response => {
+          console.log("OK updating " + referencingLogSid);
+        })
+        .catch(error => {
+          alert(error);
+        });
     },
     submitEntry: function() {
       referencingLogClient

@@ -26,7 +26,9 @@ Vue.filter("formatDateTime", function(value) {
 });
 
 // Use v-calendar, v-date-picker & v-popover components
-Vue.use(VCalendar);
+Vue.use(VCalendar, {
+  popoverVisibility: "focus"
+});
 
 const theStore = store;
 const theRouter = router;

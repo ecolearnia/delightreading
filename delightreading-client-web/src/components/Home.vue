@@ -38,6 +38,7 @@
               <th>&nbsp;</th>
               <th>Date</th>
               <th>Mins</th>
+              <th>%</th>
               <th></th>
             </tr>
           </thead>
@@ -48,6 +49,7 @@
               <td :title="readLogItem.postEmotion"><img :src="emotionToImageSrc(readLogItem.postEmotion)" class="entry-icon"></td>
               <td>{{ readLogItem.logTimestamp | formatDate}}</td>
               <td class="numeric">{{ readLogItem.duration }}</td>
+              <td class="numeric">{{ displayPercentage(readLogItem.percentageComplete) }}</td>
               <td>
                 <button type="button" class="btn btn-danger" v-on:click="deleteEntry(readLogItem.sid)" >X</button>
               </td>
@@ -83,15 +85,21 @@
                 <label for="feed">One question I had was</label>
                 <textarea v-model="readLogEntry.feedBody" class="form-control" id="feedBody" rows="3"></textarea>
               </div>
-              <div class="form-group">
-                <label for="feed">Emotion</label>
-                <multiselect v-model="readLogEntry.postEmotion" label="title" track-by="title" :options="emotionOptions" select-label="" style="width: 12em;" >
-                  <template slot="option" slot-scope="props">
-                    <img class="option__image" :src="props.option.img" height="30"  style="float: left; padding-right: 3px" >
-                    <div class="option__desc"><span class="option__title">{{ props.option.title }}</span>
-                    </div>
-                  </template>
-                </multiselect>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="emotion">Emotion</label>
+                  <multiselect v-model="readLogEntry.postEmotion" label="title" track-by="title" :options="emotionOptions" select-label="" style="width: 12em;" >
+                    <template slot="option" slot-scope="props">
+                      <img class="option__image" :src="props.option.img" height="30"  style="float: left; padding-right: 3px" >
+                      <div class="option__desc"><span class="option__title">{{ props.option.title }}</span>
+                      </div>
+                    </template>
+                  </multiselect>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="percentageComplete">% Completed</label>
+                  <input ref="percentageComplete" v-model="readLogEntry.percentageComplete" type="number" min="0" max="100" class="form-control" id="percentageComplete" placeholder="%">
+                </div>
               </div>
             </form>
           </div>
@@ -129,6 +137,7 @@ const LOG_ENTRY_NEW = {
   activity: "read",
   logTimestamp: new Date(),
   duration: null,
+  percentageComplete: null,
   postEmotion: null,
   situation: null,
   feedContext: null,
@@ -300,6 +309,7 @@ export default {
         .updateActivityLog(readLogEntry.sid, readLogEntry)
         .then(response => {
           this.loadLog();
+          this.loadStats();
           this.clearForm();
           $("#noteModal").modal("hide");
         })
@@ -311,6 +321,13 @@ export default {
       activityClient.deleteActivityLog(sid).then(() => {
         this.loadLog();
       });
+    },
+
+    displayPercentage(val) {
+      if (val && (val > 0) || val === 0) {
+        return val + " %";
+      }
+      return ""
     }
   }
 };

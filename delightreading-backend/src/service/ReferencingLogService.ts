@@ -69,4 +69,5 @@ export class ReferencingLogService extends ServiceBase<ReferencingLog> {
         return logs;
     }
 
+    // TODO: override delete adding check if associated activity exists.
 }

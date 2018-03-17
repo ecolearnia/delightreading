@@ -133,8 +133,8 @@ export class ActivityLog extends EntityBase {
             this.postEmotion = obj.postEmotion;
             this.situation = obj.situation;
             this.feedContext = obj.feedContext;
-            this.retrospective = obj.retrospective;
             this.feedBody = obj.feedBody;
+            this.retrospective = obj.retrospective;
         }
     }
 }

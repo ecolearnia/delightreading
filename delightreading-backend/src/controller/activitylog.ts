@@ -102,7 +102,7 @@ export let updateMyActivityLog = async (req: Request, res: Response) => {
   };
 
   const fields = ObjectUtils.assignProperties({}, req.body,
-    ["postEmotion", "situation", "feedContext", "feedBody", "retrospective"]);
+    ["currentPage", "percentageComplete", "postEmotion", "situation", "feedContext", "feedBody", "retrospective"]);
   const activityLogs = await activityLogService.update(criteria, fields);
 
   logger.info({op: "updateMyActivityLog"}, "Updating my activityLog successful");

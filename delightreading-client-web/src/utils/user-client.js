@@ -30,7 +30,7 @@ export function getSessionUser() {
   if (accessToken) {
     return getMyAccount();
   } else {
-    alert("No Cookie found");
+    // alert("No Cookie found");
   }
 }
 
