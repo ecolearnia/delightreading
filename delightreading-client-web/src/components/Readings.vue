@@ -37,7 +37,7 @@
           <td>{{ referencingLog.reference.title }}</td>
           <td>{{ referencingLog.startDate | formatDate}}</td>
           <td>{{ referencingLog.endDate | formatDate}}</td>
-          <td>{{ referencingLog.activityStat && referencingLog.activityStat.totalDuration }} mins {{ displayPercentage(referencingLog.percentageComplete) }}</td>
+          <td>{{ displayStat(referencingLog.activityStat) }}  {{ displayPercentage(referencingLog.percentageComplete) }}</td>
           <td><VueStars :name="'myRating-'+referencingLog.sid" v-model="referencingLog.myRating" @input="(rating) => onRatingInput(referencingLog.sid, rating)" />
           </td>
           <td>
@@ -153,7 +153,7 @@ export default {
     },
     onRatingInput: function(referencingLogSid, rating) {
       // alert("Rating of [" + referencingLogSid + "] =" + rating);
-      this.selectedEntry = this.referencingLogs.find((el) => { return el.sid === referencingLogSid});
+      this.selectedEntry = this.referencingLogs.find((el) => { return el.sid === referencingLogSid; });
       referencingLogClient
         .updateReferencingLog(referencingLogSid, {myRating: rating})
         .then(response => {
@@ -202,9 +202,14 @@ export default {
         this.loadLog();
       });
     },
-
+    displayStat(stat) {
+      if (stat && stat.totalCount > 0 && stat.totalDuration) {
+        return stat.totalDuration + " mins";
+      }
+      return ""
+    },
     displayPercentage(val) {
-      if (val && (val > 0) || val === 0) {
+      if ((val && (val > 0)) || val === 0) {
         return "(" + val + " %)";
       }
       return ""

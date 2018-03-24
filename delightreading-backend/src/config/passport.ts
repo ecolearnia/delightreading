@@ -4,6 +4,7 @@ import * as request from "request";
 import * as passportLocal from "passport-local";
 import * as passportJwt from "passport-jwt";
 import * as passportGoogle from "passport-google-oauth";
+import * as passportFacebook from "passport-facebook";
 import * as _ from "lodash";
 
 import { Request, Response, NextFunction } from "express";
@@ -77,7 +78,7 @@ passport.use(new passportJwt.Strategy(jwtOptions, async (payload, done) => {
 // console.log("GOOGLE_CLIENT_SECRET: " + process.env.GOOGLE_CLIENT_SECRET);
 
 /**
- * Sign in with Facebook.
+ * Sign in with Google.
  */
 passport.use(new passportGoogle.OAuth2Strategy({
   clientID: process.env.GOOGLE_CLIENT_ID,

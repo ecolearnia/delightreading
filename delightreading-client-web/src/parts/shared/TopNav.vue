@@ -7,10 +7,10 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="/#/home">Home</a>
+            <a class="nav-link" href="/app/#/home">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/#/explore">Explore</a>
+            <a class="nav-link" href="/app/#/explore">Explore</a>
           </li>
         </ul>
 

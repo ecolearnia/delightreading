@@ -1,0 +1,1 @@
+cd delightreading-backend;node dist/server.js

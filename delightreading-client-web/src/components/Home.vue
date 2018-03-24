@@ -327,7 +327,7 @@ export default {
     },
 
     displayPercentage(val) {
-      if (val && (val > 0) || val === 0) {
+      if ((val && (val > 0)) || val === 0) {
         return val + " %";
       }
       return ""

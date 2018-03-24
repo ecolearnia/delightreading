@@ -2,14 +2,17 @@
 
 To build docker image of the server, execute the following from the `server` folder
 
-  ```
-  docker build -t delightreading-backend -f ./docker/Dockerfile .
-  ```
+```
+docker build -t delightreading-backend:0.1 -f ./docker/Dockerfile .
+docker tag delightreading-backend:0.1 ysahnpark/delightreading-backend:0.1
+
+docker push ysahnpark/delightreading-backend:0.1
+```
 
 To start the delightreading server in a conatiner with the dependencies (mongo & elasticsearch)
-  ```
-  docker-compose -f ./docker/docker-compose.yml up
-  ```
+```
+docker-compose -f ./docker/docker-compose.yml up
+```
 To stop
   ```
   docker-compose -f ./docker/docker-compose.yml down
