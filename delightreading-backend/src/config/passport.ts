@@ -12,6 +12,7 @@ import { UserAccount } from "../entity/UserAccount";
 import { UserAuth } from "../entity/UserAuth";
 import { UserService } from "../service/UserService";
 import * as googleUtils from "./google-utils";
+import * as facebookUtils from "./facebook-utils";
 
 const userService = new UserService();
 
@@ -117,6 +118,54 @@ passport.use(new passportGoogle.OAuth2Strategy({
       });
   }
 }));
+
+
+/**
+ * Sign in with Facebook.
+ */
+passport.use(new passportFacebook.Strategy({
+  clientID: process.env.FACEBOOK_ID,
+  clientSecret: process.env.FACEBOOK_SECRET,
+  callbackURL: "/auth/facebook/callback", // endpoint defined in routes/auth.ts
+  profileFields: [
+    "name", "about", "email", "age_range", "birthday", "gender", "languages", "hometown"
+    , "education", "interested_in", "work", "quotes", "website"
+    , "link", "locale", "timezone", "updated_time"
+    ],
+  passReqToCallback: true
+}, (req, token, tokenSecret, profile, done) => {
+  console.log(JSON.stringify(profile, undefined, 2));
+  if (req.user) {
+    // User already authenticated, link new SNS account
+    const account: UserAccount = req.user;
+    const auth = new UserAuth();
+    userService.linkAuth(account, auth)
+      .then((auth) => {
+        account.addAuth(auth);
+        done(account);
+      })
+      .catch((err: any) => {
+        done(err);
+      });
+  } else {
+    // User unauthenticated, create new user from SNS profile
+    // Verify email first
+
+    const account = facebookUtils.translateProfileToUser(profile);
+    console.log("account: " + JSON.stringify(account, undefined, 2));
+
+    userService.registerAccount(account)
+      .then((registeredAccount) => {
+        console.log("REGISTER SUCCESS");
+        done(undefined, registeredAccount);
+      })
+      .catch((err: any) => {
+        console.log("REGISTER ERROR");
+        done(err);
+      });
+  }
+}));
+
 
 /**
  * Login Required middleware.

@@ -1,15 +1,12 @@
 <template>
   <div >
     <form class="form-signin">
-      <h3 class="h3 mb-3 font-weight-normal">Sign up {{siteName}}</h3>
+      <h3 class="h3 mb-3 font-weight-normal">Sign in {{siteName}} with</h3>
 
       <a class="btn btn-lg btn-block btn-google" href="/auth/google">Continue with Google</a>
       <a class="btn btn-lg btn-block btn-facebook" href="/auth/facebook">Continue with Facebook</a>
       <hr />
-      <!--
-      Or with sign up with email
-      <label for="inputName" class="sr-only">Name</label>
-      <input type="text" id="inputName" class="form-control" placeholder="Name" required autofocus>
+      Or with sign in with email
       <label for="inputEmail" class="sr-only">Email address</label>
       <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
       <label for="inputPassword" class="sr-only">Password</label>
@@ -19,15 +16,14 @@
           <input type="checkbox" value="remember-me"> Remember me
         </label>
       </div>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
-      -->
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
   </div>
 </template>
 
 <script>
 export default {
-  name: "SignUp",
+  name: "SignIn",
   data() {
     return {
       siteName: "DelightReading"
