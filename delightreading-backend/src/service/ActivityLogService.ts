@@ -3,7 +3,6 @@
 import * as async from "async";
 import * as rootLogger from "pino";
 import * as moment from "moment";
-import { Repository, getRepository } from "typeorm";
 import { ServiceBase } from "./ServiceBase";
 import { Reference } from "../entity/Reference";
 import { ActivityLog } from "../entity/ActivityLog";

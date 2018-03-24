@@ -7,6 +7,7 @@ import { ActivityLog } from "./entity/ActivityLog";
 import { Goal } from "./entity/Goal";
 import { Reference } from "./entity/Reference";
 import { ReferencingLog } from "./entity/ReferencingLog";
+import { Ticket } from "./entity/Ticket";
 import { UserAccount } from "./entity/UserAccount";
 import { UserAuth } from "./entity/UserAuth";
 import { UserProfile } from "./entity/UserProfile";
@@ -25,7 +26,7 @@ const connConfig: ConnectionOptions = {
   // password: "",
   // database: "delightreading_dev",
   "entities": [
-    ActivityLog, Goal, Reference, ReferencingLog, UserAccount, UserAuth, UserProfile
+    ActivityLog, Goal, Reference, ReferencingLog, Ticket, UserAccount, UserAuth, UserProfile
   ],
   synchronize: false, // --> Re-creates database at every start
   logging: true // true

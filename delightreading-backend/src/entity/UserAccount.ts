@@ -6,6 +6,12 @@ import { UserAuth } from "./UserAuth";
 export class UserAccount extends EntityBase {
 
     @Column({
+        type: "json",
+        nullable: true
+    })
+    role: string;
+
+    @Column({
         type: "varchar",
         length: 64
     })

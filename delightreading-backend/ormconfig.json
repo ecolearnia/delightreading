@@ -1,6 +1,6 @@
 {
     "type": "postgres",
-    "url": "postgres://ltpqympm:ucxkt4PVqv_Dy1vDy1VsHr1L3YC9qWh4@baasu.db.elephantsql.com:5432/ltpqympm",
+    "url": "postgresql://delightreading:delightreading@localhost:5432/delightreading_dev",
     "unused": {
         "host": "localhost",
         "port": 5432,

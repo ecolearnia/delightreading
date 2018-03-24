@@ -5,6 +5,7 @@ import Goal from '@/components/Goal'
 import Readings from '@/components/Readings'
 import Home from '@/components/Home'
 import UserProfile from '@/components/UserProfile'
+import Tickets from '@/components/Tickets'
 
 import store from '../store'
 
@@ -19,6 +20,11 @@ const router = new Router({
       path: '/explore',
       name: 'Explore',
       component: Explore
+    },
+    {
+      path: '/tickets',
+      name: 'Tickets',
+      component: Tickets
     },
     {
       path: '/home',

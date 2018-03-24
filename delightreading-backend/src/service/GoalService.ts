@@ -1,7 +1,6 @@
 "use strict";
 
 import * as async from "async";
-import { Repository, getRepository } from "typeorm";
 import { ServiceBase } from "./ServiceBase";
 import { Reference } from "../entity/Reference";
 import { Goal } from "../entity/Goal";

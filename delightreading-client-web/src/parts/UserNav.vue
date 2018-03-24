@@ -5,7 +5,7 @@
         <a class="nav-link" :href="serverBaseUrl + '/auth/google'">Sign in</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Sign up</a>
+        <a class="nav-link" href="/signup">Sign up</a>
       </li>
     </ul>
 
