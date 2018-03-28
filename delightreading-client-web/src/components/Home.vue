@@ -321,9 +321,12 @@ export default {
         });
     },
     deleteEntry: function(sid) {
-      activityClient.deleteActivityLog(sid).then(() => {
-        this.loadLog();
-      });
+      let proceed = confirm("Do you really want to delete this log?");
+      if (proceed === true) {
+        activityClient.deleteActivityLog(sid).then(() => {
+          this.loadLog();
+        });
+      }
     },
 
     displayPercentage(val) {

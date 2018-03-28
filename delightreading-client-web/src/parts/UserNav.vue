@@ -26,7 +26,7 @@
             <a class="dropdown-item" href="#/userprofile">Profile</a>
             <a class="dropdown-item" href="#">Friends</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#"  v-on:click="doLogout">Sign out</a>
+            <a class="dropdown-item" href="/"  v-on:click="doLogout">Sign out</a>
           </div>
         </div>
       </li>

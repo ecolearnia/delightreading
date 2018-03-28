@@ -39,7 +39,7 @@ export let listTickets = async (req: Request, res: Response) => {
 
   let visibility = "public";
   if (!req.user) {
-    visibility = "public"
+    visibility = "public";
   }
 
   const pageRequest = controllerHelper.getPageRequest(req);

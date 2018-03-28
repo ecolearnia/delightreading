@@ -143,8 +143,8 @@ export default {
         });
     },
     isDeletable: function(ticket) {
-
       // debugger;
+      // TODO: this.myAccount is undefined, fix it.
       if (this.myAccount) {
         return (ticket.createdBy === this.myAccount.sid)
       }

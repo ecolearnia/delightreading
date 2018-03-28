@@ -3,10 +3,10 @@
 To build docker image of the server, execute the following from the `server` folder
 
 ```
-docker build -t delightreading-backend:0.1 -f ./docker/Dockerfile .
-docker tag delightreading-backend:0.1 ysahnpark/delightreading-backend:0.1
+docker build -t delightreading-app:0.1 -f ./docker/Dockerfile .
+docker tag delightreading-app:0.1 ysahnpark/delightreading-app:0.1
 
-docker push ysahnpark/delightreading-backend:0.1
+docker push ysahnpark/delightreading-app:0.1
 ```
 
 To start the delightreading server in a conatiner with the dependencies (mongo & elasticsearch)

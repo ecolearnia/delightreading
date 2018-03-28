@@ -3,7 +3,10 @@
         <h3>DelightReading by Seojin & Young-Suk</h3>
         <p>
         <a href="/about">About</a> |
-        <a href="/team">The Team</a>
+        <a href="/team">The Team</a> |
+        </p>
+        <p>
+        <a href="/app/#/tickets">Comments, reports or suggestions</a>
         </p>
         <p class="mt-5 mb-3 text-muted">&copy; {{siteName}} 2017-2018</p>
     </footer>

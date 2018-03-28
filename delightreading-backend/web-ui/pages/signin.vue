@@ -6,6 +6,7 @@
       <a class="btn btn-lg btn-block btn-google" href="/auth/google">Continue with Google</a>
       <a class="btn btn-lg btn-block btn-facebook" href="/auth/facebook">Continue with Facebook</a>
       <hr />
+      <!--
       Or with sign in with email
       <label for="inputEmail" class="sr-only">Email address</label>
       <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
@@ -17,6 +18,7 @@
         </label>
       </div>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      -->
     </form>
   </div>
 </template>

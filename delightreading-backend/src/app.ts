@@ -26,6 +26,13 @@ const app = express();
 // Express configuration
 app.set("port", process.env.PORT || 9090);
 
+if (process.env.TRUST_PROXY) {
+  // Becuase Heroku SSL is handled by nginx, Express' req.connection.encrypted is undefined
+  // @see - https://stackoverflow.com/questions/20739744/passportjs-callback-switch-between-http-and-https
+  console.log("  trust proxy enabled.");
+  app.enable("trust proxy");
+}
+
 app.use(cors());
 
 app.use(compression());
