@@ -146,7 +146,8 @@ export default {
       // debugger;
       // TODO: this.myAccount is undefined, fix it.
       if (this.myAccount) {
-        return (ticket.createdBy === this.myAccount.sid)
+        return (parseInt(ticket.createdBy) === this.myAccount.sid) ||
+          (this.myAccount.role && this.myAccount.role.includes("host"))
       }
       return false;
     },

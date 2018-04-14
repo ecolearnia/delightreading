@@ -39,14 +39,14 @@ export class ActivityLogService extends ServiceBase<ActivityLog> {
         return logs;
     }
 
-    async list(criteria?: any, skip: number = 0, take: number = 20): Promise<Array<ActivityLog>> {
+    async list(criteria?: any, skip: number = 0, take: number = 10): Promise<Array<ActivityLog>> {
 
         logger.info({ op: "list", criteria: criteria, skip: skip, take: take }, "Listing activityLog");
 
         const logs = await this.repo.createQueryBuilder("activity_log")
             .leftJoinAndMapOne("activity_log.reference", Reference, "reference", "activity_log.referenceSid=reference.sid")
             .where(TypeOrmUtils.andedWhereClause(criteria, "activity_log"), criteria)
-            .orderBy("activity_log.logTimestamp", "ASC")
+            .orderBy("activity_log.logTimestamp", "DESC")
             .skip(skip)
             .take(take)
             .getMany();

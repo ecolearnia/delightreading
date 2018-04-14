@@ -7,11 +7,13 @@ import { Response, Request, NextFunction } from "express";
 import ObjectUtils from "../utils/ObjectUtils";
 import * as controllerHelper from "./controller-helper";
 
+import { Permission, AccessControlService } from "../service/AccessControlService";
 import { Ticket } from "../entity/Ticket";
 import { TicketService } from "../service/TicketService";
 
 const logger = rootLogger().child({ module: "controller/ticket" });
 const ticketService = new TicketService();
+const accessControlService = new AccessControlService();
 
 /**
  */
@@ -68,8 +70,18 @@ export let updateMyTicket = async (req: Request, res: Response) => {
     sid: req.params.sid
   };
 
+  const ticket = await ticketService.findOneBySid(req.params.sid);
+  const permissions = await accessControlService.getPermissions(req.user, ticket);
+
   const updateFields = ObjectUtils.assignProperties({}, req.body,
     ["name", "description", "visibility", "tags"]);
+
+  if (permissions.has(Permission.ADMIN)) {
+    if (req.body.closed) {
+      updateFields.closedBy = req.user.sid;
+      updateFields.closeDate = new Date();
+    }
+  }
 
   const updatedTicket = await ticketService.update(criteria, updateFields);
 

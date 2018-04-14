@@ -47,6 +47,12 @@ export class Ticket extends EntityBase {
     visibility: string;
 
     @Column({
+        type: "varchar",
+        length: 12
+    })
+    status: string;
+
+    @Column({
         type: "date",
         nullable: true
     })

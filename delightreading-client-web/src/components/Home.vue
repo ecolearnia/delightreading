@@ -46,7 +46,16 @@
           <tbody>
             <tr v-for="readLogItem in readLog" v-bind:key="readLogItem.sid">
               <td><img :src="readLogItem.reference.thumbnailImageUrl" height="40"></td>
-              <td>{{ readLogItem.reference.title }}</td>
+              <td>{{ readLogItem.reference.title }}
+                <span class v-if="readLogItem.feedBody">
+                  <a data-toggle="collapse" :href="'#feedbackPane-' + readLogItem.sid" role="button" aria-expanded="false" aria-controls="Feedback"><i class="fas fa-comment-alt"></i></a>
+                  <div class="collapse" :id="'feedbackPane-' + readLogItem.sid">
+                    <div class="card card-body">
+                      <div class="dr-context-title">{{readLogItem.feedContext }}</div> {{readLogItem.feedBody }}
+                    </div>
+                  </div>
+                </span>
+              </td>
               <td :title="readLogItem.postEmotion"><img :src="emotionToImageSrc(readLogItem.postEmotion)" class="entry-icon"></td>
               <td>{{ readLogItem.logTimestamp | formatDate}}</td>
               <td class="numeric">{{ readLogItem.duration }}</td>
@@ -71,7 +80,7 @@
       </div>
     </div>
 
-    <!-- Modal {{ -->
+    <!-- Modal Reading Question Feed {{ -->
     <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -84,7 +93,7 @@
           <div class="modal-body">
             <form>
               <div class="form-group">
-                <label for="feed">One question I had was</label>
+                <label for="feed">{{readLogEntry.feedBody}}</label>
                 <textarea v-model="readLogEntry.feedBody" class="form-control" id="feedBody" rows="3"></textarea>
               </div>
               <div class="form-row">
@@ -167,12 +176,17 @@ export default {
         week: STATS_ENTRY_NEW,
         day: STATS_ENTRY_NEW
       },
+      feedContext: null,
       feedContexts: [
         "One question I had was",
         "One word I learned",
         "How did I feel after reading?",
-        "How would you change the story?"
+        "What could happen next?",
+        "I enjoyed reading because",
+        "The best part was",
+        "Reding summary"
       ],
+      // TODO: Factor out to separate component
       emotionOptions: [
         { title: "warm/touched", img: "https://emojipedia-us.s3.amazonaws.com/thumbs/144/twitter/131/smiling-face-with-smiling-eyes_1f60a.png" },
         { title: "glad", img: "https://emojipedia-us.s3.amazonaws.com/thumbs/72/twitter/131/grinning-face_1f600.png" },
@@ -192,11 +206,13 @@ export default {
   created() {
     this.loadLog();
     this.loadStats();
+    this.loadFeedContext();
   },
   mounted() {
     // @see: https://forum.vuejs.org/t/typeahead-js-with-vue/22231/2
     let refTitle = $(this.$refs.referenceTitle);
 
+    // TODO: Factor out the Title-typeahead - Use components/widget/BookTitleTypeaheadWidget
     var queryUrl = "https://www.googleapis.com/books/v1/volumes?q=%QUERY";
 
     var referenceTitlesSource = new Bloodhound({
@@ -265,6 +281,12 @@ export default {
           alert(error);
         });
     },
+    loadFeedContext: function() {
+      debugger;
+      let idx = Math.floor(Math.random() * this.feedContexts.length);
+
+      this.feedContext = this.feedContext[idx];
+    },
     clearForm: function() {
       this.readLogEntry = Object.assign({}, LOG_ENTRY_NEW);
     },
@@ -314,6 +336,7 @@ export default {
           this.loadLog();
           this.loadStats();
           this.clearForm();
+          this.loadFeedContext();
           $("#noteModal").modal("hide");
         })
         .catch(error => {
@@ -342,5 +365,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped>
-
+.dr-context-title {
+  font-size: 80%;
+  color: darkolivegreen;
+  font-weight: bold
+}
 </style>
