@@ -7,6 +7,7 @@ import { ReferencingLog } from "../src/entity/ReferencingLog";
 import { UserAccount } from "../src/entity/UserAccount";
 import { UserAuth } from "../src/entity/UserAuth";
 import { UserProfile } from "../src/entity/UserProfile";
+import { Ticket } from "../src/entity/Ticket";
 
 export async function createTestConnection( entities: any) {
     return await createConnection({
@@ -16,8 +17,10 @@ export async function createTestConnection( entities: any) {
         username: "test",
         password: "test",
         database: "test",
-        entities: [ActivityLog, Goal, Reference, ReferencingLog, UserAccount, UserAuth, UserProfile],
-        logging: true,
+        entities: [ActivityLog, Goal, Reference, ReferencingLog, UserAccount, UserAuth, UserProfile,
+            Ticket
+        ],
+        logging: false, // true,
         dropSchema: true, // Isolate each test case
         synchronize: true // regenerate tables
       });

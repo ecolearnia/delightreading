@@ -48,7 +48,8 @@
               <td><img :src="readLogItem.reference.thumbnailImageUrl" height="40"></td>
               <td>{{ readLogItem.reference.title }}
                 <span class v-if="readLogItem.feedBody">
-                  <a data-toggle="collapse" :href="'#feedbackPane-' + readLogItem.sid" role="button" aria-expanded="false" aria-controls="Feedback"><i class="fas fa-comment-alt"></i></a>
+                  <a data-toggle="collapse" :href="'#feedbackPane-' + readLogItem.sid" role="button" aria-expanded="false" aria-controls="Feedback">
+                    <i class="fas fa-comment-alt"></i></a>
                   <div class="collapse" :id="'feedbackPane-' + readLogItem.sid">
                     <div class="card card-body">
                       <div class="dr-context-title">{{readLogItem.feedContext }}</div> {{readLogItem.feedBody }}
@@ -93,7 +94,7 @@
           <div class="modal-body">
             <form>
               <div class="form-group">
-                <label for="feed">{{readLogEntry.feedBody}}</label>
+                <label for="feed">{{feedContext}}</label>
                 <textarea v-model="readLogEntry.feedBody" class="form-control" id="feedBody" rows="3"></textarea>
               </div>
               <div class="form-row">
@@ -284,8 +285,7 @@ export default {
     loadFeedContext: function() {
       debugger;
       let idx = Math.floor(Math.random() * this.feedContexts.length);
-
-      this.feedContext = this.feedContext[idx];
+      this.feedContext = this.feedContexts[idx];
     },
     clearForm: function() {
       this.readLogEntry = Object.assign({}, LOG_ENTRY_NEW);

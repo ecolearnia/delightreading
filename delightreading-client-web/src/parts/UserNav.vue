@@ -23,6 +23,7 @@
         <div class="dropdown">
           <a class="nav-link dropdown-toggle"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img :src="myAccount.pictureUri" class="rounded-circle nav-pic" ></a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+            <span class="dropdown-item dr-item-imp" >{{myAccount.givenName}} {{myAccount.familyName}}</span>
             <a class="dropdown-item" href="#/userprofile">Profile</a>
             <a class="dropdown-item" href="#">Friends</a>
             <div class="dropdown-divider"></div>
@@ -72,5 +73,10 @@ export default {
 
 .nav-icon {
   height: 30px;
+}
+.dr-item-imp {
+  text-transform: uppercase;
+  font-size: 80%;
+  font-weight: bold
 }
 </style>

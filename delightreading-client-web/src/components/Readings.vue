@@ -34,11 +34,27 @@
       <tbody>
         <tr v-for="referencingLog in referencingLogs" v-bind:key="referencingLog.sid">
           <td><img :src="referencingLog.reference.thumbnailImageUrl" height="40"></td>
-          <td>{{ referencingLog.reference.title }}</td>
+          <td>{{ referencingLog.reference.title }}
+            <span class v-if="referencingLog.review">
+              <a data-toggle="collapse" :href="'#reviewPane-' + referencingLog.sid" role="button" aria-expanded="false" aria-controls="review">
+                <i class="fas fa-comment-alt"></i></a>
+              <div class="collapse" :id="'reviewPane-' + referencingLog.sid">
+                <div class="card card-body">
+                  {{ referencingLog.review }}
+                </div>
+              </div>
+            </span>
+          </td>
           <td>{{ referencingLog.startDate | formatDate}}</td>
           <td>{{ referencingLog.endDate | formatDate}}</td>
           <td>{{ displayStat(referencingLog.activityStat) }}  {{ displayPercentage(referencingLog.percentageComplete) }}</td>
-          <td><VueStars :name="'myRating-'+referencingLog.sid" v-model="referencingLog.myRating" @input="(rating) => onRatingInput(referencingLog.sid, rating)" />
+          <td>
+            <div v-if="referencingLog.percentageComplete>=100">
+              <VueStars :name="'myRating-'+referencingLog.sid" v-model="referencingLog.myRating" @input="(rating) => onRatingInput(referencingLog.sid, rating)" />
+            </div>
+            <div v-else class="dr-smalll-info">
+              Finish reading to rate
+            </div>
           </td>
           <td>
             <button v-if="isDeletable(referencingLog)" type="button" class="btn btn-danger" v-on:click="deleteEntry(referencingLog.sid)" >X</button>
@@ -61,7 +77,7 @@
             <form>
               <div class="form-group">
                 <label for="feed">What did you like from this book?</label>
-                <textarea v-model="selectedEntry.likeReason" class="form-control" id="likeReason" rows="3"></textarea>
+                <textarea v-model="selectedEntry.review" class="form-control" id="review" rows="3"></textarea>
               </div>
             </form>
           </div>
@@ -182,7 +198,7 @@ export default {
         return;
       }
       referencingLogClient
-        .updateReferencingLog(this.selectedEntry.sid, {likeReason: this.selectedEntry.likeReason})
+        .updateReferencingLog(this.selectedEntry.sid, {review: this.selectedEntry.review})
         .then(response => {
           this.clearForm();
           $("#feedbackModal").modal("hide");
@@ -220,5 +236,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.dr-smalll-info {
+  font-size: 80%;
+  color: darkolivegreen;
+}
 </style>
