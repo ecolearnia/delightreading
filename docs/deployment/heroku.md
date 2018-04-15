@@ -31,7 +31,10 @@ $heroku config:set --app delightreading SERVER_BASE_URL=
 ```
 
 # Build docker image and push to heroku docker registry
-Build docker image 
+Build docker image, 
+(If you 
+`https://registry-1.docker.io/..: unauthorized: incorrect username or password`
+you will need to get login to docker first: `docker login`)
 ```
 $docker build -t delightreading-app:0.2 -f ./docker/Dockerfile .
 ```

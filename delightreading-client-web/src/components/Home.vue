@@ -328,7 +328,12 @@ export default {
         });
     },
     updateLogWithFeedback: function() {
+      if (this.readLogEntry.percentageComplete > 100) {
+        alert("Percentage cannot be greater than 100.");
+        return;
+      }
       const readLogEntry = Object.assign({}, this.readLogEntry);
+      readLogEntry.feedContext = this.feedContext;
       readLogEntry.postEmotion = this.readLogEntry.postEmotion && this.readLogEntry.postEmotion.title;
       activityClient
         .updateActivityLog(readLogEntry.sid, readLogEntry)
