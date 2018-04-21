@@ -33,7 +33,9 @@ export let addMyActivityLog = async (req: Request, res: Response) => {
   if (!reference) {
     logger.info({op: "addActivityLog", referenceSourceUri: req.body.referenceSourceUri}, "Adding Reference");
     const gbook = await GoogleBooksClient.getBookByUri(req.body.referenceSourceUri);
+    logger.info({op: "addActivityLog", bookInfo: gbook}, "Book info retrieved from GoogleBook API");
     reference = GoogleBooksClient.toReference(gbook);
+    logger.info({op: "addActivityLog", reference: reference}, "GoogleBook normalized");
     reference = await referenceService.save(reference);
   }
 

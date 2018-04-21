@@ -283,7 +283,6 @@ export default {
         });
     },
     loadFeedContext: function() {
-      debugger;
       let idx = Math.floor(Math.random() * this.feedContexts.length);
       this.feedContext = this.feedContexts[idx];
     },

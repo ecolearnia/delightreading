@@ -68,8 +68,8 @@ export default class GoogleBooksClient {
             ratingsCount: gbookVol.volumeInfo.ratingsCount,
             maturityRating: gbookVol.volumeInfo.maturityRating,
             language: gbookVol.volumeInfo.language,
-            imageUrl: gbookVol.volumeInfo.imageLinks.small,
-            thumbnailImageUrl: gbookVol.volumeInfo.imageLinks.thumbnail,
+            imageUrl: gbookVol.volumeInfo.imageLinks && gbookVol.volumeInfo.imageLinks.small,
+            thumbnailImageUrl: gbookVol.volumeInfo.imageLinks && gbookVol.volumeInfo.imageLinks.thumbnail,
             awards: awards
         });
 
