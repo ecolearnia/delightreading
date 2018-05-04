@@ -3,7 +3,7 @@ import { ActivityLog } from "../../src/entity/ActivityLog";
 
 export function newActivityLog(accountSid: number, referenceSid: number, goalSid: number, 
     activity: string, duration: number, logTimestamp: Date = new Date(), referencingLogSid = undefined): ActivityLog 
-  {
+{
     const activityLog = new ActivityLog({
         accountSid: accountSid,
         referenceSid: referenceSid,

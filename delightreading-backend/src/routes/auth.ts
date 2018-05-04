@@ -1,11 +1,11 @@
 import * as jwtUtils from "../config/jwt-utils";
-import * as rootLogger  from "pino";
+import { Logger, LoggerUtils } from "../utils/Logger";
 import * as passport from "passport";
 import * as express from "express";
 
 const COOKIE_NAME = "dr_token";
 
-const logger = rootLogger().child({ module: "routes/auth" });
+const logger = LoggerUtils.child({ module: "routes/auth" });
 
 const router = express.Router();
 

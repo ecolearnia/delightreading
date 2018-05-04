@@ -16,12 +16,12 @@ describe("UserService", () => {
     connection = await createTestConnection([UserAccount, UserAuth]);
 
     sut = new UserService();
-    const activityLogs = Array<UserAccount>();
-    activityLogs.push(sut.newAccount("john", "john@testland.com", "jo", "John", "Doe"));
-    activityLogs.push(sut.newAccount("jane", "jane@testland.com", "ja", "Jane", "Deer"));
+    const userAccounts = Array<UserAccount>();
+    userAccounts.push(sut.newAccount("john", "john@testland.com", "jo", "John", "Doe"));
+    userAccounts.push(sut.newAccount("jane", "jane@testland.com", "ja", "Jane", "Deer"));
 
-    const saved1 = await sut.saveAccount(activityLogs[0]);
-    const saved2 = await sut.saveAccount(activityLogs[1]);
+    const saved1 = await sut.saveAccount(userAccounts[0]);
+    const saved2 = await sut.saveAccount(userAccounts[1]);
   });
 
   afterEach(async () => {

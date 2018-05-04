@@ -1,13 +1,6 @@
 {
     "type": "postgres",
-    "url": "postgres://ltpqympm:ucxkt4PVqv_Dy1vDy1VsHr1L3YC9qWh4@baasu.db.elephantsql.com:5432/ltpqympm",
-    "unused": {
-        "host": "localhost",
-        "port": 5432,
-        "username": "delightreading",
-        "password": "delightreading",
-        "database": "delightreading_dev"
-    },
+    "url": "postgresql://delightreading:delightreading@localhost:5432/delightreading_test",
     "synchronize": false,
     "logging": true,
     "entities": [

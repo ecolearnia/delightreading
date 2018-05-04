@@ -1,7 +1,7 @@
 "use strict";
 
 import * as async from "async";
-import * as rootLogger from "pino";
+import { Logger, LoggerUtils } from "../utils/Logger";
 import { Response, Request, NextFunction } from "express";
 
 import ObjectUtils from "../utils/ObjectUtils";
@@ -10,7 +10,7 @@ import * as controllerHelper from "./controller-helper";
 import { Goal } from "../entity/Goal";
 import { GoalService } from "../service/GoalService";
 
-const logger = rootLogger().child({ module: "controller/goal" });
+const logger = LoggerUtils.child({ module: "controller/goal" });
 const goalService = new GoalService();
 
 /**

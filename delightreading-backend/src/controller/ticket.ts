@@ -1,7 +1,7 @@
 "use strict";
 
 import * as async from "async";
-import * as rootLogger from "pino";
+import { Logger, LoggerUtils } from "../utils/Logger";
 import { Response, Request, NextFunction } from "express";
 
 import ObjectUtils from "../utils/ObjectUtils";
@@ -11,7 +11,7 @@ import { Permission, AccessControlService } from "../service/AccessControlServic
 import { Ticket } from "../entity/Ticket";
 import { TicketService } from "../service/TicketService";
 
-const logger = rootLogger().child({ module: "controller/ticket" });
+const logger = LoggerUtils.child({ module: "controller/ticket" });
 const ticketService = new TicketService();
 const accessControlService = new AccessControlService();
 

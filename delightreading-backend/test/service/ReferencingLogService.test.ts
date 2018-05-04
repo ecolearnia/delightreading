@@ -84,6 +84,8 @@ describe("ReferencingLogService", () => {
       expect(result).to.have.lengthOf(2);
       expect(result[0].review).to.equal("r2");
       expect(result[1].review).to.equal("r1");
+      expect(result[1].activityStat.totalCount).to.equal(1); // one activity
+      expect(result[1].activityStat.totalDuration).to.equal(11); // one activity with 11 minutes
     });
   });
 

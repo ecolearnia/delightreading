@@ -1,5 +1,5 @@
 import * as express from "express";
-import * as rootLogger  from "pino";
+import { Logger, LoggerUtils } from "../utils/Logger";
 import * as passport from "passport";
 import * as manageRoute from "./manage";
 import * as authRoute from "./auth";

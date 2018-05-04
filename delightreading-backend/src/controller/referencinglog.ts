@@ -1,7 +1,7 @@
 "use strict";
 
 import * as async from "async";
-import * as rootLogger  from "pino";
+import { Logger, LoggerUtils } from "../utils/Logger";
 import { Response, Request, NextFunction } from "express";
 
 import ObjectUtils from "../utils/ObjectUtils";
@@ -13,7 +13,7 @@ import { ReferencingLog } from "../entity/ReferencingLog";
 import { ReferencingLogService } from "../service/ReferencingLogService";
 import GoogleBooksClient from "../utils/GoogleBooksClient";
 
-const logger = rootLogger().child({ module: "controller/referencinglog" });
+const logger = LoggerUtils.child({ module: "controller/referencinglog" });
 
 const referenceService =  new ReferenceService();
 const referencingLogService =  new ReferencingLogService();

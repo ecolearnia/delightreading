@@ -7,6 +7,8 @@ import { ReferencingLog } from "../src/entity/ReferencingLog";
 import { UserAccount } from "../src/entity/UserAccount";
 import { UserAuth } from "../src/entity/UserAuth";
 import { UserProfile } from "../src/entity/UserProfile";
+import { UserGroup } from "../src/entity/UserGroup";
+import { UserGroupMember } from "../src/entity/UserGroupMember";
 import { Ticket } from "../src/entity/Ticket";
 
 export async function createTestConnection( entities: any) {
@@ -14,10 +16,11 @@ export async function createTestConnection( entities: any) {
         type: "postgres",
         host: "localhost",
         port: 5432,
-        username: "test",
-        password: "test",
-        database: "test",
-        entities: [ActivityLog, Goal, Reference, ReferencingLog, UserAccount, UserAuth, UserProfile,
+        username: "delightreading",
+        password: "delightreading",
+        database: "delightreading_test",
+        entities: [ActivityLog, Goal, Reference, ReferencingLog, 
+            UserAccount, UserAuth, UserProfile, UserGroup, UserGroupMember,
             Ticket
         ],
         logging: false, // true,

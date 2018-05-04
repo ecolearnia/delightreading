@@ -61,3 +61,27 @@ export class ReferencingLog  {
 	};
 }
 ```
+
+
+
+
+
+ "activityStat".* FROM "referencing_log" "referencing_log" 
+ LEFT JOIN "reference" "reference" ON referencing_log."referenceSid" = "reference"."sid"  
+ LEFT JOIN (
+	 SELECT activity_log."referencingLogSid", sum("activity_log"."duration") AS "totalDuration", 
+	 count("activity_log"."sid") AS "totalCount" 
+	 FROM "activity_log" "activity_log" GROUP BY activity_log."referencingLogSid"
+	 ) "activityStat" 
+ON "referencing_log"."sid" = "activityStat"."referencingLogSid" 
+WHERE ("referencing_log"."accountSid" = $1) AND "referencing_log"."sid" IN (2, 1) 
+ORDER BY "referencing_log"."startDate" DESC -- PARAMETERS: [1]
+
+ "stat".* FROM "user_group" "user_group" 
+LEFT JOIN (
+	SELECT user_group_member."groupSid", count("user_group_member"."sid") AS "memberCount" 
+	FROM "user_group_member" "user_group_member" GROUP BY user_group_member."groupSid"
+	) "stat" 
+ON "user_group"."sid" = "stat"."groupSid"  
+WHERE ("user_group"."type" = $1) AND "user_group"."sid" IN (1, 3) 
+ORDER BY "user_group"."startDate" DESC -- PARAMETERS: ["family"]

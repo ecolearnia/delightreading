@@ -1,7 +1,6 @@
 "use strict";
 
 import * as async from "async";
-import * as rootLogger from "pino";
 import * as moment from "moment";
 import { ServiceBase } from "./ServiceBase";
 import { Reference } from "../entity/Reference";
@@ -10,8 +9,6 @@ import { ActivityStat } from "../entity/valueobject/ActivityStat";
 
 
 import TypeOrmUtils from "../utils/TypeOrmUtils";
-
-const logger = rootLogger().child({ module: "ActivityLogService" });
 
 
 export class ActivityLogService extends ServiceBase<ActivityLog> {
@@ -23,7 +20,7 @@ export class ActivityLogService extends ServiceBase<ActivityLog> {
 
     async find(criteria?: any, skip: number = 0, take: number = 20): Promise<Array<ActivityLog>> {
 
-        logger.info({ op: "list", criteria: criteria }, "Listing activityLog");
+        this.logger.info({ op: "list", criteria: criteria }, "Listing activityLog");
 
         // const logs = await this.activityLogRepo.find(criteria);
 
@@ -34,14 +31,14 @@ export class ActivityLogService extends ServiceBase<ActivityLog> {
             .take(take)
             .getMany();
 
-        logger.info({ op: "list", logs: logs }, "Listing activityLog successful");
+        this.logger.info({ op: "list", logs: logs }, "Listing activityLog successful");
 
         return logs;
     }
 
     async list(criteria?: any, skip: number = 0, take: number = 10): Promise<Array<ActivityLog>> {
 
-        logger.info({ op: "list", criteria: criteria, skip: skip, take: take }, "Listing activityLog");
+        this.logger.info({ op: "list", criteria: criteria, skip: skip, take: take }, "Listing activityLog");
 
         const logs = await this.repo.createQueryBuilder("activity_log")
             .leftJoinAndMapOne("activity_log.reference", Reference, "reference", "activity_log.referenceSid=reference.sid")
@@ -51,7 +48,7 @@ export class ActivityLogService extends ServiceBase<ActivityLog> {
             .take(take)
             .getMany();
 
-        logger.info({ op: "list", resultCount: logs && logs.length }, "Listing activityLog successful");
+        this.logger.info({ op: "list", resultCount: logs && logs.length }, "Listing activityLog successful");
 
         return logs;
     }
@@ -91,7 +88,7 @@ export class ActivityLogService extends ServiceBase<ActivityLog> {
      * @param accountSid - The account number
      */
     async stats(accountSid: number, date: Date = new Date(), activity: string = "read"): Promise<any> {
-        logger.info({ op: "currentStats", accountSid: accountSid }, "Stats activityLog");
+        this.logger.info({ op: "currentStats", accountSid: accountSid }, "Stats activityLog");
 
         const startOfMonth = moment(date).startOf("month");
         const endOfMonth = moment(date).endOf("month");
@@ -157,7 +154,7 @@ export class ActivityLogService extends ServiceBase<ActivityLog> {
     async timeSeries(accountSid: number, period: string, fromDate: Date, toDate: Date, activity: string): Promise<any> {
         // TODO: validate period
 
-        logger.info({ op: "timeSeries", accountSid: accountSid, period: period, fromDate: fromDate, toDate: toDate }, "TimeSeries activityLog");
+        this.logger.info({ op: "timeSeries", accountSid: accountSid, period: period, fromDate: fromDate, toDate: toDate }, "TimeSeries activityLog");
 
         // This does not include time periods where no there is no matching rows
         // const queryParams = { accountSid: accountSid, fromDate: fromDate, toDate: toDate }
@@ -195,7 +192,7 @@ export class ActivityLogService extends ServiceBase<ActivityLog> {
             element.activityDuration = Number(element.activityDuration);
         });
 
-        logger.info({ op: "timeSeries", timeSeries: timeSeries }, "TimeSeries activityLog successful");
+        this.logger.info({ op: "timeSeries", timeSeries: timeSeries }, "TimeSeries activityLog successful");
 
         return timeSeries;
     }

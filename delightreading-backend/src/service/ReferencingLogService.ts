@@ -43,6 +43,7 @@ export class ReferencingLogService extends ServiceBase<ReferencingLog> {
             .leftJoinAndMapOne("referencing_log.reference", Reference, "reference", "referencing_log.\"referenceSid\" = reference.sid")
             // .leftJoinAndSelect(`(${activityStatSelect.getSql()})`, "activityStat", "referencing_log.sid = \"activityStat\".\"referencingLogSid\"" )
             // .leftJoinAndMapOne("referencing_log.activityStat", `(${activityStatSelect.getSql()})`, "activitystat", "referencing_log.sid = activitystat.\"referencingLogSid\"" )
+            // referencingLog.activityStat is the indicating to populate the activityStat property in the leftJoinAndMapOne object
             .leftJoinAndMapOne("referencingLog.\"activityStat\"", (qb) => {
                 return qb.subQuery()
                     .select("activity_log.\"referencingLogSid\"")

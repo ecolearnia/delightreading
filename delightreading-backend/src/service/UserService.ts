@@ -2,7 +2,6 @@
 
 import * as async from "async";
 import * as uuidv4 from "uuid/v4";
-import * as rootLogger from "pino";
 
 import { getRepository } from "typeorm";
 import { UserAccount } from "../entity/UserAccount";
@@ -11,8 +10,6 @@ import { UserProfile } from "../entity/UserProfile";
 import { ServiceBase } from "./ServiceBase";
 
 import TypeOrmUtils from "../utils/TypeOrmUtils";
-
-const logger = rootLogger().child({ module: "UserService" });
 
 export class UserService extends ServiceBase<UserAccount> {
 
@@ -55,25 +52,25 @@ export class UserService extends ServiceBase<UserAccount> {
 
     async saveAccount(userAccount: UserAccount): Promise<UserAccount> {
 
-        logger.trace({ op: "saveAccount", userAccount: userAccount }, "Saving account");
+        this.logger.trace({ op: "saveAccount", userAccount: userAccount }, "Saving account");
 
         const userAccountRepo = getRepository(UserAccount);
         if (userAccount.uid === undefined) {
             userAccount.uid = uuidv4();
         }
         const savedUserAccount = await userAccountRepo.save(userAccount);
-        logger.info({ op: "saveAccount", userAccount: savedUserAccount }, "Save account successfufl");
+        this.logger.info({ op: "saveAccount", userAccount: savedUserAccount }, "Save account successfufl");
 
         return savedUserAccount;
     }
 
     async updateAccount(criteria: any, fields: any): Promise<void> {
 
-        logger.trace({ op: "updateAccount", criteria: criteria, fields: fields }, "Updating account");
+        this.logger.trace({ op: "updateAccount", criteria: criteria, fields: fields }, "Updating account");
 
         const userAccountRepo = getRepository(UserAccount);
         await userAccountRepo.update(criteria, fields);
-        logger.info({ op: "updateAccount", criteria: criteria, fields: fields }, "Update account successful");
+        this.logger.info({ op: "updateAccount", criteria: criteria, fields: fields }, "Update account successful");
     }
 
     async findAccountBySid(sid: number): Promise<UserAccount> {
@@ -90,12 +87,12 @@ export class UserService extends ServiceBase<UserAccount> {
 
     async findAccountBy(criteria: any): Promise<UserAccount> {
 
-        logger.trace({ op: "findAccountBy", criteria: criteria }, "Retrieving account");
+        this.logger.trace({ op: "findAccountBy", criteria: criteria }, "Retrieving account");
 
         const userAccountRepo = getRepository(UserAccount);
         const foundAccount = await userAccountRepo.findOne(criteria);
 
-        logger.info({ op: "findAccountBy", foundAccount: foundAccount }, "Retrieve account successful");
+        this.logger.info({ op: "findAccountBy", foundAccount: foundAccount }, "Retrieve account successful");
 
         return foundAccount;
     }
@@ -116,7 +113,7 @@ export class UserService extends ServiceBase<UserAccount> {
      * @param account
      */
     async registerAccount(account: UserAccount): Promise<UserAccount> {
-        logger.trace({ op: "registerAccount", account: account }, "Registering account");
+        this.logger.trace({ op: "registerAccount", account: account }, "Registering account");
 
         const existingAccount = await this.findAccountByUsername(account.username);
 
@@ -198,7 +195,7 @@ export class UserService extends ServiceBase<UserAccount> {
 
     async saveProfile(profile: UserProfile): Promise<UserProfile> {
 
-        logger.info({ op: "saveProfile", profile: profile }, "Saving profile");
+        this.logger.info({ op: "saveProfile", profile: profile }, "Saving profile");
 
         super.prepareForSaving(profile);
         if (profile.account) {
@@ -223,7 +220,7 @@ export class UserService extends ServiceBase<UserAccount> {
         }
         const savedProfile = await profileRepo.save(profile);
 
-        logger.info({ op: "saveProfile", profile: profile }, "Save profile successful");
+        this.logger.info({ op: "saveProfile", profile: profile }, "Save profile successful");
 
         return savedProfile;
     }
@@ -234,7 +231,7 @@ export class UserService extends ServiceBase<UserAccount> {
 
     async findProfile(criteria?: any): Promise<UserProfile> {
 
-        logger.info({ op: "findProfile", criteria: criteria }, "Retrieving single userProfile");
+        this.logger.info({ op: "findProfile", criteria: criteria }, "Retrieving single userProfile");
 
         const profileRepo = getRepository(UserProfile);
 
@@ -245,7 +242,7 @@ export class UserService extends ServiceBase<UserAccount> {
             .getOne();
 
 
-        logger.info({ op: "findProfile", profile: profile }, "Retrieving single userProfile successful");
+        this.logger.info({ op: "findProfile", profile: profile }, "Retrieving single userProfile successful");
 
         return profile;
     }

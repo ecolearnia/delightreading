@@ -1,6 +1,7 @@
 import "reflect-metadata";
 
 import * as express from "express";
+import { Logger, LoggerUtils } from "./utils/Logger";
 import { createConnection, ConnectionOptions } from "typeorm";
 
 import { ActivityLog } from "./entity/ActivityLog";
@@ -16,6 +17,8 @@ import { UserProfile } from "./entity/UserProfile";
 const { Nuxt, Builder } = require("nuxt");
 
 import * as errorHandler from "errorhandler";
+
+LoggerUtils.setLevel("info");
 
 const connConfig: ConnectionOptions = {
   type: "postgres",

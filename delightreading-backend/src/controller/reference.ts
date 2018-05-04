@@ -1,7 +1,7 @@
 "use strict";
 
 import * as async from "async";
-import * as rootLogger from "pino";
+import { Logger, LoggerUtils } from "../utils/Logger";
 import { Response, Request, NextFunction } from "express";
 
 import ObjectUtils from "../utils/ObjectUtils";
@@ -10,7 +10,7 @@ import * as controllerHelper from "./controller-helper";
 import { Reference } from "../entity/Reference";
 import { ReferenceService } from "../service/ReferenceService";
 
-const logger = rootLogger().child({ module: "controller/reference" });
+const logger = LoggerUtils.child({ module: "controller/reference" });
 const referenceService = new ReferenceService();
 
 export let listReferences = async (req: Request, res: Response) => {

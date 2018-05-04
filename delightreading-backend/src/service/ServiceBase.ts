@@ -1,5 +1,5 @@
 import * as uuidv4 from "uuid/v4";
-import * as rootLogger from "pino";
+import { Logger, LoggerUtils } from "../utils/Logger";
 import { ObjectType } from "typeorm/common/ObjectType";
 import { Repository, getRepository, Entity } from "typeorm";
 import { EntityBase } from "../entity/EntityBase";
@@ -7,14 +7,14 @@ import { UserAccount } from "../entity/UserAccount";
 
 export class ServiceBase<T extends EntityBase> {
 
-    logger: rootLogger.Logger = undefined;
+    logger: Logger = undefined;
 
     entityType: string;
     repo: Repository<T>;
 
     constructor(entityClass: ObjectType<T>) {
         this.entityType = entityClass.name;
-        this.logger = rootLogger().child({ module: "ServiceBase/" + this.entityType });
+        this.logger = LoggerUtils.child({ module: "ServiceBase/" + this.entityType });
         this.repo = getRepository(entityClass);
     }
 

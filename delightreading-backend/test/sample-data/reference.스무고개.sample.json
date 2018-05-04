@@ -1,0 +1,26 @@
+{
+	"createdBy": null,
+	"sourceUri": "https://www.googleapis.com/books/v1/volumes/yD79ngEACAAJ",
+
+	"title": "스무 고개 탐정 과 마술사",
+	"authors": ["허교범"],
+	"publisher": "비룡소",
+	"publishedDate": "2013",
+	"identifiers": [{
+		"type": "ISBN_10",
+		"identifier": "8949195194"
+	}, {
+		"type": "ISBN_13",
+		"identifier": "9788949195193"
+	}],
+	"readingModes": {
+		"text": false,
+		"image": false
+	},
+	"pageCount": 184,
+	"printedPageCount": 184,
+	"printType": "BOOK",
+	"maturityRating": "NOT_MATURE",
+	"language": "ko",
+	"awards": []
+}
