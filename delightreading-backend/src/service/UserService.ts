@@ -59,7 +59,7 @@ export class UserService extends ServiceBase<UserAccount> {
             userAccount.uid = uuidv4();
         }
         const savedUserAccount = await userAccountRepo.save(userAccount);
-        this.logger.info({ op: "saveAccount", userAccount: savedUserAccount }, "Save account successfufl");
+        this.logger.info({ op: "saveAccount", userAccount: savedUserAccount }, "Save account successful");
 
         return savedUserAccount;
     }

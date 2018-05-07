@@ -29,6 +29,37 @@ export class UserGroupService extends ServiceBase<UserGroup> {
     }
 
     async list(criteria?: any, skip: number = 0, take: number = 20): Promise<Array<UserGroup>> {
+        this.logger.info({ op: "list", criteria: criteria }, "Listing userGroups");
+
+        // const groups = await this.repo.createQueryBuilder("user_group")
+        //     .select("count(user_group_member.sid)", "memberCount")
+        //     .leftJoinAndSelect("user_group_member", "user_group_member", "user_group.sid = \"user_group_member\".\"groupSid\" ")
+        //     .groupBy("user_group.sid")
+        //     .addGroupBy("user_group_member.sid")
+        //     .addGroupBy("\"user_group_member\".\"groupSid\"")
+        //     .skip(skip).take(take).getMany();
+
+        let sql = "SELECT user_group.*, count(user_group_member.sid) as memberCount FROM user_group " 
+            + " LEFT JOIN user_group_member ON user_group.sid = user_group_member.\"groupSid\" "
+        
+        let paramVals;
+        if (criteria) {
+            sql += " WHERE " + TypeOrmUtils.andedWhereClause(criteria, "user_group", TypeOrmUtils.SqlParamType.DOLLAR);
+            paramVals = Object.values(criteria);
+        }
+        sql += " GROUP BY user_group.sid";
+
+        
+        console.log("SQL:" + sql);
+        const groups = await this.repo.query(sql, paramVals)
+        
+        this.logger.info({ op: "list", groups: groups }, "Listing userGroups successful");
+
+        return groups;
+
+    }
+
+    async list2(criteria?: any, skip: number = 0, take: number = 20): Promise<Array<UserGroup>> {
 
         this.logger.info({ op: "list", criteria: criteria }, "Listing userGroups");
 

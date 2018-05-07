@@ -6,11 +6,15 @@ import { ActivityLogService } from "../../src/service/ActivityLogService";
 import { Reference } from "../../src/entity/Reference";
 import { ReferenceService } from "../../src/service/ReferenceService";
 
+import { Logger, LoggerUtils } from "../../src/utils/Logger";
+
 const sampleReference = require("../sample-data/reference.hole.sample.json");
 
 const expect = require("chai").expect;
 
 describe("ActivityLogService", () => {
+
+  LoggerUtils.setLevel("warn");
 
   let connection: Connection;
   let sut: ActivityLogService;
@@ -76,7 +80,7 @@ describe("ActivityLogService", () => {
       const service = new ActivityLogService();
 
       const result = await service.list({accountSid: 1});
-      console.log("ActivityLogs: " + JSON.stringify(result, undefined, 2));
+      // console.log("ActivityLogs: " + JSON.stringify(result, undefined, 2));
 
       expect(result).to.have.lengthOf(5);
       expect(result[0].reference).to.equal(undefined);
@@ -105,7 +109,7 @@ describe("ActivityLogService", () => {
       const service = new ActivityLogService();
 
       const result = await service.statsByReferencingLog(1);
-      console.log("statsByReferencingLog: " + JSON.stringify(result, undefined, 2));
+      // console.log("statsByReferencingLog: " + JSON.stringify(result, undefined, 2));
 
       expect(result.totalDuration).to.equal(23);
       expect(result.totalCount).to.equal(2);

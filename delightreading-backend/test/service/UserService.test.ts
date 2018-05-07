@@ -5,15 +5,19 @@ import { UserAuth } from "../../src/entity/UserAuth";
 import { UserProfile } from "../../src/entity/UserProfile";
 import { UserService } from "../../src/service/UserService";
 
+import { Logger, LoggerUtils } from "../../src/utils/Logger";
+
 const expect = require("chai").expect;
 
 describe("UserService", () => {
+
+  LoggerUtils.setLevel("warn");
 
   let connection: Connection;
   let sut: UserService;
 
   beforeEach(async () => {
-    connection = await createTestConnection([UserAccount, UserAuth]);
+    connection = await createTestConnection(undefined);
 
     sut = new UserService();
     const userAccounts = Array<UserAccount>();

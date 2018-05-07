@@ -4,11 +4,15 @@ import { createTestConnection } from "../ormconnect";
 import { Reference } from "../../src/entity/Reference";
 import { ReferenceService } from "../../src/service/ReferenceService";
 
+import { Logger, LoggerUtils } from "../../src/utils/Logger";
+
 const sampleReference = require("../sample-data/reference.hole.sample.json");
 
 const expect = require("chai").expect;
 
 describe("ReferenceService", () => {
+
+  LoggerUtils.setLevel("warn");
 
   let connection: Connection;
   let sut: ReferenceService;

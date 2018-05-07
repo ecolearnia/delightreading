@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn, Generated } from "typeorm";
 import { EntityBase } from "./EntityBase";
-import { GroupStat } from "./valueobject/GroupStat";
 
 @Entity("user_group")
 export class UserGroup extends EntityBase {
@@ -77,7 +76,7 @@ export class UserGroup extends EntityBase {
     })
     status?: string; // active, closed
 
-    stat: GroupStat;
+    memberCount?: number;
 
     constructor(obj: any = undefined) {
         super(obj);

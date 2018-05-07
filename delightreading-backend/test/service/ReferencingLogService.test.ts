@@ -9,11 +9,15 @@ import { ReferenceService } from "../../src/service/ReferenceService";
 import { ActivityLog } from "../../src/entity/ActivityLog";
 import * as entityUtils from "../utils/EntityUtils";
 
+import { Logger, LoggerUtils } from "../../src/utils/Logger";
+
 const sampleReference = require("../sample-data/reference.hole.sample.json");
 
 const expect = require("chai").expect;
 
 describe("ReferencingLogService", () => {
+
+  LoggerUtils.setLevel("warn");
 
   let connection: Connection;
   let sut: ReferencingLogService;
