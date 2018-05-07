@@ -93,6 +93,7 @@ describe("UserGroupService", () => {
 
       expect(result).to.have.lengthOf(2);
       expect(result[0].name).to.equal("TestGroup-F1");
+      expect(result[0].memberCount).to.equal("3");
       expect(result[1].name).to.equal("TestGroup-F2");
     });
   });

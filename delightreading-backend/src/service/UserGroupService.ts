@@ -39,7 +39,7 @@ export class UserGroupService extends ServiceBase<UserGroup> {
         //     .addGroupBy("\"user_group_member\".\"groupSid\"")
         //     .skip(skip).take(take).getMany();
 
-        let sql = "SELECT user_group.*, count(user_group_member.sid) as memberCount FROM user_group " 
+        let sql = "SELECT user_group.*, count(user_group_member.sid) as \"memberCount\" FROM user_group " 
             + " LEFT JOIN user_group_member ON user_group.sid = user_group_member.\"groupSid\" "
         
         let paramVals;
