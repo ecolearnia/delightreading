@@ -25,23 +25,18 @@ export class UserGroupService extends ServiceBase<UserGroup> {
     async findOne(criteria?: any, withMembers: boolean = true): Promise<UserGroup> {
         const group = await super.findOne(criteria);
         // TODO: fetch members
+        if (withMembers) {
+            group.members = await this.listMembers(group.sid);
+        }
         return group;
     }
 
     async list(criteria?: any, skip: number = 0, take: number = 20): Promise<Array<UserGroup>> {
         this.logger.info({ op: "list", criteria: criteria }, "Listing userGroups");
 
-        // const groups = await this.repo.createQueryBuilder("user_group")
-        //     .select("count(user_group_member.sid)", "memberCount")
-        //     .leftJoinAndSelect("user_group_member", "user_group_member", "user_group.sid = \"user_group_member\".\"groupSid\" ")
-        //     .groupBy("user_group.sid")
-        //     .addGroupBy("user_group_member.sid")
-        //     .addGroupBy("\"user_group_member\".\"groupSid\"")
-        //     .skip(skip).take(take).getMany();
+        let sql = "SELECT user_group.*, count(user_group_member.sid) as \"memberCount\" FROM user_group "
+            + " LEFT JOIN user_group_member ON user_group.sid = user_group_member.\"groupSid\" ";
 
-        let sql = "SELECT user_group.*, count(user_group_member.sid) as \"memberCount\" FROM user_group " 
-            + " LEFT JOIN user_group_member ON user_group.sid = user_group_member.\"groupSid\" "
-        
         let paramVals;
         if (criteria) {
             sql += " WHERE " + TypeOrmUtils.andedWhereClause(criteria, "user_group", TypeOrmUtils.SqlParamType.DOLLAR);
@@ -49,37 +44,8 @@ export class UserGroupService extends ServiceBase<UserGroup> {
         }
         sql += " GROUP BY user_group.sid";
 
-        
-        console.log("SQL:" + sql);
-        const groups = await this.repo.query(sql, paramVals)
-        
-        this.logger.info({ op: "list", groups: groups }, "Listing userGroups successful");
-
-        return groups;
-
-    }
-
-    async list2(criteria?: any, skip: number = 0, take: number = 20): Promise<Array<UserGroup>> {
-
-        this.logger.info({ op: "list", criteria: criteria }, "Listing userGroups");
-
-        const groups = await this.repo.createQueryBuilder("user_group")
-            // Join member count
-            .leftJoinAndMapOne("user_group.\"stat\"", (qb) => {
-                return qb.subQuery()
-                    .select("user_group_member.\"groupSid\"")
-                    .addSelect("count(user_group_member.sid)", "memberCount")
-                    .from(UserGroupMember, "user_group_member")
-                    .groupBy("user_group_member.\"groupSid\"");
-                    // .where("user_group_member.status = :status", { status: "active"});
-            // "stat" is the subquery alias
-            } , "stat", "user_group.sid = \"stat\".\"groupSid\" " )
-            .where(TypeOrmUtils.andedWhereClause(criteria, "user_group"), criteria)
-            // TODO: parameterize orderBy
-            .orderBy("user_group.startDate", "DESC")
-            .skip(skip)
-            .take(take)
-            .getMany();
+        this.logger.debug({ op: "list", sql: sql }, "Executing SQL");
+        const groups = await this.repo.query(sql, paramVals);
 
         this.logger.info({ op: "list", groups: groups }, "Listing userGroups successful");
 
@@ -104,21 +70,12 @@ export class UserGroupService extends ServiceBase<UserGroup> {
     }
 
     async listMembers(groupSid: number, skip: number = 0, take: number = 10): Promise<Array<UserGroupMember>> {
+        const criteria = {groupSid: groupSid};
+        return this.userGroupMemberService.list(criteria);
+    }
 
-        this.logger.info({ op: "listMembers", groupSid: groupSid, skip: skip, take: take }, "Listing groupMembers");
-
-        const memberRepo = getRepository(UserGroupMember);
-        const members = await memberRepo.createQueryBuilder("user_group_member")
-            .leftJoinAndMapOne("user_group_member.reference", UserGroupMember, "reference", "activity_log.referenceSid=reference.sid")
-            .where("user_group_member.\"groupSid\" = :groupSid", {groupSid: groupSid})
-            .orderBy("activity_log.logTimestamp", "DESC")
-            .skip(skip)
-            .take(take)
-            .getMany();
-
-            this.logger.info({ op: "list", membersCount: members && members.length }, "Listing groupMembers successful");
-
-        return members;
+    async deleteMember(criteria?: any): Promise<Array<UserGroupMember>> {
+        return this.userGroupMemberService.delete(criteria);
     }
 
 }

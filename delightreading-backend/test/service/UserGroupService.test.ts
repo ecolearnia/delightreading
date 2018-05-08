@@ -98,8 +98,8 @@ describe("UserGroupService", () => {
     });
   });
 
-  describe("findOneRecentByAccountSidAndReferenceSid", () => {
-    it("should find the most recent one", async () => {
+  describe("addMember", () => {
+    it("should add member", async () => {
       const service = new UserGroupService();
 
       // const result = await service.findOneRecentByAccountSidAndReferenceSid(1, reference.sid);

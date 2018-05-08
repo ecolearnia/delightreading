@@ -11,7 +11,7 @@ describe("TypeOrmUtils", () => {
             };
             const clause = TypeOrmUtils.andedWhereClause(criteria, "user_auth");
 
-            expect (clause).toEqual("user_auth.provider = :provider AND user_auth.providerAccountId = :providerAccountId");
+            expect (clause).toEqual('user_auth."provider" = :provider AND user_auth."providerAccountId" = :providerAccountId');
         });
     });
 });

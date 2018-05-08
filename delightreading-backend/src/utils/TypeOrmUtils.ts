@@ -1,5 +1,5 @@
 enum SqlParamType {
-    NAMED, QMARK, DOLLAR 
+    NAMED, QMARK, DOLLAR
 }
 
 export default class TypeOrmUtils {
@@ -21,12 +21,12 @@ export default class TypeOrmUtils {
         let pIndex = paramIndexStart;
         for (const prop in criteria) {
             let paramLiteral;
-            switch(paramType) {
+            switch (paramType) {
                 case SqlParamType.NAMED: paramLiteral = ":" + prop; break;
                 case SqlParamType.QMARK: paramLiteral = "?"; break;
-                default: paramLiteral = "$" + (pIndex++); 
+                default: paramLiteral = "$" + (pIndex++);
             }
-            conditions.push(alias + prop + " = " + paramLiteral);
+            conditions.push(alias + "\"" + prop + "\" = " + paramLiteral);
         }
 
         return conditions.join(" AND ");

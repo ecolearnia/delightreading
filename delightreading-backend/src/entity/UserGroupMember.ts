@@ -41,6 +41,8 @@ export class UserGroupMember extends EntityBase {
     })
     status?: string; // active, inactive
 
+    account?: UserAccount;
+
     constructor(obj: any = undefined) {
         super(obj);
         if (obj) {
