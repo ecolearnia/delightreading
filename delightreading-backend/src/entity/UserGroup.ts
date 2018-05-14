@@ -81,6 +81,13 @@ export class UserGroup extends EntityBase {
 
     members?: Array<UserGroupMember>;
 
+    getMembers(role: string, accountSid?: number): Array<UserGroupMember> {
+        if (!this.members) {
+            return undefined;
+        }
+        return this.members.filter(member => member.role == role && member.accountSid == accountSid);
+    }
+
     constructor(obj: any = undefined) {
         super(obj);
         if (obj) {

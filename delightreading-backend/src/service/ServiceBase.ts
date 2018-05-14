@@ -51,7 +51,8 @@ export class ServiceBase<T extends EntityBase> {
         for (const entity of entities) {
             this.prepareForSaving(entity);
         }
-        const savedEntities = await this.repo.save(entities);
+
+        const savedEntities = await this.repo.save(entities); // Ignore the red IDE underline
 
         this.logger.info({ op: "saveMany", entities: savedEntities }, "Save successful");
 
@@ -77,13 +78,20 @@ export class ServiceBase<T extends EntityBase> {
     }
 
     async findOneBySid(sid: number): Promise<T> {
-        this.logger.info({ op: "findOneBySid", sid: sid }, "Retrieving single record");
-
-        const resource = await this.repo.findOneById(sid);
-
-        this.logger.info({ op: "findOneBySid", resource: resource }, "Retrieving single record successful");
+        const criteria = {
+            sid: sid
+        };
+        const resource = await this.findOne(sid);
 
         return resource;
+    }
+
+    async count(criteria: any): Promise<number> {
+        this.logger.info({ op: "count", criteria: criteria }, "Counting");
+        const count = await this.repo.count(criteria);
+        this.logger.info({ op: "count", count: count }, "Counting successful");
+
+        return count;
     }
 
     async list(criteria?: any, skip: number = 0, take: number = 20): Promise<Array<T>> {

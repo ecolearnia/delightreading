@@ -25,7 +25,8 @@
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
             <span class="dropdown-item dr-item-imp" >{{myAccount.givenName}} {{myAccount.familyName}}</span>
             <a class="dropdown-item" href="#/userprofile">Profile</a>
-            <a class="dropdown-item" href="#">Friends</a>
+            <a class="dropdown-item" href="#/parent">Add Children</a>
+            <a class="dropdown-item" href="#/friends">Friends</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/"  v-on:click="doLogout">Sign out</a>
           </div>

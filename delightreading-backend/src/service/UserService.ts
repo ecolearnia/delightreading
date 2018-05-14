@@ -3,6 +3,8 @@
 import * as async from "async";
 import * as uuidv4 from "uuid/v4";
 
+import ErrorUtils from "../utils/ErrorUtils";
+
 import { getRepository } from "typeorm";
 import { UserAccount } from "../entity/UserAccount";
 import { UserAuth } from "../entity/UserAuth";
@@ -109,6 +111,7 @@ export class UserService extends ServiceBase<UserAccount> {
     }
 
     /**
+     * Method called for the sugn-up processing
      * TODO: Change the return objec to be {UserAcccount, boolean}, where second element is true for existing, false for new
      * @param account
      */
@@ -118,7 +121,7 @@ export class UserService extends ServiceBase<UserAccount> {
         const existingAccount = await this.findAccountByUsername(account.username);
 
         if (existingAccount) {
-            return existingAccount;
+            throw ErrorUtils.createError("Username already exists", "Duplicate", {username: account.username});
         }
 
         const savedAccount = await this.saveAccount(account);
@@ -200,6 +203,7 @@ export class UserService extends ServiceBase<UserAccount> {
         super.prepareForSaving(profile);
         if (profile.account) {
             const fields: any = {};
+            // Selectively update
             if (profile.account.nickname) {
                 fields["nickname"] = profile.account.nickname.trim();
             }

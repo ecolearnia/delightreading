@@ -64,14 +64,56 @@ describe("UserGroupService", () => {
       const group = await newUserGroup("TestGroup", "family");
       const saved = await sut.save(group);
 
-      console.log("*S* " + JSON.stringify(saved, null, 2));
+      // console.log("*S* " + JSON.stringify(saved, null, 2));
       const criteria = {
         uid: saved.uid
       }
       const found = await sut.findOne(criteria);
-      console.log("*F* " + JSON.stringify(found, null, 2));
+      // console.log("*F* " + JSON.stringify(found, null, 2));
 
       expect(found.name).equal("TestGroup");
+    });
+  });
+
+  describe("Find", () => {
+    it("should find UserGroup with members", async () => {
+      const saved = await sut.save(newUserGroup("TestGroup-Fa", "family"));
+
+      const accounts = await createUserAccounts(3);
+      for(let account of accounts) {
+        const groupMember = await sut.addMember(saved, account, "guardian");
+      }
+
+      const result = await sut.findOneBySid(saved.sid);
+      // console.log("UserGroup: " + JSON.stringify(result, undefined, 2));
+
+      expect(result.name).to.equal("TestGroup-Fa");
+      expect(result.memberCount).to.equal(3);
+    });
+  });
+
+  describe("findByMember", () => {
+    it("should find UserGroup with member", async () => {
+      const groups = Array<UserGroup>();
+      groups.push(await newUserGroup("TestGroup-F1", "family"));
+      groups.push(await newUserGroup("TestGroup-A1", "academic"));
+      groups.push(await newUserGroup("TestGroup-F2", "family"));
+      const saved = await sut.saveMany(groups);
+
+      const accounts = await createUserAccounts(3);
+      const groupMember1a = await sut.addMember(groups[0], accounts[0], "guardian"); // this one
+      const groupMember1b = await sut.addMember(groups[0], accounts[1], "guardian"); // this one is another member
+      const groupMember2 = await sut.addMember(groups[1], accounts[0], "guardian"); // Nope, guarian is correct, but this group is academic
+      const groupMember3a = await sut.addMember(groups[2], accounts[1], "guardian"); // Nope, guarian is correct, and group is family bit different account
+      const groupMember3b = await sut.addMember(groups[2], accounts[0], "child"); // NOpe, group is family but memberRole is is not guardian
+
+      const result = await sut.findByMember(accounts[0].sid, "guardian", "family");
+      
+      console.log("groups: " + JSON.stringify(result, undefined, 2));
+
+      expect(result).to.have.lengthOf(1);
+      expect(result[0].name).to.equal("TestGroup-F1");
+      expect(result[0].memberCount).to.equal(2);
     });
   });
 
@@ -89,11 +131,11 @@ describe("UserGroupService", () => {
       }
 
       const result = await sut.list({type: "family"});
-      console.log("UserGroups: " + JSON.stringify(result, undefined, 2));
+      // console.log("UserGroups: " + JSON.stringify(result, undefined, 2));
 
       expect(result).to.have.lengthOf(2);
       expect(result[0].name).to.equal("TestGroup-F1");
-      expect(result[0].memberCount).to.equal("3");
+      expect(result[0].memberCount).to.equal(3);
       expect(result[1].name).to.equal("TestGroup-F2");
     });
   });

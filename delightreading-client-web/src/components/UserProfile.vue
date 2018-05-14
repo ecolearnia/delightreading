@@ -63,6 +63,22 @@
               </select>
             </div>
           </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-check form-check-inline">
+                <input v-model="role.student" class="form-check-input" type="checkbox" id="chkStudent" value="student">
+                <label class="form-check-label" for="chkStudent">Student</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input v-model="role.parent" class="form-check-input" type="checkbox" id="chkParent" value="parent">
+                <label class="form-check-label" for="chkParent">Parent</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input v-model="role.teacher" class="form-check-input" type="checkbox" id="chkTeacher" value="teacher">
+                <label class="form-check-label" for="chkTeacher">Teacher</label>
+              </div>
+            </div>
+          </div>
           <button type="submit" class="btn btn-primary" v-on:click="submitEntry">Save</button>
         </form>
       </div>
@@ -95,6 +111,11 @@ export default {
         familyName: undefined,
         dateOfBirth: undefined
       }, this.myAccount),
+      role: {
+        student: true,
+        parent: false,
+        teacher: false
+      },
       profile: {
         emails: undefined,
         synopsys: undefined,

@@ -5,6 +5,7 @@ import Goal from '@/components/Goal'
 import Readings from '@/components/Readings'
 import Home from '@/components/Home'
 import UserProfile from '@/components/UserProfile'
+import Parent from '@/components/Parent'
 import Tickets from '@/components/Tickets'
 
 import store from '../store'
@@ -48,6 +49,12 @@ const router = new Router({
       path: '/userprofile',
       name: 'UserProfile',
       component: UserProfile,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/parent',
+      name: 'Parent',
+      component: Parent,
       meta: { requiresAuth: true }
     }
   ]
