@@ -31,7 +31,7 @@ describe("GoogleBooksClient", () => {
 
             const reference = GoogleBooksClient.toReference(gbook);
 
-            console.log("reference: " + JSON.stringify(reference, undefined, 2));
+            // console.log("reference: " + JSON.stringify(reference, undefined, 2));
 
             const expectedReference = new Reference(expectedJsonNoImageKorean);
             expectedReference.createdBy = undefined;

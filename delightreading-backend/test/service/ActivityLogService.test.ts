@@ -92,6 +92,10 @@ describe("ActivityLogService", () => {
     it("should return statistics summary", async () => {
       const service = new ActivityLogService();
 
+      // const list = await service.list({}, 0, 100);
+      // const list2 = list.map(element => element.logTimestamp )
+      // console.log("list: " + JSON.stringify(list2, undefined, 2));
+
       const result = await service.stats(1, new Date(2018, 1, 26), "read");
       // console.log("stats: " + JSON.stringify(result, undefined, 2));
 
@@ -121,7 +125,7 @@ describe("ActivityLogService", () => {
     it("should return time series for day", async () => {
       const service = new ActivityLogService();
 
-      const result = await service.timeSeries(1, "day", new Date(2018, 1, 25), new Date(2018, 2, 1), "read");
+      const result = await service.timeSeries(1, "day", new Date(Date.UTC(2018, 1, 25)), new Date(Date.UTC(2018, 2, 1)), "read");
       // console.log("day timeSeries: " + JSON.stringify(result, undefined, 2));
 
       expect(result).to.have.lengthOf(5);
@@ -134,7 +138,7 @@ describe("ActivityLogService", () => {
     it("should return time series for week", async () => {
       const service = new ActivityLogService();
 
-      const result = await service.timeSeries(1, "week", new Date(2018, 1, 4), new Date(2018, 1, 25), "read");
+      const result = await service.timeSeries(1, "week", new Date(Date.UTC(2018, 1, 4)), new Date(Date.UTC(2018, 1, 25)), "read");
       // console.log("week timeSeries: " + JSON.stringify(result, undefined, 2));
 
       expect(result).to.have.lengthOf(4);

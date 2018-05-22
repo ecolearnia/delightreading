@@ -109,7 +109,7 @@ describe("UserGroupService", () => {
 
       const result = await sut.findByMember(accounts[0].sid, "guardian", "family");
       
-      console.log("groups: " + JSON.stringify(result, undefined, 2));
+      // console.log("groups: " + JSON.stringify(result, undefined, 2));
 
       expect(result).to.have.lengthOf(1);
       expect(result[0].name).to.equal("TestGroup-F1");

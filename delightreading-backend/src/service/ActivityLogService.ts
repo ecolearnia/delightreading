@@ -90,14 +90,20 @@ export class ActivityLogService extends ServiceBase<ActivityLog> {
     async stats(accountSid: number, date: Date = new Date(), activity: string = "read"): Promise<any> {
         this.logger.info({ op: "currentStats", accountSid: accountSid }, "Stats activityLog");
 
-        const startOfMonth = moment(date).startOf("month");
-        const endOfMonth = moment(date).endOf("month");
+        const localDate = moment(date).utc();
+        const startOfMonth = localDate.clone().startOf("month");
+        const endOfMonth = localDate.clone().endOf("month");
 
-        const startOfWeek = moment(date).startOf("week");
-        const endOfWeek = moment(date).endOf("week");
+        const startOfWeek = localDate.clone().startOf("week");
+        const endOfWeek = localDate.clone().endOf("week");
 
-        const startOfDay = moment(date).startOf("day");
-        const endOfDay = moment(date).endOf("day");
+        const startOfDay = localDate.clone().startOf("day");
+        const endOfDay = localDate.clone().endOf("day");
+
+        // console.log("startOfMonth: " + JSON.stringify(startOfMonth));
+        // console.log("endOfMonth: " + JSON.stringify(endOfMonth));
+        // console.log("startOfDay: " + JSON.stringify(startOfDay));
+        // console.log("endOfDay: " + JSON.stringify(endOfDay));
 
         const stats = {
             date: date,
@@ -106,7 +112,7 @@ export class ActivityLogService extends ServiceBase<ActivityLog> {
             day: (await this.timeSeries(accountSid, "day", startOfDay.toDate(), endOfDay.toDate(), activity))[0]
         };
 
-        // logger.info({ op: "currentStats", stats: stats }, "Stats activityLog successful");
+        this.logger.warn({ op: "currentStats", stats: stats }, "Stats activityLog successful");
 
         return stats;
     }
@@ -152,8 +158,8 @@ export class ActivityLogService extends ServiceBase<ActivityLog> {
      * @param toDate - Range end for the time serie
      */
     async timeSeries(accountSid: number, period: string, fromDate: Date, toDate: Date, activity: string): Promise<any> {
-        // TODO: validate period
 
+        console.log("fromDate: " + JSON.stringify(fromDate));
         this.logger.info({ op: "timeSeries", accountSid: accountSid, period: period, fromDate: fromDate, toDate: toDate }, "TimeSeries activityLog");
 
         // This does not include time periods where no there is no matching rows
