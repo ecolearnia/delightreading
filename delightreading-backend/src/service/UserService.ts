@@ -121,7 +121,8 @@ export class UserService extends ServiceBase<UserAccount> {
         const existingAccount = await this.findAccountByUsername(account.username);
 
         if (existingAccount) {
-            throw ErrorUtils.createError("Username already exists", "Duplicate", {username: account.username});
+            return existingAccount;
+            // throw ErrorUtils.createError("Username already exists", "Duplicate", {username: account.username});
         }
 
         const savedAccount = await this.saveAccount(account);
