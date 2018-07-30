@@ -1,0 +1,7 @@
+com\delightreading\config\AuthSuccessHandler.class
+com\delightreading\config\SecurityConfig.class
+com\delightreading\authsupport\GoogleProfileAdapter.class
+com\delightreading\authsupport\LinkedInProfileAdapter.class
+com\delightreading\authsupport\GoogleProfileAdapter$1.class
+com\delightreading\authsupport\LinkedInProfileAdapter$1.class
+com\delightreading\authsupport\ProfileProviderAdapter.class
