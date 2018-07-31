@@ -26,3 +26,6 @@ nbdist/
 
 ## Database Dumps
 *.dmp
+
+## secret profiles
+application-secrets.yaml
