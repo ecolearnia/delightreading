@@ -1,0 +1,48 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create.user_account" author="ysahn">
+        <createTable tableName="user_account">
+
+            <column name="sid" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+
+            <column name="username" type="varchar(36)"/>
+            <column name="roles" type="jsonb"/>
+            <column name="emails" type="jsonb"/>
+            <column name="nickname" type="varchar(50)"/>
+            <column name="given_name" type="varchar(60)"/>
+            <column name="family_name" type="varchar(60)"/>
+            <column name="middle_name" type="varchar(60)"/>
+            <column name="date_of_birth" type="date"/>
+            <column name="picture_uri" type="varchar(255)" />
+            <column name="locale" type="varchar(12)"/>
+            <column name="timezone" type="varchar(30)"/>
+
+            <column name="uid" type="varchar(64)" />
+            <column name="status" type="varchar(12)" />
+            <column name="created_at" type="timestamp with time zone" />
+            <column name="created_by" type="varchar(64)" />
+            <column name="updated_at" type="timestamp with time zone" />
+            <column name="updated_by" type="varchar(64)" />
+
+            <column name="deleted" type="boolean" defaultValue="false"/>
+
+        </createTable>
+
+        <createIndex indexName="user_account_username_idx"
+                     tableName="user_account" unique="true">
+            <column name="username"/>
+        </createIndex>
+
+        <createIndex indexName="user_account_uid_idx"
+                     tableName="user_account">
+            <column name="uid"/>
+        </createIndex>
+
+    </changeSet>
+
+</databaseChangeLog>

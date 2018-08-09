@@ -1,10 +1,21 @@
-spring.profiles.include: 'secrets'
+
+spring.datasource.url: jdbc:postgresql://localhost:5432/delightreading_devj
+spring.datasource.username: delightreading_dev
+spring.datasource.password: delightreading_dev
+spring.datasource.driverClassName: org.postgresql.Driver
+spring.liquibase.change-log: classpath:/db/changelog/db.changelog-master.xml
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults: false
+
 
 
 #security.user.name: admin
 #security.user.password: secret
 #management.security.role: SUPERUSER
 server.port: 9090
+
+
+########## Security ##########
+spring.profiles.include: 'secrets'
 
 ## Google
 spring.security.oauth2.client.registration.google.client-id:

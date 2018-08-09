@@ -24,7 +24,7 @@ public class UserProfile {
 
     UserAccount account;
     List<String> emails;
-    String synopsys;
+    String synopsis;
     String hometown;
     String education;
     String expertise;

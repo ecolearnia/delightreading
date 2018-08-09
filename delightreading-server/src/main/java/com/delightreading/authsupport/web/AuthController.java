@@ -1,4 +1,4 @@
-package com.delightreading.web;
+package com.delightreading.authsupport.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
