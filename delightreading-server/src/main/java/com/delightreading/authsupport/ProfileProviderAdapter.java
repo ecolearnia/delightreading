@@ -1,7 +1,7 @@
 package com.delightreading.authsupport;
 
-import com.delightreading.user.UserProfile;
+import com.delightreading.user.UserProfileEntity;
 
 public interface ProfileProviderAdapter {
-    public UserProfile fetchProfile(String accessToken, String subjectId);
+    public UserProfileEntity fetchProfile(String accessToken, String subjectId);
 }

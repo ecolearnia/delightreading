@@ -1,12 +1,14 @@
 package com.delightreading.authsupport;
 
-import com.delightreading.user.UserAccount;
+import com.delightreading.user.UserAccountEntity;
 import com.delightreading.user.UserAccountRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 import static java.util.Collections.emptyList;
 
@@ -20,10 +22,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserAccount userAccount = userAccountRepository.findByUsername(username);
-        if (userAccount == null) {
+        Optional<UserAccountEntity> userAccount = userAccountRepository.findByUsername(username);
+        if (!userAccount.isPresent()) {
             throw new UsernameNotFoundException(username);
         }
-        return new User(userAccount.getUsername(), "", emptyList());
+        return new User(userAccount.get().getUsername(), "", emptyList());
     }
 }

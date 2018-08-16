@@ -1,19 +1,25 @@
 package com.delightreading.common;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @MappedSuperclass
-public class BaseEntity {
+public abstract class BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

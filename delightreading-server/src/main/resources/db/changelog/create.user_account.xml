@@ -10,11 +10,15 @@
                 <constraints primaryKey="true" nullable="false" />
             </column>
 
-            <column name="username" type="varchar(36)"/>
+            <column name="username" type="varchar(36)">
+                <constraints unique="true" nullable="false" />
+            </column>
             <column name="roles" type="jsonb"/>
-            <column name="emails" type="jsonb"/>
+            <column name="emails" type="jsonb" />
             <column name="nickname" type="varchar(50)"/>
-            <column name="given_name" type="varchar(60)"/>
+            <column name="given_name" type="varchar(60)" >
+                <constraints nullable="false" />
+            </column>
             <column name="family_name" type="varchar(60)"/>
             <column name="middle_name" type="varchar(60)"/>
             <column name="date_of_birth" type="date"/>
@@ -22,7 +26,9 @@
             <column name="locale" type="varchar(12)"/>
             <column name="timezone" type="varchar(30)"/>
 
-            <column name="uid" type="varchar(64)" />
+            <column name="uid" type="varchar(64)" >
+                <constraints unique="true" nullable="false" />
+            </column>
             <column name="status" type="varchar(12)" />
             <column name="created_at" type="timestamp with time zone" />
             <column name="created_by" type="varchar(64)" />
@@ -43,6 +49,29 @@
             <column name="uid"/>
         </createIndex>
 
+    </changeSet>
+
+
+    <changeSet id="create.user_account_emails" author="ysahn">
+        <createTable tableName="user_account_emails">
+            <column name="account_uid" type="varchar(64)">
+                <constraints referencedTableName="user_account" referencedColumnNames="uid"
+                             foreignKeyName="user_account_email_fk" nullable="false" />
+            </column>
+            <column name="email" type="varchar(64)" >
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="user_account_emails"
+                             columnNames="account_uid, email" />
+        <createIndex indexName="user_account_emails_email_idx"
+                     tableName="user_account_emails">
+            <column name="email"/>
+        </createIndex>
+        <createIndex indexName="user_account_emails_account_uid_idx"
+                     tableName="user_account_emails">
+            <column name="account_uid"/>
+        </createIndex>
     </changeSet>
 
 </databaseChangeLog>

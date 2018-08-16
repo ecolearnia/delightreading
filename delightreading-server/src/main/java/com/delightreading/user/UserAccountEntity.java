@@ -9,10 +9,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,12 +27,17 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class UserAccount extends BaseEntity {
+public class UserAccountEntity extends BaseEntity {
 
     @Column(name = "username")
     String username;
 
-    @Column(name = "emails")
+    @ElementCollection
+    @CollectionTable(name = "user_account_emails", joinColumns = @JoinColumn(name = "account_uid", referencedColumnName = "uid"))
+    //@Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.JOIN)
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
+    @Column(name = "email")
     List<String> emails;
 
     @Column(name = "nickname")

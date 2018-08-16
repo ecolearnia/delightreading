@@ -15,7 +15,9 @@
             <column name="provider_id" type="varchar(50)" >
                 <constraints nullable="false"/>
             </column>
-            <column name="provider_account_id" type="varchar(60)"/>
+            <column name="provider_account_id" type="varchar(60)" >
+                <constraints nullable="false" />
+            </column>
             <column name="password" type="varchar(60)"/>
             <column name="access_token" type="varchar(60)"/>
             <column name="refresh_token" type="timestamp with time zone"/>
@@ -25,7 +27,9 @@
             <column name="password_reset_token" type="varchar(32)"/>
             <column name="password_reset_expiration" type="timestamp with time zone"/>
 
-            <column name="uid" type="varchar(64)" />
+            <column name="uid" type="varchar(64)" >
+                <constraints unique="true" nullable="false" />
+            </column>
             <column name="status" type="varchar(12)" />
             <column name="created_at" type="timestamp with time zone" />
             <column name="created_by" type="varchar(64)" />

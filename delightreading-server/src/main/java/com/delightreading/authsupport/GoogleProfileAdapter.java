@@ -1,6 +1,6 @@
 package com.delightreading.authsupport;
 
-import com.delightreading.user.UserProfile;
+import com.delightreading.user.UserProfileEntity;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class GoogleProfileAdapter implements ProfileProviderAdapter {
 
     @Override
-    public UserProfile fetchProfile(String accessToken, String subjectId) {
+    public UserProfileEntity fetchProfile(String accessToken, String subjectId) {
         // Fetch profile from Google API. (How do we know it is Google?)
         // https://www.googleapis.com/plus/v1/people/{userId}?access_token={accessToken}
         ParameterizedTypeReference<HashMap<String, Object>> responseType =
