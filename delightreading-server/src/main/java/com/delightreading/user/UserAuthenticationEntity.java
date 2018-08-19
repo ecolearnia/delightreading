@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -49,7 +50,8 @@ public class UserAuthenticationEntity extends BaseEntity {
     @Column(name = "expiration")
     Instant expiration;
 
-    @Column(name = "raw_profile")
+    @Column(name = "raw_profile", length = 65535, columnDefinition="TEXT")
+    @Type(type="text")
     String rawProfile;
 
 }

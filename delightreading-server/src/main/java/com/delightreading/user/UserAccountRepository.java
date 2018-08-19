@@ -7,7 +7,7 @@ import java.util.Optional;
 
 @Service
 public interface UserAccountRepository extends JpaRepository<UserAccountEntity, Long> {
-//    public UserAccountEntity findByUsername(String username)
+//    public UserAccountEntity findByAccountUsername(String username)
 //    {
 //        return UserAccountEntity.builder()
 //                .emails(Arrays.asList("test@mail.net"))

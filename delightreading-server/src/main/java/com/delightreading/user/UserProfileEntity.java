@@ -11,8 +11,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
+import javax.persistence.*;
 import java.util.List;
+
+@Entity
+@Table(name = "user_profile")
 
 @Data
 @Builder
@@ -23,32 +26,50 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class UserProfileEntity extends BaseEntity {
 
-    @Column(name = "experiences_json")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_uid", referencedColumnName = "uid")
     UserAccountEntity account;
 
-    @Column(name = "experiences_json")
-    List<String> emails;
-
-    @Column(name = "experiences_json")
+    @Column(name = "synopsis")
     String synopsis;
 
-    @Column(name = "experiences_json")
+    @Column(name = "hometown")
     String hometown;
 
-    @Column(name = "experiences_json")
-    String education;
+    @Column(name = "gender")
+    String gender;
 
-    @Column(name = "experiences_json")
+    @Column(name = "expertise")
     String expertise;
 
-    @Column(name = "experiences_json")
-    @Type(type = "com.delightreading.user.hibernate.ExperienceUserType")
-    List<Experience> experiences;
-    List<Experience> accomplishments;
+    @Column(name = "occupation")
+    String occupation;
+
+    @Column(name = "style")
     String style;
+
+    @Column(name = "interests")
+    @Type(type = "com.delightreading.common.HibernateStringListUserType")
     List<String> interests;
+
+    @Column(name = "languages")
+    @Type(type = "com.delightreading.common.HibernateStringListUserType")
     List<String> languages;
-    String gender;
+
+    @Column(name = "websites")
+    @Type(type = "com.delightreading.common.HibernateStringListUserType")
     List<String> websites;
+
+    @Column(name = "education_json")
+    @Type(type = "com.delightreading.user.hibernate.ExperienceListUserType")
+    List<Experience> education;
+
+    @Column(name = "experiences_json")
+    @Type(type = "com.delightreading.user.hibernate.ExperienceListUserType")
+    List<Experience> experiences;
+
+    @Column(name = "accomplishments_json")
+    @Type(type = "com.delightreading.user.hibernate.ExperienceListUserType")
+    List<Experience> accomplishments;
 
 }

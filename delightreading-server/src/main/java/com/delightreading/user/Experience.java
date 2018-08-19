@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
@@ -18,7 +19,7 @@ import java.time.LocalDate;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class Experience {
+public class Experience implements Serializable {
     String kind; // education, project, competition, hackathon,
     String institution; // Weekend Hackaton Org.
     String location; // Boston
@@ -26,6 +27,6 @@ public class Experience {
     String subject; // E.g. Entrepreneurship
     String description;
     String achievements; // 1st place.
-    LocalDate fromDate; // 20150200 some day in February 2015
-    LocalDate toDate;
+    String fromDate; // 20150200 some day in February 2015
+    String toDate;
 }

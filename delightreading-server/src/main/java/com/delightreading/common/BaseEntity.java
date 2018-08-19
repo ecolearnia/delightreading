@@ -5,13 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.UUID;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -42,4 +40,19 @@ public abstract class BaseEntity implements Serializable {
 
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        if (uid == null) {
+            uid = UUID.randomUUID().toString();
+        }
+        createdAt = Instant.now();
+        // createdBy = LoggedUser.get();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = Instant.now();
+        // updatedBy = LoggedUser.get();
+    }
 }

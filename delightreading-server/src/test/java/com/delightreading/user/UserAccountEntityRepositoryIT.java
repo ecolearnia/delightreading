@@ -31,10 +31,10 @@ public class UserAccountEntityRepositoryIT {
 
     @Before
     public void setup() {
-        var userAccount1 = this.buildEntity(1L, "TEST-UID1", "TEST-Username1", "TEST-givenName1", Arrays.asList("email1a@test.com", "email1b@test.com"));
+        var userAccount1 = this.buildEntity("TEST-UID1", "TEST-Username1", "TEST-givenName1", Arrays.asList("email1a@test.com", "email1b@test.com"));
         entityManager.persistAndFlush(userAccount1);
 
-        var userAccount2 = this.buildEntity(2L, "TEST-UID2", "TEST-Username2", "TEST-givenName2", Arrays.asList("email2a@test.com", "email2b@test.com"));
+        var userAccount2 = this.buildEntity("TEST-UID2", "TEST-Username2", "TEST-givenName2", Arrays.asList("email2a@test.com", "email2b@test.com"));
         entityManager.persistAndFlush(userAccount2);
 
     }
@@ -48,7 +48,7 @@ public class UserAccountEntityRepositoryIT {
         assertThat(match.getEmails()).containsExactlyInAnyOrder("email1a@test.com", "email1b@test.com");
     }
 
-    UserAccountEntity buildEntity(Long sid, String uid, String username, String givenName, List<String> emails) {
+    public static UserAccountEntity buildEntity(String uid, String username, String givenName, List<String> emails) {
         UserAccountEntity userAccountEntity = UserAccountEntity.builder()
                 .username(username)
                 .givenName(givenName)

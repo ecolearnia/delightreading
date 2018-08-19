@@ -1,6 +1,7 @@
 package com.delightreading.common;
 
 import com.delightreading.SpringApplicationContextUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
@@ -13,6 +14,15 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 public abstract class JsonBasedType implements UserType {
+
+    private TypeReference deserializationTypeRef;
+
+    public JsonBasedType(TypeReference deserializationTypeRef) {
+        this.deserializationTypeRef = deserializationTypeRef;
+    }
+    public JsonBasedType() {
+        this(null);
+    }
 
     @Override
     public int[] sqlTypes() {
@@ -28,8 +38,11 @@ public abstract class JsonBasedType implements UserType {
         }
         try {
             final ObjectMapper mapper = SpringApplicationContextUtil.lookUpBean(ObjectMapper.class);
-            Class returnedClass = returnedClass();
-            return mapper.readValue(cellContent.getBytes("UTF-8"), returnedClass);
+            if (deserializationTypeRef !=  null) {
+                return mapper.readValue(cellContent.getBytes("UTF-8"), deserializationTypeRef);
+            } else {
+                return mapper.readValue(cellContent.getBytes("UTF-8"), returnedClass());
+            }
         } catch (final Exception ex) {
             throw new RuntimeException("Failed to convert String to " + returnedClass().getSimpleName() + ": " + ex.getMessage(), ex);
         }
@@ -49,7 +62,7 @@ public abstract class JsonBasedType implements UserType {
             w.flush();
             ps.setObject(idx, w.toString(), Types.OTHER);
         } catch (final Exception ex) {
-            throw new RuntimeException("Failed to convert Invoice to String " + returnedClass().getSimpleName() + ": " + ex.getMessage(), ex);
+            throw new RuntimeException("Failed to convert " + returnedClass().getSimpleName() + "to String : " + ex.getMessage(), ex);
         }
     }
 

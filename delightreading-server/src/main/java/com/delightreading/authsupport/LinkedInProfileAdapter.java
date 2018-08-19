@@ -1,6 +1,8 @@
 package com.delightreading.authsupport;
 
+import com.delightreading.user.UserAuthenticationEntity;
 import com.delightreading.user.UserProfileEntity;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,9 +15,15 @@ import java.util.HashMap;
 
 public class LinkedInProfileAdapter implements ProfileProviderAdapter {
 
+    ObjectMapper objectMapper;
+
+    public LinkedInProfileAdapter(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     @Override
-    public UserProfileEntity fetchProfile(String accessToken, String subjectId) {
-// Fetch profile from Google API. (How do we know it is Google?)
+    public UserProfileEntity fetchProfile(UserAuthenticationEntity authentication, String accessToken) {
+        // Fetch profile from Google API. (How do we know it is Google?)
         // https://www.googleapis.com/plus/v1/people/{userId}?access_token={accessToken}
         ParameterizedTypeReference<HashMap<String, Object>> responseType =
                 new ParameterizedTypeReference<>() {

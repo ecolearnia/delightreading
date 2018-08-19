@@ -3,8 +3,8 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="create.user_authentication" author="ysahn">
-        <createTable tableName="user_authentication">
+    <changeSet id="create.user_profile" author="ysahn">
+        <createTable tableName="user_profile">
 
             <column name="sid" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" />
@@ -12,20 +12,21 @@
 
             <column name="account_uid" type="varchar(64)"/>
 
-            <column name="provider_id" type="varchar(50)" >
-                <constraints nullable="false"/>
-            </column>
-            <column name="provider_account_id" type="varchar(60)" >
-                <constraints nullable="false" />
-            </column>
-            <column name="password" type="varchar(60)"/>
-            <column name="access_token" type="varchar(60)"/>
-            <column name="refresh_token" type="varchar(32)"/>
-            <column name="expiration" type="timestamp with time zone" />
-            <column name="raw_profile" type="text"/>
+            <column name="synopsis" type="text"/>
+            <column name="hometown" type="varchar(255)"/>
+            <column name="gender" type="varchar(8)"/>
+            <column name="expertise" type="text"/>
+            <column name="occupation" type="text" />
 
-            <column name="password_reset_token" type="varchar(32)"/>
-            <column name="password_reset_expiration" type="timestamp with time zone"/>
+            <column name="style" type="text" />
+
+            <column name="interests" type="jsonb" />
+            <column name="languages" type="jsonb" />
+            <column name="websites" type="jsonb" />
+
+            <column name="education_json" type="jsonb"/>
+            <column name="experiences_json" type="jsonb"/>
+            <column name="accomplishments_json" type="jsonb" />
 
             <column name="uid" type="varchar(64)" >
                 <constraints unique="true" nullable="false" />
@@ -37,22 +38,19 @@
             <column name="updated_by" type="varchar(64)" />
 
             <column name="deleted" type="boolean" defaultValue="false"/>
-
         </createTable>
 
-        <createIndex indexName="user_auth_provider_idx"
-                     tableName="user_authentication"
+        <createIndex indexName="user_profile_uid_idx"
+                     tableName="user_profile"
                      unique="true">
-            <column name="provider_id" />
-            <column name="provider_account_id" />
+            <column name="uid" />
         </createIndex>
 
-        <createIndex indexName="user_auth_accountuid_idx"
-                     tableName="user_authentication">
+        <createIndex indexName="user_profile_accountuid_idx"
+                     tableName="user_profile">
             <column name="account_uid"/>
         </createIndex>
 
     </changeSet>
-
 
 </databaseChangeLog>
