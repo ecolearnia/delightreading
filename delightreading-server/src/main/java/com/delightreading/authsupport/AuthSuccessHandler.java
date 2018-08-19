@@ -56,6 +56,7 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
                               OAuth2AuthorizedClientService authorizedClientService,
                               UserService userService) {
         this.objectMapper = objectMapper;
+        this.authorizedClientService = authorizedClientService;
         this.userService = userService;
 
         this.initialize();
@@ -88,11 +89,10 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
             authentication = existing.get();
         } else {
             ProfileProviderAdapter ppa = this.profileAdapters.get(authorizedClient.getClientRegistration().getRegistrationId());
-            if (ppa != null) {
-                var profile = ppa.fetchProfile(authentication, accessToken);
-            } else {
+            if (ppa == null) {
                 throw new IllegalStateException("Provider " + authorizedClient.getClientRegistration().getRegistrationId() + " not found");
             }
+            var profile = ppa.fetchProfile(authentication, accessToken);
             // save account, authentication and profile
 
         }

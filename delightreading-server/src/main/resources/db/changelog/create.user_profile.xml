@@ -25,6 +25,7 @@
             <column name="websites" type="jsonb" />
 
             <column name="education_json" type="jsonb"/>
+            <column name="work_json" type="jsonb"/>
             <column name="experiences_json" type="jsonb"/>
             <column name="accomplishments_json" type="jsonb" />
 

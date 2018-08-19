@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -64,6 +65,10 @@ public class UserProfileEntity extends BaseEntity {
     @Type(type = "com.delightreading.user.hibernate.ExperienceListUserType")
     List<Experience> education;
 
+    @Column(name = "work_json")
+    @Type(type = "com.delightreading.user.hibernate.ExperienceListUserType")
+    List<Experience> work;
+
     @Column(name = "experiences_json")
     @Type(type = "com.delightreading.user.hibernate.ExperienceListUserType")
     List<Experience> experiences;
@@ -71,5 +76,34 @@ public class UserProfileEntity extends BaseEntity {
     @Column(name = "accomplishments_json")
     @Type(type = "com.delightreading.user.hibernate.ExperienceListUserType")
     List<Experience> accomplishments;
+
+
+    public void addEducation(Experience educationItem) {
+        if (education == null) {
+            education = new ArrayList<>();
+        }
+        this.education.add(educationItem);
+    }
+
+    public void addWork(Experience experience) {
+        if (work == null) {
+            work = new ArrayList<>();
+        }
+        this.work.add(experience);
+    }
+
+    public void addExperience(Experience experience) {
+        if (experiences == null) {
+            experiences = new ArrayList<>();
+        }
+        this.experiences.add(experience);
+    }
+
+    public void addAccomplishment(Experience experience) {
+        if (accomplishments == null) {
+            accomplishments = new ArrayList<>();
+        }
+        this.accomplishments.add(experience);
+    }
 
 }
