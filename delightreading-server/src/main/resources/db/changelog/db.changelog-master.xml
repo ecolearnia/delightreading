@@ -6,5 +6,6 @@
     <include file="db/changelog/create.user_account.xml" />
     <include file="db/changelog/create.user_authentication.xml" />
     <include file="db/changelog/create.user_profile.xml" />
+    <include file="db/changelog/create.user_group.xml" />
 
 </databaseChangeLog>

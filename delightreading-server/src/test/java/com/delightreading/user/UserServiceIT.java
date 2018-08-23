@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = {UserAuthenticationRepository.class, UserProfileRepository.class,
         UserService.class, SpringApplicationContextUtil.class})
 @EnableAutoConfiguration
-public class UserServiceTestIT {
+public class UserServiceIT {
 
     @Autowired
     private TestEntityManager entityManager;

@@ -45,7 +45,7 @@
         </createIndex>
 
         <createIndex indexName="user_account_uid_idx"
-                     tableName="user_account">
+                     tableName="user_account" unique="true">
             <column name="uid"/>
         </createIndex>
 
@@ -62,6 +62,7 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
+
         <addUniqueConstraint tableName="user_account_emails"
                              columnNames="account_uid, email" />
         <createIndex indexName="user_account_emails_email_idx"
