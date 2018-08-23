@@ -1,6 +1,5 @@
 package com.delightreading.user;
 
-import com.delightreading.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -14,8 +13,13 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "user_account")
@@ -27,7 +31,47 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class UserAccountEntity extends BaseEntity {
+public class UserAccountEntity implements Serializable {
+
+    ////////// Base {{
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    Long sid;
+
+    @Column(name = "uid")
+    String uid;
+
+    @Column(name = "status")
+    String status;
+
+    @Column(name = "created_by")
+    String createdBy;
+
+    @Column(name = "created_at")
+    Instant createdAt;
+
+    @Column(name = "updated_by")
+    String updatedBy;
+
+    @Column(name = "updated_at")
+    Instant updatedAt;
+
+
+    @PrePersist
+    public void prePersist() {
+        if (uid == null) {
+            uid = UUID.randomUUID().toString();
+        }
+        createdAt = Instant.now();
+        // createdBy = LoggedUser.get();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = Instant.now();
+        // updatedBy = LoggedUser.get();
+    }
+    ////////// }} Base
 
     @Column(name = "username")
     String username;
@@ -64,9 +108,9 @@ public class UserAccountEntity extends BaseEntity {
     @Column(name = "timezone")
     String timezone;
 
-    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="profile_uid")
-    UserProfileEntity profile;
+//    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name="profile_uid", referencedColumnName = "uid")
+//    UserProfileEntity profile;
 
 }

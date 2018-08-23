@@ -5,7 +5,6 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.SignedJWT;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,8 +26,11 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
 
-    public JWTAuthorizationFilter(AuthenticationManager authManager) {
+    JwtService jwtService;
+
+    public JWTAuthorizationFilter(AuthenticationManager authManager, JwtService jwtService) {
         super(authManager);
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -56,20 +58,20 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             return null;
         }
         try {
-            // parse the token.
-            SignedJWT signedJWT = SignedJWT.parse(token.replace(TOKEN_PREFIX, ""));
-            JWSVerifier verifier = new MACVerifier("MySecret that is at least 32 length long");
-            boolean good = signedJWT.verify(verifier);
-            // assertTrue(signedJWT.verify(verifier));
+            var jwt = this.jwtService.parse(token.replace(TOKEN_PREFIX, ""));
 
-            String user = signedJWT.getJWTClaimsSet().getSubject();
+            String user = jwt.getJWTClaimsSet().getSubject();
 
             if (user != null) {
                 Set<GrantedAuthority> authorities = new HashSet<>();
                 //Map<String, Object> authorityAttribs = new HashMap<>();
                 //authorityAttribs.put("ROLE_USER", );
-                authorities.add(new OAuth2UserAuthority(signedJWT.getJWTClaimsSet().getClaims()));
-                OAuth2User oAuth2User = new DefaultOAuth2User(authorities, signedJWT.getJWTClaimsSet().getClaims(), "sub");
+                authorities.add(new OAuth2UserAuthority(jwt.getJWTClaimsSet().getClaims()));
+                Map<String, Object> userAttribs = new HashMap<>(){{
+                    putAll(jwt.getJWTClaimsSet().getClaims());
+                    // TODO: fetch and assign account object to account attribute
+                    put("account", null ); }};
+                OAuth2User oAuth2User = new DefaultOAuth2User(authorities, userAttribs, "sub");
                 return new OAuth2AuthenticationToken(oAuth2User, new ArrayList<>(), "local");
             }
         } catch (Exception e) {

@@ -1,12 +1,10 @@
 package com.delightreading.common;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
@@ -21,25 +19,81 @@ public abstract class BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long sid;
+    Long sid;
 
     @Column(name = "uid")
-    private String uid;
+    String uid;
 
     @Column(name = "status")
-    private String status;
+    String status;
 
     @Column(name = "created_by")
-    private String createdBy;
+    String createdBy;
 
     @Column(name = "created_at")
-    private Instant createdAt;
+    Instant createdAt;
 
     @Column(name = "updated_by")
-    private String updatedBy;
+    String updatedBy;
 
     @Column(name = "updated_at")
-    private Instant updatedAt;
+    Instant updatedAt;
+
+    public Long getSid() {
+        return sid;
+    }
+
+    public void setSid(Long sid) {
+        this.sid = sid;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
     @PrePersist
     public void prePersist() {

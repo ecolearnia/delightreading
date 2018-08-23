@@ -8,6 +8,7 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.UserType;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,9 +40,9 @@ public abstract class JsonBasedType implements UserType {
         try {
             final ObjectMapper mapper = SpringApplicationContextUtil.lookUpBean(ObjectMapper.class);
             if (deserializationTypeRef !=  null) {
-                return mapper.readValue(cellContent.getBytes("UTF-8"), deserializationTypeRef);
+                return mapper.readValue(cellContent.getBytes(StandardCharsets.UTF_8), deserializationTypeRef);
             } else {
-                return mapper.readValue(cellContent.getBytes("UTF-8"), returnedClass());
+                return mapper.readValue(cellContent.getBytes(StandardCharsets.UTF_8), returnedClass());
             }
         } catch (final Exception ex) {
             throw new RuntimeException("Failed to convert String to " + returnedClass().getSimpleName() + ": " + ex.getMessage(), ex);
@@ -62,7 +63,7 @@ public abstract class JsonBasedType implements UserType {
             w.flush();
             ps.setObject(idx, w.toString(), Types.OTHER);
         } catch (final Exception ex) {
-            throw new RuntimeException("Failed to convert " + returnedClass().getSimpleName() + "to String : " + ex.getMessage(), ex);
+            throw new RuntimeException("Failed to convert " + returnedClass().getSimpleName() + " to String : " + ex.getMessage(), ex);
         }
     }
 

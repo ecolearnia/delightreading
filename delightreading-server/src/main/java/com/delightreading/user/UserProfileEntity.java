@@ -1,6 +1,5 @@
 package com.delightreading.user;
 
-import com.delightreading.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -12,8 +11,13 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "user_profile")
@@ -25,7 +29,48 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class UserProfileEntity extends BaseEntity {
+public class UserProfileEntity implements Serializable {
+
+
+    ////////// Base {{
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    Long sid;
+
+    @Column(name = "uid")
+    String uid;
+
+    @Column(name = "status")
+    String status;
+
+    @Column(name = "created_by")
+    String createdBy;
+
+    @Column(name = "created_at")
+    Instant createdAt;
+
+    @Column(name = "updated_by")
+    String updatedBy;
+
+    @Column(name = "updated_at")
+    Instant updatedAt;
+
+
+    @PrePersist
+    public void prePersist() {
+        if (uid == null) {
+            uid = UUID.randomUUID().toString();
+        }
+        createdAt = Instant.now();
+        // createdBy = LoggedUser.get();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = Instant.now();
+        // updatedBy = LoggedUser.get();
+    }
+    ////////// }} Base
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_uid", referencedColumnName = "uid")

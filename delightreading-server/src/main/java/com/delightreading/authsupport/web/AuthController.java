@@ -16,7 +16,6 @@ import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-
 import java.util.Collections;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ public class AuthController {
     @Autowired
     private OAuth2AuthorizedClientService authorizedClientService;
 
-    @GetMapping("/")
+    @GetMapping("/myhome")
     public String index(Model model, OAuth2AuthenticationToken authentication) {
         Authentication authentic = SecurityContextHolder.getContext().getAuthentication();
         OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentic;
@@ -43,7 +42,7 @@ public class AuthController {
 
         model.addAttribute("userName", authentication.getName());
         model.addAttribute("clientName", authorizedClient.getClientRegistration().getClientName());
-        return "index";
+        return "myhome";
     }
 
     @GetMapping("/userinfo")

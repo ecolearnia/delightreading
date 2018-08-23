@@ -31,10 +31,10 @@ public class UserAccountEntityRepositoryIT {
 
     @Before
     public void setup() {
-        var userAccount1 = this.buildEntity("TEST-UID1", "TEST-Username1", "TEST-givenName1", Arrays.asList("email1a@test.com", "email1b@test.com"));
+        var userAccount1 = UserAccountEntityRepositoryIT.buildEntity("TEST-UID1", "TEST-Username1", "TEST-givenName1", Arrays.asList("email1a@test.com", "email1b@test.com"));
         entityManager.persistAndFlush(userAccount1);
 
-        var userAccount2 = this.buildEntity("TEST-UID2", "TEST-Username2", "TEST-givenName2", Arrays.asList("email2a@test.com", "email2b@test.com"));
+        var userAccount2 = UserAccountEntityRepositoryIT.buildEntity("TEST-UID2", "TEST-Username2", "TEST-givenName2", Arrays.asList("email2a@test.com", "email2b@test.com"));
         entityManager.persistAndFlush(userAccount2);
 
     }
@@ -42,10 +42,18 @@ public class UserAccountEntityRepositoryIT {
     @Test
     public void crud_simple() {
 
-        UserAccountEntity match = userAccountRepository.findByUsername("TEST-Username1").get();
+        var newUserAccount = UserAccountEntityRepositoryIT.buildEntity("TEST-UID", "TEST-Username", "TEST-givenName", Arrays.asList("emaila@test.com", "emailb@test.com"));
+        var userAccount = this.userAccountRepository.save(newUserAccount);
 
-        assertThat (match).isNotNull();
-        assertThat(match.getEmails()).containsExactlyInAnyOrder("email1a@test.com", "email1b@test.com");
+        UserAccountEntity match1 = userAccountRepository.findByUid(userAccount.getUid()).get();
+
+        UserAccountEntity match2 = userAccountRepository.findByUsername("TEST-Username1").get();
+
+        assertThat (match1).isNotNull();
+        assertThat(match1.getEmails()).containsExactlyInAnyOrder("emaila@test.com", "emailb@test.com");
+
+        assertThat (match2).isNotNull();
+        assertThat(match2.getEmails()).containsExactlyInAnyOrder("email1a@test.com", "email1b@test.com");
     }
 
     public static UserAccountEntity buildEntity(String uid, String username, String givenName, List<String> emails) {

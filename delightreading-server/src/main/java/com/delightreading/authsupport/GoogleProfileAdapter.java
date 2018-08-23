@@ -98,7 +98,7 @@ public class GoogleProfileAdapter implements ProfileProviderAdapter {
                     }
                 }
             });
-            account.setProfile(newProfile);
+            //account.setProfile(newProfile);
             return newProfile;
         } catch (Exception e) {
             throw new IllegalStateException("Failed reading Google profile", e);
