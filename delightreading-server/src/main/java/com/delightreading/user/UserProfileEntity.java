@@ -55,7 +55,6 @@ public class UserProfileEntity implements Serializable {
     @Column(name = "updated_at")
     Instant updatedAt;
 
-
     @PrePersist
     public void prePersist() {
         if (uid == null) {

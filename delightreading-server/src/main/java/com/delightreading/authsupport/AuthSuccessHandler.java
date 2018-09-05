@@ -34,8 +34,6 @@ import static com.delightreading.authsupport.JWTAuthorizationFilter.TOKEN_PREFIX
 @Slf4j
 public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 
-    public static final String COOKIE_NAME = "dr_token";
-
     ObjectMapper objectMapper;
 
     OAuth2AuthorizedClientService authorizedClientService;
@@ -78,8 +76,8 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 
         resp.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
 
-        Cookie cookie = new Cookie(COOKIE_NAME, token);
-        cookie.setMaxAge(30 * 24 * 60 * 60);// for 30 days
+        Cookie cookie = new Cookie(CookieAuthorizationFilter.COOKIE_NAME, token);
+        cookie.setMaxAge( 24 * 60 * 60);// for 24 hrs
         cookie.setPath("/"); // this is the magic
         resp.addCookie(cookie);
 

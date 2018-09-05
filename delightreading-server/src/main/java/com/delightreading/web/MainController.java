@@ -22,7 +22,7 @@ public class MainController {
         if (authentic != null && authentic instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentic;
 
-            model.addAttribute("user", oauthToken.getName());
+            model.addAttribute("user", oauthToken.getDetails());
         }
         model.addAttribute("message", "Hello");
         return "index";

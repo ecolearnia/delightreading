@@ -33,6 +33,9 @@ import static javax.persistence.GenerationType.IDENTITY;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class UserAccountEntity implements Serializable {
 
+    public static final String STATUS_LOCKED = "locked";
+    public static final String STATUS_DISABLED = "disabled";
+
     ////////// Base {{
     @Id
     @GeneratedValue(strategy = IDENTITY)

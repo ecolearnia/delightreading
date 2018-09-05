@@ -9,10 +9,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.UUID;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -27,7 +30,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class UserAuthenticationEntity implements Serializable {
+public class UserAuthenticationEntity implements Serializable, UserDetails {
 
 
     ////////// Base {{
@@ -98,4 +101,35 @@ public class UserAuthenticationEntity implements Serializable {
     @Type(type="text")
     String rawProfile;
 
+    ///////// UserDetails {{
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getAccount().getUsername();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return (expiration == null || expiration.isBefore(Instant.now()));
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !UserAccountEntity.STATUS_LOCKED.equals(this.getAccount().getStatus());
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return !UserAccountEntity.STATUS_DISABLED.equals(this.getAccount().getStatus());
+    }
+    ///////// }} UserDetails
 }

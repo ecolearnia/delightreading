@@ -1,0 +1,70 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="reading_activity_log.create" author="ysahn">
+        <createTable tableName="activity_log">
+
+            <column name="sid" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+
+            <column name="account_uid" type="varchar(64)" >
+                <constraints nullable="false" />
+            </column>
+            <column name="literature_uid" type="varchar(64)" >
+                <constraints nullable="false" />
+            </column>
+            <column name="completionlog_uid" type="varchar(64)"/>
+            <column name="goal_uid" type="varchar(64)" />
+            <column name="activity" type="varchar(32)"/>
+            <column name="log_timestamp" type="timestamp with time zone"/>
+            <column name="quantity" type="number(6,2)"/>
+            <column name="duration" type="int" />
+            <column name="current_page" type="int"/>
+            <column name="percentage_complete" type="int"/>
+            <column name="post_emotion" type="varchar(255)"/>
+            <column name="situation" type="varchar(255)"/>
+            <column name="feed_context" type="text"/>
+            <column name="feed_body" type="text"/>
+            <column name="retrospective" type="text"/>
+            <column name="approved_by_uid" type="varchar(64)"/>
+            <column name="approved_at" type="timestamp with time zone"/>
+
+            <column name="uid" type="varchar(64)" >
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="status" type="varchar(12)" />
+            <column name="created_at" type="timestamp with time zone" />
+            <column name="created_by" type="varchar(64)" />
+            <column name="updated_at" type="timestamp with time zone" />
+            <column name="updated_by" type="varchar(64)" />
+
+            <column name="deleted" type="boolean" defaultValue="false"/>
+
+        </createTable>
+
+        <createIndex indexName="activity_log_uid_idx"
+                     tableName="activity_log" unique="true">
+            <column name="uid"/>
+        </createIndex>
+
+        <createIndex indexName="activity_log_accountuid_idx"
+                     tableName="activity_log" unique="true">
+            <column name="account_uid"/>
+        </createIndex>
+
+        <createIndex indexName="activity_log_accountuid_idx"
+                     tableName="activity_log" unique="true">
+            <column name="completionlog_uid"/>
+        </createIndex>
+
+        <createIndex indexName="activity_log_goaluid_idx"
+                     tableName="activity_log" unique="true">
+            <column name="goal_uid"/>
+        </createIndex>
+
+    </changeSet>
+
+</databaseChangeLog>

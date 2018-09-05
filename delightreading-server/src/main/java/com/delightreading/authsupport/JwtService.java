@@ -27,7 +27,8 @@ public class JwtService {
 
             // Prepare JWT with claims set
             JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                    .subject(authentication.getAccount().getUid())
+                    // The subject is the Authentication's UID, not the account's UID
+                    .subject(authentication.getUid())
                     .issuer("https://delightreading.com")
                     .expirationTime(new Date(new Date().getTime() + 60 * 1000))
                     .build();

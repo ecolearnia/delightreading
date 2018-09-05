@@ -1,16 +1,18 @@
 package com.delightreading.config;
 
-import com.delightreading.authsupport.AuthSuccessHandler;
-import com.delightreading.authsupport.JWTAuthorizationFilter;
-import com.delightreading.authsupport.JwtService;
-import com.delightreading.authsupport.UserDetailsServiceImpl;
+import com.delightreading.authsupport.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -19,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     AuthSuccessHandler authSuccessHandler;
 
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    TokenBasedUserDetailsService tokenBasedUserDetailsService;
 
     @Autowired
     JwtService jwtService;
@@ -39,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtService))
+                .addFilterAfter(new CookieAuthorizationFilter(authenticationManager(), jwtService), BasicAuthenticationFilter.class)
                 // this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -49,6 +52,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService); // .passwordEncoder(bCryptPasswordEncoder);
+        //auth.tokenBasedUserDetailsService(tokenBasedUserDetailsService); // .passwordEncoder(bCryptPasswordEncoder);
+        auth.authenticationProvider(authenticationProvider());
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider
+                = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(tokenBasedUserDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

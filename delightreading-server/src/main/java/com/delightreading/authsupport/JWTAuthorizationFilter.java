@@ -1,17 +1,8 @@
 package com.delightreading.authsupport;
 
-import com.nimbusds.jose.JWSVerifier;
-import com.nimbusds.jose.crypto.MACVerifier;
-import com.nimbusds.jwt.SignedJWT;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -19,7 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.Optional;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -44,44 +35,30 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             return;
         }
 
-        OAuth2AuthenticationToken authentication = obtainAuthentication(req );;
-        //UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
+        Optional<OAuth2AuthenticationToken> optAuth = obtainAuthentication(req);
+        optAuth.ifPresent(auth -> SecurityContextHolder.getContext().setAuthentication(auth));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(req, res);
     }
 
 
-    private OAuth2AuthenticationToken obtainAuthentication(HttpServletRequest request) {
+    private Optional<OAuth2AuthenticationToken> obtainAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
         if (token == null) {
-            return null;
+            return Optional.empty();
         }
         try {
             var jwt = this.jwtService.parse(token.replace(TOKEN_PREFIX, ""));
 
-            String user = jwt.getJWTClaimsSet().getSubject();
-
-            if (user != null) {
-                Set<GrantedAuthority> authorities = new HashSet<>();
-                //Map<String, Object> authorityAttribs = new HashMap<>();
-                //authorityAttribs.put("ROLE_USER", );
-                authorities.add(new OAuth2UserAuthority(jwt.getJWTClaimsSet().getClaims()));
-                Map<String, Object> userAttribs = new HashMap<>(){{
-                    putAll(jwt.getJWTClaimsSet().getClaims());
-                    // TODO: fetch and assign account object to account attribute
-                    put("account", null ); }};
-                OAuth2User oAuth2User = new DefaultOAuth2User(authorities, userAttribs, "sub");
-                return new OAuth2AuthenticationToken(oAuth2User, new ArrayList<>(), "local");
-            }
+            return OAuth2AuthenticationHelper.oauth2TokenFromJwt(jwt, this.getAuthenticationManager());
         } catch (Exception e) {
-            // log
+            logger.error("Error processing Authorization header", e);
             e.printStackTrace();
         }
-        return null;
+        return Optional.empty();
     }
 
-
+/*
     private Authentication getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
         if (token == null) {
@@ -108,6 +85,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         }
         return null;
     }
+    */
 
 
 }
