@@ -37,16 +37,42 @@ public class UserGroupServiceIT {
 
     List<UserAccountEntity> accounts;
 
+    @Test
+    public void createGroup_whenNew_returnGroup() {
+
+        // Given
+        var auths = buidFullAuths("test", 1);
+
+        var group = UserGroupEntity.builder()
+                .name("TestGroup")
+                .type(UserGroupType.FAMILY)
+                .groupStatus(UserGroupEntity.STATUS_ACTIVE)
+                .category("TestCate")
+                .build();
+
+        // When
+        var createdGroup = userGroupService.createGroup(group, auths.get(0).getAccount(), "admin");
+
+        //UserGroupType[] groupTypes = {UserGroupType.FAMILY, UserGroupType.ACADEMIC};
+        String[] groupTypes = {UserGroupType.FAMILY.name(), UserGroupType.ACADEMIC.name()};
+        var foundGroups = userGroupService.findGroupsByTypeWithMember(groupTypes, auths.get(0).getAccount().getUid(), PageRequest.of(0, 10), true);
+
+
+        // Then
+        assertThat(createdGroup).isNotNull();
+
+        assertThat(foundGroups).hasSize(1);
+    }
 
     @Test
     public void findGroupByTypeAndNameLike_whenSearchByFamilyWithMember_returnTwo() {
 
         // Given
-        prep();
+        prep(6);
 
         // When
         UserGroupType[] groupTypes = {UserGroupType.FAMILY, UserGroupType.ACADEMIC};
-        var foundGroups = userGroupService.findGroupByTypeAndNameLike(groupTypes, "%Family", PageRequest.of(0, 10), true);
+        var foundGroups = userGroupService.findGroupsByTypeAndNameLike(groupTypes, "%Family", PageRequest.of(0, 10), true);
 
         var allGroups = userGroupService.findAllGroups(PageRequest.of(0, 10));
 
@@ -59,14 +85,38 @@ public class UserGroupServiceIT {
     public void findGroupByTypeAndNameLike_whenSearchByAcademicType_returnOne() {
 
         // Given
-        prep();
+        prep(6);
 
         // When
         UserGroupType[] groupTypes = {UserGroupType.ACADEMIC};
-        var foundGroups = userGroupService.findGroupByTypeAndNameLike(groupTypes, "%", PageRequest.of(0, 10), true);
+        var foundGroups = userGroupService.findGroupsByTypeAndNameLike(groupTypes, "%", PageRequest.of(0, 10), true);
 
         // Then
         assertThat(foundGroups).hasSize(1);
+    }
+
+
+    @Test
+    public void findGroupsByTypeWithMember_whenSearchByFamily_returnTwo() {
+
+        // Given
+        var auths = buidFullAuths("GroupTest", 1);
+
+        List<UserGroupEntity> groups = buildGroups();
+        for (UserGroupEntity group: groups) {
+            var savedGroup = entityManager.persist(group);
+            UserGroupMemberEntity member = UserGroupMemberEntity.builder().memberStatus("new")
+                    .account(auths.get(0).getAccount()).group(savedGroup).role("trole").build();
+            entityManager.persist(member);
+        }
+
+        // When
+        String[] groupTypes = {UserGroupType.FAMILY.name(), UserGroupType.CLUB.name()};
+        var foundGroups = userGroupService.findGroupsByTypeWithMember(groupTypes, auths.get(0).getAccount().getUid(), PageRequest.of(0, 10), true);
+
+        // Then
+        assertThat(foundGroups).hasSize(2);
+        assertThat(foundGroups.stream().map(UserGroupEntity::getType).toArray()).containsOnly(UserGroupType.FAMILY);
     }
 
     public List<UserAuthenticationEntity> buidFullAuths(String idPrefix, int count) {
@@ -88,10 +138,7 @@ public class UserGroupServiceIT {
         return auths;
     }
 
-
-    public void prep() {
-
-        var auths = buidFullAuths("GroupTest", 6);
+    public List<UserGroupEntity> buildGroups() {
 
         List<UserGroupEntity> groups = new ArrayList<>();
 
@@ -101,6 +148,18 @@ public class UserGroupServiceIT {
                         UserGroupEntity.builder().name("MegaFamily").type(UserGroupType.FAMILY).build(),
                         UserGroupEntity.builder().name("3rd Grade").type(UserGroupType.ACADEMIC).build())
         );
+        return groups;
+    }
+
+
+    /**
+     * Creates and insert three groups
+     */
+    public List<UserAuthenticationEntity> prep(int userCount) {
+
+        var auths = buidFullAuths("GroupTest", userCount);
+
+        List<UserGroupEntity> groups = buildGroups();
 
         int count = auths.size() / groups.size();
         int authIdx = 0;
@@ -115,6 +174,8 @@ public class UserGroupServiceIT {
                     .account(auth.getAccount()).group(savedGroup).role("trole").build();
             entityManager.persist(member);
         }
+
+        return auths;
     }
 
 }

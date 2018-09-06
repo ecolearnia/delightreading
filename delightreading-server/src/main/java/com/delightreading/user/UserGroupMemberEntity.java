@@ -25,6 +25,7 @@ import java.time.Instant;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class UserGroupMemberEntity extends BaseEntity {
 
+    public static String STATUS_ACTIVE = "active";
 
     @ManyToOne(
             cascade = CascadeType.ALL
@@ -39,6 +40,7 @@ public class UserGroupMemberEntity extends BaseEntity {
     UserAccountEntity account;
 
 
+    // student, guardian, teacher, club-admin
     @Column(name = "role")
     String role;
 

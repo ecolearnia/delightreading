@@ -26,8 +26,10 @@ import java.util.LinkedHashSet;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class UserGroupEntity extends BaseEntity {
 
+    public static final String STATUS_ACTIVE = "active";
 
 
+    // family, academic, club, etc.
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
     UserGroupType type;
@@ -65,6 +67,11 @@ public class UserGroupEntity extends BaseEntity {
     // Integer memberCount;
 
     @Transient
+//    @OneToMany(
+//            mappedBy = "user_group",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true
+//    )
     LinkedHashSet<UserGroupMemberEntity> members = new LinkedHashSet<>();
 
     public void addMember(UserGroupMemberEntity member) {
