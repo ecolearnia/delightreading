@@ -1,4 +1,4 @@
-package com.delightreading.reading;
+package com.delightreading.reading.model;
 
 import com.delightreading.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -10,9 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.Instant;
 
 /**
@@ -21,7 +19,7 @@ import java.time.Instant;
  * twice, there will be two records.
  */
 @Entity
-@Table(name = "goal")
+@Table(name = "completion_log")
 
 @Data
 @Builder
@@ -30,16 +28,16 @@ import java.time.Instant;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class GoalEntity extends BaseEntity {
+public class CompletionLogEntity extends BaseEntity {
 
     @Column(name = "account_uid")
     String accountUid;
 
-    @Column(name = "title")
-    String title;
-
-    @Column(name = "activity")
-    String activity;
+    @ManyToOne(
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name="literature_uid", referencedColumnName = "uid")
+    LiteratureEntity literature;
 
     @Column(name = "start_date")
     Instant startDate;
@@ -47,21 +45,23 @@ public class GoalEntity extends BaseEntity {
     @Column(name = "end_date")
     Instant endDate;
 
-    @Column(name = "actual_completion_date")
-    Instant actualCompletionDate;
+    @Column(name = "percentage_complete")
+    Integer percentageComplete;
 
-    @Column(name = "quantity")
-    Integer quantity;
+    @Column(name = "post_emotion")
+    String postEmotion;
 
-    // book, minutes
-    @Column(name = "quantity_unit")
-    String quantityUnit;
+    @Column(name = "review")
+    String review;
 
-    // every day, week, month, year
-    @Column(name = "time_period")
-    String timePeriod;
+    @Column(name = "synopsis")
+    String synopsis;
 
-    @Column(name = "retrospective")
-    String retrospective;
+    // activityStat
+    @Transient
+    Integer totalDuration;
+
+    @Transient
+    Integer totalCount;
 
 }

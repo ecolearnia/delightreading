@@ -8,4 +8,7 @@
     <include file="db/changelog/create.user_profile.xml" />
     <include file="db/changelog/create.user_group.xml" />
 
+    <include file="db/changelog/reading_literature-create.xml" />
+    <include file="db/changelog/reading_activity_log-create.xml" />
+
 </databaseChangeLog>

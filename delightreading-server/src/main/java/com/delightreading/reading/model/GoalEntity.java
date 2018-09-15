@@ -1,4 +1,4 @@
-package com.delightreading.reading;
+package com.delightreading.reading.model;
 
 import com.delightreading.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -10,7 +10,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.Instant;
 
 /**
@@ -19,7 +21,7 @@ import java.time.Instant;
  * twice, there will be two records.
  */
 @Entity
-@Table(name = "completion_log")
+@Table(name = "goal")
 
 @Data
 @Builder
@@ -28,16 +30,16 @@ import java.time.Instant;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class CompletionLogEntity extends BaseEntity {
+public class GoalEntity extends BaseEntity {
 
     @Column(name = "account_uid")
     String accountUid;
 
-    @ManyToOne(
-            cascade = CascadeType.ALL
-    )
-    @JoinColumn(name="literature_uid", referencedColumnName = "uid")
-    LiteratureEntity literature;
+    @Column(name = "title")
+    String title;
+
+    @Column(name = "activity")
+    String activity;
 
     @Column(name = "start_date")
     Instant startDate;
@@ -45,23 +47,21 @@ public class CompletionLogEntity extends BaseEntity {
     @Column(name = "end_date")
     Instant endDate;
 
-    @Column(name = "percentage_complete")
-    Integer percentageComplete;
+    @Column(name = "actual_completion_date")
+    Instant actualCompletionDate;
 
-    @Column(name = "post_emotion")
-    String postEmotion;
+    @Column(name = "quantity")
+    Integer quantity;
 
-    @Column(name = "review")
-    String review;
+    // book, minutes
+    @Column(name = "quantity_unit")
+    String quantityUnit;
 
-    @Column(name = "synopsis")
-    String synopsis;
+    // every day, week, month, year
+    @Column(name = "time_period")
+    String timePeriod;
 
-    // activityStat
-    @Transient
-    Integer totalDuration;
-
-    @Transient
-    Integer totalCount;
+    @Column(name = "retrospective")
+    String retrospective;
 
 }

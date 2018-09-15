@@ -1,4 +1,4 @@
-package com.delightreading.reading;
+package com.delightreading.reading.model;
 
 import com.delightreading.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

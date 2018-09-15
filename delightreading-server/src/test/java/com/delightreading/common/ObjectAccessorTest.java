@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class ObjectAccessorTest {
 
-    Object aMap;
+    Map aMap;
 
     @Before
     public void setUp() {
@@ -91,5 +91,31 @@ public class ObjectAccessorTest {
 
         var option = ObjectAccessor.access(aMap, "dict.text", String.class);
         Assertions.assertThat(option.get()).isEqualTo("Hello2");
+    }
+
+
+    @Test
+    public void set_whenTargetEmptyAndOneLevelPath_add() {
+
+        var newMap = new HashMap<String, Object>();
+        ObjectAccessor.set(newMap, "text", "HelloWorld");
+        Assertions.assertThat(newMap.get("text")).isEqualTo("HelloWorld");
+    }
+
+    @Test
+    public void set_whenTargetEmptyAndTwoLevelPath_add() {
+
+        var newMap = new HashMap<String, Object>();
+        ObjectAccessor.set(newMap, "dict.text", "HelloWorld");
+        Assertions.assertThat(((Map)newMap.get("dict")).get("text")).isEqualTo("HelloWorld");
+    }
+
+    @Test
+    public void set_whenTargetNonEmptyAndExistingPath_update() {
+
+        ObjectAccessor.set(aMap, "dict.text", "HelloWorld");
+        Assertions.assertThat(((Map)aMap.get("dict")).get("text")).isEqualTo("HelloWorld");
+        var existing = ObjectAccessor.access(aMap, "dict.number", Integer.class);
+        Assertions.assertThat(existing.get()).isEqualTo(12);
     }
 }
