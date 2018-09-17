@@ -1,4 +1,4 @@
-package com.delightreading.user;
+package com.delightreading.user.model;
 
 public enum UserGroupType {
     FAMILY,

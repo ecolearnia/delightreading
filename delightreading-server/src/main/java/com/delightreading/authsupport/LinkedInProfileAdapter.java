@@ -1,7 +1,7 @@
 package com.delightreading.authsupport;
 
-import com.delightreading.user.UserAuthenticationEntity;
-import com.delightreading.user.UserProfileEntity;
+import com.delightreading.user.model.UserAuthenticationEntity;
+import com.delightreading.user.model.UserProfileEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;

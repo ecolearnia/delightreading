@@ -1,6 +1,6 @@
 package com.delightreading.authsupport;
 
-import com.delightreading.user.UserAuthenticationEntity;
+import com.delightreading.user.model.UserAuthenticationEntity;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSSigner;

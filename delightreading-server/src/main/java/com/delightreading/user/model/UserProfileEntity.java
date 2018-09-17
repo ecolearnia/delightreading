@@ -1,5 +1,6 @@
-package com.delightreading.user;
+package com.delightreading.user.model;
 
+import com.delightreading.user.Experience;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;

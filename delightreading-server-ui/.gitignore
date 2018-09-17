@@ -1,0 +1,43 @@
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.swp
+
+pids
+logs
+results
+tmp
+
+#Build
+public/css/main.css
+
+# API keys and secrets
+.env
+
+# Dependency directory
+node_modules
+bower_components
+
+# Editors
+.idea
+*.iml
+
+# OS metadata
+.DS_Storev
+Thumbs.db
+
+# Ignore built ts files
+dist/**/*
+coverage/
+
+# Ignore Nuxt generated files
+.nuxt
+
+# Ignore build copied from ../*-client-web
+web-ui/static/static/**/*
+web-ui/static/index.html

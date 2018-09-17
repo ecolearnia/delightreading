@@ -1,5 +1,6 @@
 package com.delightreading.user;
 
+import com.delightreading.user.model.UserAccountEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

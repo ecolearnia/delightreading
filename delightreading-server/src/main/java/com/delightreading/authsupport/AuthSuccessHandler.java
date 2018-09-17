@@ -1,9 +1,10 @@
 package com.delightreading.authsupport;
 
-import com.delightreading.user.UserAuthenticationEntity;
+import com.delightreading.user.model.UserAuthenticationEntity;
 import com.delightreading.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -44,6 +45,12 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 
     Map<String, ProfileProviderAdapter> profileAdapters = new HashMap<>();
 
+    @Value("${auth.success_url}")
+    String successReturnUrl;
+
+    @Value("${auth.fail_url}")
+    String failReturnUrl;
+
     public AuthSuccessHandler(ObjectMapper objectMapper,
                               OAuth2AuthorizedClientService authorizedClientService,
                               JwtService jwtService,
@@ -82,7 +89,7 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
         resp.addCookie(cookie);
 
         // Redirect to home
-        resp.sendRedirect("/");
+        resp.sendRedirect(successReturnUrl);
     }
 
     UserAuthenticationEntity findOrCreateNew(OAuth2AuthorizedClient authorizedClient) {

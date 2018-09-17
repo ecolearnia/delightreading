@@ -1,6 +1,6 @@
 package com.delightreading.authsupport;
 
-import com.delightreading.user.UserAuthenticationEntity;
+import com.delightreading.user.model.UserAuthenticationEntity;
 import com.delightreading.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,13 +29,13 @@ public class TokenBasedUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserAuthenticationEntity> userAccount = userService.findAuthenticationByUid(username);
-        if (!userAccount.isPresent()) {
+        Optional<UserAuthenticationEntity> userAuth = userService.findAuthenticationByUid(username);
+        if (!userAuth.isPresent()) {
             throw new UsernameNotFoundException(username);
         }
-        // return new User(userAccount.get(), passwordEncoder.encode("pwd"), emptyList());
+        // return new User(userAuth.get(), passwordEncoder.encode("pwd"), emptyList());
         // Override password with default
-        userAccount.get().setPassword(passwordEncoder.encode("pwd"));
-        return userAccount.get();
+        userAuth.get().setPassword(passwordEncoder.encode("pwd"));
+        return userAuth.get();
     }
 }

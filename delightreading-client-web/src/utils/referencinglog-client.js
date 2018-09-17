@@ -1,6 +1,6 @@
 import * as requestUtil from "./request-utils"
 
-const baseUrlPath = "/api/referencinglogs/"
+const baseUrlPath = "/api/reading/v1/completionlogs"
 
 export function listReferencingLog(page, pageSize) {
   let qs = requestUtil.toQueryString({page: page, pageSize: pageSize});

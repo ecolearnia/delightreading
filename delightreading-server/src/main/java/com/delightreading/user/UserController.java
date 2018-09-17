@@ -1,17 +1,21 @@
-package com.delightreading.user.web;
+package com.delightreading.user;
 
+import com.delightreading.authsupport.AuthenticationUtils;
 import com.delightreading.authsupport.JwtService;
+import com.delightreading.rest.UnauthorizedException;
 import com.delightreading.user.UserService;
+import com.delightreading.user.model.UserAccountEntity;
+import com.delightreading.user.model.UserAuthenticationEntity;
+import com.delightreading.user.model.UserProfileEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -56,4 +60,20 @@ public class UserController {
         }};
         return response;
     }
+
+
+    @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public UserAccountEntity me() {
+        Optional<OAuth2AuthenticationToken> oauthTokenOpt = AuthenticationUtils.getOAuth2AuthenticationToken();
+        if (oauthTokenOpt.isPresent()) {
+            throw new UnauthorizedException(UserProfileEntity.class.getSimpleName(), "");
+        }
+        UserAccountEntity userAccount = null;
+        if (oauthTokenOpt.get().getDetails() instanceof UserAuthenticationEntity) {
+            userAccount = ((UserAuthenticationEntity)oauthTokenOpt.get().getDetails()).getAccount();
+        }
+        return userAccount;
+    }
+
 }

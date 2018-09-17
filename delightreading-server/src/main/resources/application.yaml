@@ -20,6 +20,9 @@ server.port: 9090
 ########## Security ##########
 spring.profiles.include: 'secrets'
 
+auth.success_url: http://localhost:8080
+auth.fail_url: http://localhost:8080
+
 ## Google
 spring.security.oauth2.client.registration.google.client-id:
 spring.security.oauth2.client.registration.google.client-secret:

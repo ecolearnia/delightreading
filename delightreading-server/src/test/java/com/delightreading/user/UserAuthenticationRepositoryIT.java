@@ -1,5 +1,7 @@
 package com.delightreading.user;
 
+import com.delightreading.user.model.UserAccountEntity;
+import com.delightreading.user.model.UserAuthenticationEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

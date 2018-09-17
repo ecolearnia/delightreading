@@ -1,6 +1,8 @@
 package com.delightreading.user;
 
 import com.delightreading.SpringApplicationContextUtil;
+import com.delightreading.user.model.UserAccountEntity;
+import com.delightreading.user.model.UserProfileEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

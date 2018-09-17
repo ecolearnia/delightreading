@@ -1,7 +1,7 @@
 package com.delightreading.authsupport;
 
 import com.delightreading.TestHelper;
-import com.delightreading.user.UserAuthenticationEntity;
+import com.delightreading.user.model.UserAuthenticationEntity;
 import org.junit.Test;
 
 import java.nio.file.Files;

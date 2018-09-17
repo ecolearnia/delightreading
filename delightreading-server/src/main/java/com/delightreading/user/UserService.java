@@ -1,5 +1,8 @@
 package com.delightreading.user;
 
+import com.delightreading.user.model.UserAccountEntity;
+import com.delightreading.user.model.UserAuthenticationEntity;
+import com.delightreading.user.model.UserProfileEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

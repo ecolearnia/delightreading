@@ -1,8 +1,8 @@
 package com.delightreading.user;
 
+import com.delightreading.user.model.UserGroupMemberEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
 import java.util.Optional;
