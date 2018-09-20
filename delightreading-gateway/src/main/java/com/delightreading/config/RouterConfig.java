@@ -22,11 +22,14 @@ public class RouterConfig {
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
 
         return builder.routes()
-                .route("r1", r -> r.path("/api/**")
+                .route("api", r -> r.path("/api/**")
                         // .filters(f->f.rewritePath("/api/(?<segment>.*)","/browse/${segment}"))
                     .uri(this.apiBaseUri)
                 )
-                .route("r1", r -> r.path("/login/**")
+                .route("login", r -> r.path("/login/**")
+                        .uri(this.apiBaseUri)
+                )
+                .route("oauth", r -> r.path("/oauth2/**")
                         .uri(this.apiBaseUri)
                 )
                 .route("r1", r -> r.path("/**")

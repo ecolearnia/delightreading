@@ -7,6 +7,8 @@ import Home from '@/components/Home'
 import UserProfile from '@/components/UserProfile'
 import Parent from '@/components/Parent'
 import Tickets from '@/components/Tickets'
+import SignIn from '@/components/SignIn'
+import SignUp from '@/components/SignUp'
 
 import store from '../store'
 
@@ -26,6 +28,16 @@ const router = new Router({
       path: '/tickets',
       name: 'Tickets',
       component: Tickets
+    },
+    {
+      path: '/signin',
+      name: 'SignIn',
+      component: SignIn
+    },
+    {
+      path: '/signup',
+      name: 'SignUp',
+      component: SignUp
     },
     {
       path: '/home',

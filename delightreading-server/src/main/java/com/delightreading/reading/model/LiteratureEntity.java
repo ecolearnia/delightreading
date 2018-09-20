@@ -27,7 +27,7 @@ import java.util.Map;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+//@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class LiteratureEntity extends BaseEntity {
 
     @Column(name = "source_uri")

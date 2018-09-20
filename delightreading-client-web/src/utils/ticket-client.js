@@ -1,6 +1,6 @@
 import * as requestUtil from "./request-utils"
 
-const baseUrlPath = "/api/tickets/"
+const baseUrlPath = "/api/ticket/v1/tickets"
 
 export function listTickets(page, pageSize) {
   let qs = requestUtil.toQueryString({page: page, pageSize: pageSize});
@@ -12,9 +12,9 @@ export function addTicket(ticket) {
 }
 
 export function updateTicket(sid, ticket) {
-  return requestUtil.put(baseUrlPath + sid, ticket);
+  return requestUtil.put(baseUrlPath + "/" + sid, ticket);
 }
 
 export function deleteTicket(sid) {
-  return requestUtil.del(baseUrlPath + sid);
+  return requestUtil.del(baseUrlPath + "/" + sid);
 }

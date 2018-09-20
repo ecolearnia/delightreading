@@ -13,8 +13,6 @@ import java.util.Optional;
 @Slf4j
 public class UserService {
 
-    public static final String LOCAL_PROVIDER = "local";
-
     UserAccountRepository userAccountRepository;
     UserAuthenticationRepository userAuthenticationRepository;
     UserProfileRepository userProfileRepository;
@@ -47,6 +45,10 @@ public class UserService {
 
     public Optional<UserProfileEntity> findProfile(String accountUId) {
         return this.userProfileRepository.findByAccountUid(accountUId);
+    }
+
+    public UserProfileEntity save(UserProfileEntity profile) {
+        return this.userProfileRepository.save(profile);
     }
 
     /**

@@ -3,6 +3,7 @@ package com.delightreading.user.web;
 import com.delightreading.SpringApplicationContextUtil;
 import com.delightreading.authsupport.JwtService;
 import com.delightreading.user.*;
+import com.delightreading.user.model.UserAuthenticationEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,7 +65,7 @@ public class UserControllerIT {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 
         var account = UserAccountEntityRepositoryIT.buildEntity("TEST-UserUID1", "TEST-Username1", "TEST-givenName1", Arrays.asList("email1a@test.com", "email1b@test.com"));
-        var auth = UserAuthenticationRepositoryIT.buildEntity("TEST-UID1", UserService.LOCAL_PROVIDER, "TEST-F1", "pwd1", account);
+        var auth = UserAuthenticationRepositoryIT.buildEntity("TEST-UID1", UserAuthenticationEntity.LOCAL_PROVIDER, "TEST-F1", "pwd1", account);
         entityManager.persistAndFlush(auth);
     }
 

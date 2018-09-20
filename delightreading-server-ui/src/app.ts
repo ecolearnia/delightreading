@@ -1,4 +1,5 @@
 import * as express from "express";
+import * as cors from "cors";
 import * as compression from "compression";  // compresses requests
 import * as bodyParser from "body-parser";
 import * as dotenv from "dotenv";
@@ -26,6 +27,7 @@ if (process.env.TRUST_PROXY) {
   app.enable("trust proxy");
 }
 
+//app.use(cors());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

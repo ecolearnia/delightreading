@@ -10,5 +10,6 @@
 
     <include file="db/changelog/reading_literature-create.xml" />
     <include file="db/changelog/reading_activity_log-create.xml" />
+    <include file="db/changelog/reading_completion_log-create.xml" />
 
 </databaseChangeLog>

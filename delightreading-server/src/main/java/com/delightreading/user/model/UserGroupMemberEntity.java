@@ -22,7 +22,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+//@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class UserGroupMemberEntity extends BaseEntity {
 
     public static String STATUS_ACTIVE = "active";

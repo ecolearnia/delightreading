@@ -1,6 +1,6 @@
 import * as requestUtil from "./request-utils"
 
-const baseUrlPath = "/api/goals/v1/"
+const baseUrlPath = "/api/reading/v1/goals"
 
 export function getActiveGoal() {
   return requestUtil.get(baseUrlPath + "?active=true");

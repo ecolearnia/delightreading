@@ -30,7 +30,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+//@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class UserAccountEntity implements Serializable {
 
     public static final String STATUS_LOCKED = "locked";

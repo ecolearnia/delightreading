@@ -27,7 +27,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+//@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class CompletionLogEntity extends BaseEntity {
 
     @Column(name = "account_uid")

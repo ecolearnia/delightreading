@@ -3,6 +3,7 @@ package com.delightreading.authsupport;
 import com.delightreading.user.model.UserAuthenticationEntity;
 import com.delightreading.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import liquibase.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -86,6 +87,10 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
         Cookie cookie = new Cookie(CookieAuthorizationFilter.COOKIE_NAME, token);
         cookie.setMaxAge( 24 * 60 * 60);// for 24 hrs
         cookie.setPath("/"); // this is the magic
+        //cookie.setDomain ("http://localhost:8080");
+        // cookie.setHttpOnly(true);
+        cookie.setSecure(false);
+
         resp.addCookie(cookie);
 
         // Redirect to home

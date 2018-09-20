@@ -8,13 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface UserAccountRepository extends JpaRepository<UserAccountEntity, Long> {
-//    public UserAccountEntity findByAccountUsername(String username)
-//    {
-//        return UserAccountEntity.builder()
-//                .emails(Arrays.asList("test@mail.net"))
-//                .givenName("Tino")
-//                .familyName("Zhero").build();
-//    }
 
     Optional<UserAccountEntity> findByUid(String uid);
 

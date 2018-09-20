@@ -29,7 +29,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+//@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class UserProfileEntity implements Serializable {
 
 

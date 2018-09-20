@@ -41,9 +41,17 @@ export function getMyAccount() {
 }
 
 export function getMyProfile() {
-  return requestUtil.get(baseUrlPath + "/myprofile");
+  return requestUtil.get(baseUrlPath + "/me/profile");
 }
 
 export function saveMyProfile(profile) {
-  return requestUtil.put(baseUrlPath + "/myprofile", profile);
+  return requestUtil.put(baseUrlPath + "/me/profile", profile);
+}
+
+export function signUp(details) {
+  return requestUtil.post(baseUrlPath + "/register", details);
+}
+
+export function signIn(details) {
+  return requestUtil.post(baseUrlPath + "/login", details);
 }

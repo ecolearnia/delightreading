@@ -25,6 +25,12 @@ npm run e2e
 
 # run all tests
 npm test
+
+# run UI using webpack-dev-server
+npm start
 ```
+
+** NOTE: using the webpack-dev-server ignores cookie =(
+    Using the 
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

@@ -20,6 +20,7 @@ server.port: 9090
 ########## Security ##########
 spring.profiles.include: 'secrets'
 
+#auth.success_url: /
 auth.success_url: http://localhost:8080
 auth.fail_url: http://localhost:8080
 

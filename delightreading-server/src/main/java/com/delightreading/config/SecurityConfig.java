@@ -13,6 +13,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -36,8 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                // this disables session creation on Spring Security
 //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/").permitAll()
+        http.cors().and().csrf().disable()
+                .authorizeRequests().antMatchers("/api/users/v1/login", "/api/users/v1/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtService))
@@ -48,12 +53,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .oauth2Login()
                 .successHandler(authSuccessHandler);
 
+//        http.headers()
+//                .xssProtection().disable();
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         //auth.tokenBasedUserDetailsService(tokenBasedUserDetailsService); // .passwordEncoder(bCryptPasswordEncoder);
         auth.authenticationProvider(authenticationProvider());
+    }
+
+    @Bean
+    // @see: https://docs.spring.io/spring-security/site/docs/current/reference/html/cors.html
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "DELETE", "POST", "PUT", "OPTIONS"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean
