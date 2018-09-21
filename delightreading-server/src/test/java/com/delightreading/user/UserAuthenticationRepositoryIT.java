@@ -32,7 +32,7 @@ public class UserAuthenticationRepositoryIT {
 
     @Before
     public void setup() {
-        var account = UserAccountEntityRepositoryIT.buildEntity("TEST-UserUID1", "TEST-Username1", "TEST-givenName1", Arrays.asList("email1a@test.com", "email1b@test.com"));
+        var account = UserAccountRepositoryIT.buildEntity("TEST-UserUID1", "TEST-Username1", "TEST-givenName1", Arrays.asList("email1a@test.com", "email1b@test.com"));
         var auth1 = this.buildEntity("TEST-UID1", "TEST-Foogle", "TEST-F1", "pwd1", account);
         entityManager.persistAndFlush(auth1);
 

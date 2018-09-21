@@ -36,12 +36,12 @@ public class UserProfileRepositoryIT {
 
     @Before
     public void setup() {
-        var account1 = UserAccountEntityRepositoryIT.buildEntity("TEST-UserUID1", "TEST-Username1", "TEST-givenName1", Arrays.asList("email1a@test.com", "email1b@test.com"));
+        var account1 = UserAccountRepositoryIT.buildEntity("TEST-UserUID1", "TEST-Username1", "TEST-givenName1", Arrays.asList("email1a@test.com", "email1b@test.com"));
         entityManager.persistAndFlush(account1);
         var profile1 = UserProfileRepositoryIT.buildEntity(Arrays.asList(Experience.builder().kind("exp-kind1").title("exp-title1").build()), Arrays.asList("math", "science"), "male", account1);
         entityManager.persistAndFlush(profile1);
 
-        var account2 = UserAccountEntityRepositoryIT.buildEntity(null, "TEST-Username2", "TEST-givenName2", Arrays.asList("email2a@test.com", "email2b@test.com"));
+        var account2 = UserAccountRepositoryIT.buildEntity(null, "TEST-Username2", "TEST-givenName2", Arrays.asList("email2a@test.com", "email2b@test.com"));
         entityManager.persistAndFlush(account2);
         var profile2 = UserProfileRepositoryIT.buildEntity(Arrays.asList(Experience.builder().kind("exp-kind2").title("exp-title2").build()), Arrays.asList("literature", "science"), "female", account2);
         entityManager.persistAndFlush(profile2);

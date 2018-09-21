@@ -51,17 +51,17 @@
         </createIndex>
 
         <createIndex indexName="activity_log_accountuid_idx"
-                     tableName="activity_log" unique="true">
+                     tableName="activity_log" >
             <column name="account_uid"/>
         </createIndex>
 
         <createIndex indexName="activity_log_completionloguid_idx"
-                     tableName="activity_log" unique="true">
+                     tableName="activity_log" >
             <column name="completionlog_uid"/>
         </createIndex>
 
         <createIndex indexName="activity_log_goaluid_idx"
-                     tableName="activity_log" unique="true">
+                     tableName="activity_log" >
             <column name="goal_uid"/>
         </createIndex>
 

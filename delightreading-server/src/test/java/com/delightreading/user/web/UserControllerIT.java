@@ -64,7 +64,7 @@ public class UserControllerIT {
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 
-        var account = UserAccountEntityRepositoryIT.buildEntity("TEST-UserUID1", "TEST-Username1", "TEST-givenName1", Arrays.asList("email1a@test.com", "email1b@test.com"));
+        var account = UserAccountRepositoryIT.buildEntity("TEST-UserUID1", "TEST-Username1", "TEST-givenName1", Arrays.asList("email1a@test.com", "email1b@test.com"));
         var auth = UserAuthenticationRepositoryIT.buildEntity("TEST-UID1", UserAuthenticationEntity.LOCAL_PROVIDER, "TEST-F1", "pwd1", account);
         entityManager.persistAndFlush(auth);
     }

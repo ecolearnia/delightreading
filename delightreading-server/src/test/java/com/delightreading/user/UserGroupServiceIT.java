@@ -127,7 +127,7 @@ public class UserGroupServiceIT {
             String givenName = idPrefix + "Name-" + String.valueOf(i);
             String email =  idPrefix + String.valueOf(i) + "@supertest.com";
             String providerActId =  idPrefix + "ProvActID" + String.valueOf(i);
-            var account1 = UserAccountEntityRepositoryIT.buildEntity(null, userName, givenName, Arrays.asList(email));
+            var account1 = UserAccountRepositoryIT.buildEntity(null, userName, givenName, Arrays.asList(email));
             entityManager.persist(account1);
             var profile1 = UserProfileRepositoryIT.buildEntity(Arrays.asList(Experience.builder().kind("exp-kind1").title("exp-title1").build()), Arrays.asList("math", "science"), "male", account1);
             entityManager.persist(profile1);

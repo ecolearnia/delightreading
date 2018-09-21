@@ -145,7 +145,9 @@ import "vue-multiselect/dist/vue-multiselect.min.css";
 const LOG_ENTRY_NEW = {
   sid: null,
   goalSid: null,
-  referenceSourceUri: null,
+  literature: {
+    sourceUri: null,
+  },
   referencingLogSid: null,
   activity: "read",
   logTimestamp: new Date(),
@@ -260,7 +262,7 @@ export default {
       return (item) && item.img;
     },
     assignReferenceSoruceUri: function(link) {
-      this.readLogEntry.referenceSourceUri = link;
+      this.readLogEntry.literature.sourceUri = link;
     },
     loadLog: function() {
       activityClient

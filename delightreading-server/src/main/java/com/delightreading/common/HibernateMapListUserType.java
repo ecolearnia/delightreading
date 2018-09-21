@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class HibernateMapListUserType extends JsonBasedType {
     public HibernateMapListUserType() {
-        super(new TypeReference<List<String>>() {
+        super(new TypeReference<List<Map>>() {
         });
     }
 

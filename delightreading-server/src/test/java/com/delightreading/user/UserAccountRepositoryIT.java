@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureJsonTesters
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @EnableAutoConfiguration
-public class UserAccountEntityRepositoryIT {
+public class UserAccountRepositoryIT {
 
     @Autowired
     UserAccountRepository userAccountRepository;
@@ -32,10 +32,10 @@ public class UserAccountEntityRepositoryIT {
 
     @Before
     public void setup() {
-        var userAccount1 = UserAccountEntityRepositoryIT.buildEntity("TEST-UID1", "TEST-Username1", "TEST-givenName1", Arrays.asList("email1a@test.com", "email1b@test.com"));
+        var userAccount1 = UserAccountRepositoryIT.buildEntity("TEST-UID1", "TEST-Username1", "TEST-givenName1", Arrays.asList("email1a@test.com", "email1b@test.com"));
         entityManager.persistAndFlush(userAccount1);
 
-        var userAccount2 = UserAccountEntityRepositoryIT.buildEntity("TEST-UID2", "TEST-Username2", "TEST-givenName2", Arrays.asList("email2a@test.com", "email2b@test.com"));
+        var userAccount2 = UserAccountRepositoryIT.buildEntity("TEST-UID2", "TEST-Username2", "TEST-givenName2", Arrays.asList("email2a@test.com", "email2b@test.com"));
         entityManager.persistAndFlush(userAccount2);
 
     }
@@ -43,7 +43,7 @@ public class UserAccountEntityRepositoryIT {
     @Test
     public void crud_simple() {
 
-        var newUserAccount = UserAccountEntityRepositoryIT.buildEntity("TEST-UID", "TEST-Username", "TEST-givenName", Arrays.asList("emaila@test.com", "emailb@test.com"));
+        var newUserAccount = UserAccountRepositoryIT.buildEntity("TEST-UID", "TEST-Username", "TEST-givenName", Arrays.asList("emaila@test.com", "emailb@test.com"));
         var userAccount = this.userAccountRepository.save(newUserAccount);
 
         UserAccountEntity match1 = userAccountRepository.findByUid(userAccount.getUid()).get();

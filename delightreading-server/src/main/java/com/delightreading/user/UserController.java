@@ -45,7 +45,7 @@ public class UserController {
         }
         String username = loginInput.get(USERNAME);
         String password = loginInput.get(PASSWORD);
-        log.info("Attempt to login with [{}]", username);
+        log.info("login/start, username=[{}]", username);
 
         var optAuth = userService.findByProviderAndProviderAccountId(UserAuthenticationEntity.LOCAL_PROVIDER, username);
         if (!optAuth.isPresent()) {
@@ -62,12 +62,13 @@ public class UserController {
         Map<String, Object> response = new HashMap<>() {{
             put("token", token);
         }};
+        log.debug("login/complete, token={}", token);
         return response;
     }
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public Map<String, Object> register(@RequestBody Map<String, String> registInput) {
+    public Map<String, Object> registerUser(@RequestBody Map<String, String> registInput) {
 
         if (!registInput.containsKey(USERNAME)
                 || !registInput.containsKey(PASSWORD)) {
@@ -76,6 +77,7 @@ public class UserController {
         String username = registInput.get(USERNAME);
         String password = registInput.get(PASSWORD);
         String email = registInput.get(EMAIL);
+        log.debug("registerUser/start, username={}", username);
 
         UserAccountEntity userAccount = UserAccountEntity.builder()
                 .username(username)
@@ -103,6 +105,7 @@ public class UserController {
         Map<String, Object> response = new HashMap<>() {{
             put("token", token);
         }};
+        log.debug("registerUser/complete, token={}", token);
         return response;
     }
 
@@ -110,21 +113,17 @@ public class UserController {
     @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public UserAccountEntity me() {
-        Optional<OAuth2AuthenticationToken> oauthTokenOpt = AuthenticationUtils.getOAuth2AuthenticationToken();
-        if (!oauthTokenOpt.isPresent()) {
-            throw new UnauthorizedException(UserProfileEntity.class.getSimpleName(), "");
-        }
-        UserAccountEntity userAccount = null;
-        if (oauthTokenOpt.get().getDetails() instanceof UserAuthenticationEntity) {
-            userAccount = ((UserAuthenticationEntity)oauthTokenOpt.get().getDetails()).getAccount();
-        }
-        return userAccount;
+        UserAuthenticationEntity userAuth = AuthenticationUtils.getUserAuthenticationOrError();
+        log.debug("me/start, accountUid={}", userAuth.getAccount().getUid());
+
+        return userAuth.getAccount();
     }
 
     @GetMapping(value = "/me/profile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public UserProfileEntity myProfile() {
         UserAuthenticationEntity userAuth = AuthenticationUtils.getUserAuthenticationOrError();
+        log.debug("myProfile/start, accountUid={}", userAuth.getAccount().getUid());
 
         Optional<UserProfileEntity> userProfileOpt = userService.findProfile(userAuth.getAccount().getUid());
 
@@ -135,6 +134,7 @@ public class UserController {
     @ResponseBody
     public UserProfileEntity updateMyProfile(@RequestBody UserProfileEntity userProfile) {
         UserAuthenticationEntity userAuth = AuthenticationUtils.getUserAuthenticationOrError();
+        log.debug("POST/myProfile/start, accountUid={}", userAuth.getAccount().getUid());
 
         Optional<UserProfileEntity> userProfileOpt = userService.findProfile(userAuth.getAccount().getUid());
         UserProfileEntity profileFound = userProfileOpt.get();

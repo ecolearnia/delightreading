@@ -44,7 +44,7 @@
         </createIndex>
 
         <createIndex indexName="completion_log_accountuid_idx"
-                     tableName="completion_log" unique="true">
+                     tableName="completion_log" >
             <column name="account_uid"/>
         </createIndex>
 

@@ -16,6 +16,7 @@
             <column name="title" type="varchar(256)" >
                 <constraints nullable="false" />
             </column>
+            <column name="author_names" type="jsonb"/>
             <column name="publisher" type="varchar(128)"/>
             <column name="published_date" type="varchar(12)" />
             <column name="description" type="text"/>
@@ -55,7 +56,7 @@
         </createIndex>
 
         <createIndex indexName="literature_title_idx"
-                     tableName="literature" unique="true">
+                     tableName="literature" >
             <column name="title"/>
         </createIndex>
 
