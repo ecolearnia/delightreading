@@ -73,6 +73,7 @@ const router = new Router({
 });
 
 export const LOGIN_PAGE_PATH = "/";
+export const HOME_PAGE_PATH = "/home";
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {

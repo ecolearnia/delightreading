@@ -11,12 +11,12 @@ export function addActivityLog(logEntry) {
   return requestUtil.post(baseUrlPath, logEntry);
 }
 
-export function updateActivityLog(sid, logEntry) {
-  return requestUtil.put(baseUrlPath + "/" + sid, logEntry);
+export function updateActivityLog(uid, logEntry) {
+  return requestUtil.put(baseUrlPath + "/" + uid, logEntry);
 }
 
-export function deleteActivityLog(sid) {
-  return requestUtil.del(baseUrlPath + "/" + sid);
+export function deleteActivityLog(uid) {
+  return requestUtil.del(baseUrlPath + "/" + uid);
 }
 
 export function getStats() {

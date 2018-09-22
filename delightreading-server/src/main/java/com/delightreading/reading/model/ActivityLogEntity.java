@@ -89,4 +89,11 @@ public class ActivityLogEntity extends BaseEntity {
     @Column(name = "approved_at")
     Instant approvedAt;
 
+    public void setPercentageComplete(Integer val) {
+        this.percentageComplete = val;
+        if (val != null && val > 100) {
+            this.percentageComplete = 100;
+        }
+    }
+
 }

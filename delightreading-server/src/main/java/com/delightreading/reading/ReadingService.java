@@ -5,15 +5,20 @@ import com.delightreading.reading.model.ActivityStats;
 import com.delightreading.reading.model.CompletionLogEntity;
 import com.delightreading.reading.model.LiteratureEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+import static org.apache.commons.beanutils.BeanUtils.*;
 
 @Service
 @Slf4j
@@ -45,6 +50,26 @@ public class ReadingService {
         return this.save(activityLog);
     }
 
+    @Transactional
+    public Optional<ActivityLogEntity> updateFeed(String accountUid, ActivityLogEntity feed) {
+        Optional<ActivityLogEntity> activityLog = this.activityLogRepository.findByUid(feed.getUid());
+        if (activityLog.isPresent()) {
+            activityLog.get().setFeedBody(feed.getFeedBody());
+            activityLog.get().setFeedContext(feed.getFeedContext());
+            activityLog.get().setPostEmotion(feed.getPostEmotion());
+            activityLog.get().setPercentageComplete(feed.getPercentageComplete());
+
+            Optional<CompletionLogEntity> completionLogOpt = this.completionLogRepository.findByUid(activityLog.get().getCompletionLog().getUid());
+            if (completionLogOpt.isPresent()) {
+                completionLogOpt.get().updatePercentageComplete(activityLog.get().getPercentageComplete());
+                this.completionLogRepository.save(completionLogOpt.get());
+            }
+
+            return Optional.of(activityLogRepository.save(activityLog.get()));
+        }
+        return Optional.empty();
+    }
+
     public Page<ActivityLogEntity> findAllActivityLogs(String accountUid, Pageable pageable) {
         return this.activityLogRepository.findByAccountUid(accountUid, pageable);
     }
@@ -56,12 +81,27 @@ public class ReadingService {
                 .periodStart(Instant.now())
                 .activityCount(3F)
                 .build());
+        result.put("week", ActivityStats.builder()
+                .periodStart(Instant.now())
+                .activityCount(3F)
+                .build());
+        result.put("day", ActivityStats.builder()
+                .periodStart(Instant.now())
+                .activityCount(3F)
+                .build());
         return result;
     }
 
-
     public ActivityLogEntity save(ActivityLogEntity activityLog) {
         return this.activityLogRepository.save(activityLog);
+    }
+
+    public Optional<ActivityLogEntity> delete(String activityLogUid) {
+        Optional<ActivityLogEntity> foundOpt = this.activityLogRepository.findByUid(activityLogUid);
+        if (foundOpt.isPresent()) {
+            this.activityLogRepository.delete(foundOpt.get());
+        }
+        return foundOpt;
     }
 
     ////////// CompletionLog {{
@@ -75,22 +115,56 @@ public class ReadingService {
         Optional<CompletionLogEntity> completionLogOpt = this.completionLogRepository.findByAccountUidAndLiteratureUid(accountUid, literature.getUid());
         if (completionLogOpt.isPresent()) {
             completionLog = completionLogOpt.get();
-            completionLog.setPercentageComplete(percentComplete);
+            completionLog.updatePercentageComplete(percentComplete);
         } else {
             completionLog = CompletionLogEntity.builder()
+                    .startDate(Instant.now())
                     .literature(literature)
                     .accountUid(accountUid)
                     .percentageComplete(percentComplete)
                     .build();
         }
-        if (completionLog.getPercentageComplete() != null && completionLog.getPercentageComplete() == 100) {
-            completionLog.setEndDate(Instant.now());
-        }
-        return this.save(completionLog);
-    }
 
-
-    public CompletionLogEntity save(CompletionLogEntity completionLog) {
         return this.completionLogRepository.save(completionLog);
     }
+
+    public Optional<CompletionLogEntity> updateCompletionLog (String accountUid, CompletionLogEntity completionLog) {
+        Optional<CompletionLogEntity> completionLogOpt = this.completionLogRepository.findByUid(completionLog.getUid());
+        if (completionLogOpt.isPresent()) {
+            completionLogOpt.get().updatePercentageComplete(completionLog.getPercentageComplete());
+            completionLogOpt.get().setPostEmotion(completionLog.getPostEmotion());
+
+            return Optional.of(this.completionLogRepository.save(completionLogOpt.get()));
+        }
+        return Optional.empty();
+    }
+
+
+    public Optional<CompletionLogEntity> patchCompletionLog (String accountUid, String uid, Map<String, Object> fields) {
+
+        Optional<CompletionLogEntity> completionLogOpt = this.completionLogRepository.findByUid(uid);
+        if (completionLogOpt.isPresent()) {
+
+            String[] removefields = {"sid", "uid", "createdBy", "createdAt", "accountUid", "literature"};
+            Arrays.stream(removefields).forEach(fieldName -> fields.remove(fieldName));
+            try {
+                populate(completionLogOpt.get(), fields);
+            } catch (Exception e) {
+                log.warn("Error populating CompletionLog", e);
+            }
+
+            return Optional.of(this.completionLogRepository.save(completionLogOpt.get()));
+        }
+        return Optional.empty();
+    }
+
+    public Optional<CompletionLogEntity> deleteCompletionLog(String uid) {
+        Optional<CompletionLogEntity> foundOpt = this.completionLogRepository.findByUid(uid);
+        if (foundOpt.isPresent()) {
+            this.completionLogRepository.delete(foundOpt.get());
+        }
+        return foundOpt;
+    }
+
+
 }

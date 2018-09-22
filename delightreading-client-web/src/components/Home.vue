@@ -44,9 +44,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="readLogItem in readLog" v-bind:key="readLogItem.sid">
-              <td><img :src="readLogItem.reference.thumbnailImageUrl" height="40"></td>
-              <td>{{ readLogItem.reference.title }}
+            <tr v-for="readLogItem in readLog.content" v-bind:key="readLogItem.sid">
+              <td><img :src="readLogItem.literature.thumbnailImageUrl" height="40"></td>
+              <td>{{ readLogItem.literature.title }}
                 <span class v-if="readLogItem.feedBody">
                   <a data-toggle="collapse" :href="'#feedbackPane-' + readLogItem.sid" role="button" aria-expanded="false" aria-controls="Feedback">
                     <i class="fas fa-comment-alt"></i></a>
@@ -116,7 +116,7 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Skip</button>
             <button type="button"  v-on:click="updateLogWithFeedback()" class="btn btn-primary">Save</button>
           </div>
         </div>
@@ -144,9 +144,10 @@ import "vue-multiselect/dist/vue-multiselect.min.css";
 
 const LOG_ENTRY_NEW = {
   sid: null,
+  uid: null,
   goalSid: null,
   literature: {
-    sourceUri: null,
+    sourceUri: null
   },
   referencingLogSid: null,
   activity: "read",
@@ -230,7 +231,7 @@ export default {
 
     const self = this;
     refTitle.bind('typeahead:select', function(ev, suggestion) {
-      console.log('Selection: ' + JSON.stringify(suggestion, undefined, 2));
+      // console.log('Selection: ' + JSON.stringify(suggestion, undefined, 2));
       self.assignReferenceSoruceUri(suggestion.link);
     });
 
@@ -252,7 +253,7 @@ export default {
         }
       }
     );
-    console.log(refTitle);
+    // console.log(refTitle);
   },
   methods: {
     emotionToImageSrc: function(emotion) {
@@ -320,6 +321,7 @@ export default {
         .addActivityLog(this.readLogEntry)
         .then(response => {
           this.readLogEntry.sid = response.data.sid;
+          this.readLogEntry.uid = response.data.uid;
           this.loadLog();
           $("#noteModal").modal();
           // this.clearForm();
@@ -337,7 +339,7 @@ export default {
       readLogEntry.feedContext = this.feedContext;
       readLogEntry.postEmotion = this.readLogEntry.postEmotion && this.readLogEntry.postEmotion.title;
       activityClient
-        .updateActivityLog(readLogEntry.sid, readLogEntry)
+        .updateActivityLog(readLogEntry.uid, readLogEntry)
         .then(response => {
           this.loadLog();
           this.loadStats();

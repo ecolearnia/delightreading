@@ -23,6 +23,7 @@
 
 <script>
 import "bootstrap";
+import { default as router, HOME_PAGE_PATH } from "../router"
 
 import * as userClient from "../utils/user-client";
 
@@ -37,6 +38,7 @@ export default {
   },
   data() {
     return {
+      serverBaseUrl: process.env.SERVER_BASE_URL,
       pageTitle: "SignIn",
       credentials: Object.assign({}, CREDENTIALS_NEW)
     };
@@ -49,8 +51,9 @@ export default {
         if (response.data) {
           let token = response.data.token;
           alert("Login success: " + token);
-          // TODO: set cooke
+          // TODO: set cookie
           document.cookie = "dr_token=" + token + "; path=/";
+          router.push(HOME_PAGE_PATH);
         }
       }).catch(error => {
         alert("Error: " + error);

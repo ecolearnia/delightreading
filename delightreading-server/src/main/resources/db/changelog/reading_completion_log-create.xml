@@ -21,6 +21,7 @@
             <column name="end_date" type="timestamp with time zone"/>
             <column name="percentage_complete" type="int" />
             <column name="post_emotion" type="varchar(255)"/>
+            <column name="my_rating" type="int"/>
             <column name="situation" type="varchar(255)"/>
             <column name="review" type="text"/>
             <column name="synopsis" type="text"/>

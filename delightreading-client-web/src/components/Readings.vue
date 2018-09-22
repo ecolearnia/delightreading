@@ -4,11 +4,11 @@
     <form>
       <div class="form-row">
         <div class="form-group col-md-6">
-          <BookTitleTypeaheadWidget v-model="referencingLogEntry.referenceTitle" @selected="titleSelected" @blur.native="onTitleBlur" class="form-control" placeholder="The book you read" >
+          <BookTitleTypeaheadWidget v-model="completionLogEntry.literatureTitle" @selected="titleSelected" @blur.native="onTitleBlur" class="form-control" placeholder="The book you read" >
           </BookTitleTypeaheadWidget>
         </div>
         <div class="form-group col-md-3">
-          <v-date-picker  v-model="referencingLogEntry.endDate" >
+          <v-date-picker  v-model="completionLogEntry.endDate" >
             <input id="endDate" type="text" class="form-control"  slot-scope='props' :value='props.inputValue' @blur="onDateBlur" @change.native='props.updateValue($event.target.value)'>
           </v-date-picker>
         </div>
@@ -32,32 +32,32 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="referencingLog in referencingLogs" v-bind:key="referencingLog.sid">
-          <td><img :src="referencingLog.reference.thumbnailImageUrl" height="40"></td>
-          <td>{{ referencingLog.reference.title }}
-            <span class v-if="referencingLog.review">
-              <a data-toggle="collapse" :href="'#reviewPane-' + referencingLog.sid" role="button" aria-expanded="false" aria-controls="review">
+        <tr v-for="completionLogItem in completionLog.content" v-bind:key="completionLogItem.sid">
+          <td><img :src="completionLogItem.literature.thumbnailImageUrl" height="40"></td>
+          <td>{{ completionLogItem.literature.title }}
+            <span class v-if="completionLogItem.review">
+              <a data-toggle="collapse" :href="'#reviewPane-' + completionLogItem.sid" role="button" aria-expanded="false" aria-controls="review">
                 <i class="fas fa-comment-alt"></i></a>
-              <div class="collapse" :id="'reviewPane-' + referencingLog.sid">
+              <div class="collapse" :id="'reviewPane-' + completionLogItem.sid">
                 <div class="card card-body">
-                  {{ referencingLog.review }}
+                  {{ completionLogItem.review }}
                 </div>
               </div>
             </span>
           </td>
-          <td>{{ referencingLog.startDate | formatDate}}</td>
-          <td>{{ referencingLog.endDate | formatDate}}</td>
-          <td>{{ displayStat(referencingLog.activityStat) }}  {{ displayPercentage(referencingLog.percentageComplete) }}</td>
+          <td>{{ completionLogItem.startDate | formatDate}}</td>
+          <td>{{ completionLogItem.endDate | formatDate}}</td>
+          <td>{{ displayStat(completionLogItem.activityStat) }}  {{ displayPercentage(completionLogItem.percentageComplete) }}</td>
           <td>
-            <div v-if="referencingLog.percentageComplete>=100">
-              <VueStars :name="'myRating-'+referencingLog.sid" v-model="referencingLog.myRating" @input="(rating) => onRatingInput(referencingLog.sid, rating)" />
+            <div v-if="completionLogItem.percentageComplete>=100">
+              <VueStars :name="'myRating-'+completionLogItem.uid" v-model="completionLogItem.myRating" @input="(rating) => onRatingInput(completionLogItem.uid, rating)" />
             </div>
             <div v-else class="dr-smalll-info">
               Finish reading to rate
             </div>
           </td>
           <td>
-            <button v-if="isDeletable(referencingLog)" type="button" class="btn btn-danger" v-on:click="deleteEntry(referencingLog.sid)" >X</button>
+            <button v-if="isDeletable(completionLogItem)" type="button" class="btn btn-danger" v-on:click="deleteEntry(completionLogItem.uid)" >X</button>
           </td>
         </tr>
       </tbody>
@@ -68,7 +68,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="reviewModalLabel">{{ selectedEntry.reference.title }}</h5>
+            <h5 class="modal-title" id="reviewModalLabel">{{ selectedEntry.literature.title }}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -95,14 +95,15 @@
 <script>
 import "bootstrap";
 import BookTitleTypeaheadWidget from "./widget/BookTitleTypeaheadWidget.vue";
-import * as referencingLogClient from "../utils/referencinglog-client";
+import * as completionLogClient from "../utils/referencinglog-client";
 import VueStars from "./widget/VueStars.vue"
 
 const LOG_ENTRY_NEW = {
   sid: null,
+  uid: null,
   accountSid: null,
-  reference: {title: null},
-  referenceSid: null,
+  literature: {title: null},
+  literatureSid: null,
   startDate: null,
   endDate: null,
   percentageComplete: 100,
@@ -122,9 +123,9 @@ export default {
   data() {
     return {
       pageTitle: "Readings",
-      referencingLogEntry: Object.assign({}, LOG_ENTRY_NEW),
+      completionLogEntry: Object.assign({}, LOG_ENTRY_NEW),
       selectedEntry: Object.assign({}, LOG_ENTRY_NEW),
-      referencingLogs: []
+      completionLog: { content: [] }
     };
   },
   created() {
@@ -132,20 +133,29 @@ export default {
   },
   methods: {
     clearForm: function() {
-      this.referencingLogEntry = Object.assign({}, LOG_ENTRY_NEW);
+      this.completionLogEntry = Object.assign({}, LOG_ENTRY_NEW);
     },
     loadLog: function() {
-      referencingLogClient
+      completionLogClient
         .listReferencingLog()
         .then(response => {
-          // this.referencingLogs = Object.assign({}, response.data);
-          if (response.data && response.data.length > 0) {
-            response.data.forEach((element) => {
+          // this.completionLog = Object.assign({}, response.data);
+          this.completionLog = response.data;
+          // console.log(JSON.stringify(this.completionLog, null, 2));
+          if (this.completionLog && this.completionLog.content.length > 0) {
+            for (let i = 0; i < this.completionLog.content.length; i++) {
+              if (this.completionLog.content[i].myRating == null) {
+                this.completionLog.content[i].myRating = 0;
+              }
+            }
+            /*
+            response.data.content.forEach((element) => {
               if (element.myRating == null) {
                 element.myRating = 0;
               }
-              this.referencingLogs.push(element);
+              this.completionLog.push(element);
             });
+            */
           }
         })
         .catch(error => {
@@ -154,26 +164,26 @@ export default {
     },
     titleSelected: function(selection) {
       console.log('Selection: ' + JSON.stringify(selection, undefined, 2));
-      this.referencingLogEntry.referenceTitle = selection.title;
-      this.referencingLogEntry.referenceSourceUri = selection.link;
+      this.completionLogEntry.literatureTitle = selection.title;
+      this.completionLogEntry.literatureSourceUri = selection.link;
     },
     onDateBlur: function(event) {
-      console.log(this.referencingLogEntry.referenceTitle);
+      console.log(this.completionLogEntry.literatureTitle);
     },
     onTitleBlur: function(event) {
       console.log("title: " + event.target.value);
-      if (event.target.value !== this.referencingLogEntry.referenceTitle) {
+      if (event.target.value !== this.completionLogEntry.literatureTitle) {
         alert("Please select a book");
       }
-      console.log(this.referencingLogEntry.referenceTitle);
+      console.log(this.completionLogEntry.literatureTitle);
     },
-    onRatingInput: function(referencingLogSid, rating) {
-      // alert("Rating of [" + referencingLogSid + "] =" + rating);
-      this.selectedEntry = this.referencingLogs.find((el) => { return el.sid === referencingLogSid; });
-      referencingLogClient
-        .updateReferencingLog(referencingLogSid, {myRating: rating})
+    onRatingInput: function(completionLogUid, rating) {
+      // alert("Rating of [" + completionLogUid + "] =" + rating);
+      this.selectedEntry = this.completionLog.content.find((el) => { return el.uid === completionLogUid; });
+      completionLogClient
+        .updateReferencingLog(completionLogUid, {myRating: rating})
         .then(response => {
-          console.log("OK updating " + referencingLogSid);
+          console.log("OK updating " + completionLogUid);
           if (rating > 3) {
             $("#feedbackModal").modal("show");
           }
@@ -183,8 +193,8 @@ export default {
         });
     },
     submitEntry: function() {
-      referencingLogClient
-        .addReferencingLog(this.referencingLogEntry)
+      completionLogClient
+        .addReferencingLog(this.completionLogEntry)
         .then(response => {
           this.loadLog();
           // this.clearForm();
@@ -194,11 +204,11 @@ export default {
         });
     },
     updateLogWithFeedback: function() {
-      if (!this.selectedEntry.sid) {
+      if (!this.selectedEntry.uid) {
         return;
       }
-      referencingLogClient
-        .updateReferencingLog(this.selectedEntry.sid, {review: this.selectedEntry.review})
+      completionLogClient
+        .updateReferencingLog(this.selectedEntry.uid, {review: this.selectedEntry.review})
         .then(response => {
           this.clearForm();
           $("#feedbackModal").modal("hide");
@@ -214,7 +224,7 @@ export default {
       return true;
     },
     deleteEntry: function(sid) {
-      referencingLogClient.deleteReferencingLog(sid).then(() => {
+      completionLogClient.deleteReferencingLog(sid).then(() => {
         this.loadLog();
       });
     },

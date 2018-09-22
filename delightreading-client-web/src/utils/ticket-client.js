@@ -11,10 +11,10 @@ export function addTicket(ticket) {
   return requestUtil.post(baseUrlPath, ticket);
 }
 
-export function updateTicket(sid, ticket) {
-  return requestUtil.put(baseUrlPath + "/" + sid, ticket);
+export function updateTicket(uid, ticket) {
+  return requestUtil.put(baseUrlPath + "/" + uid, ticket);
 }
 
-export function deleteTicket(sid) {
-  return requestUtil.del(baseUrlPath + "/" + sid);
+export function deleteTicket(uid) {
+  return requestUtil.del(baseUrlPath + "/" + uid);
 }

@@ -11,7 +11,9 @@ import java.util.Optional;
 @Repository
 public interface CompletionLogRepository extends JpaRepository<CompletionLogEntity, Long> {
 
-    Page<CompletionLogEntity> findByAccountUid(String accountUid, Pageable pageable);
+    Optional<CompletionLogEntity> findByUid(String uid);
 
     Optional<CompletionLogEntity> findByAccountUidAndLiteratureUid(String accountUid, String literatureUid);
+
+    Page<CompletionLogEntity> findByAccountUid(String accountUid, Pageable pageable);
 }
