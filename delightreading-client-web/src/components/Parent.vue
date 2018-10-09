@@ -6,7 +6,7 @@
     </div>
 
     <div class="card-deck">
-      <div class="card" v-for="member in members"  v-bind:key="member.sid" >
+      <div class="card" v-for="member in familyGroup.members"  v-bind:key="member.sid" >
         <img class="card-img-top" :src="member.account.pictureUri" alt="Card image cap">
         <div class="card-body">
           <p class="card-text" v-html="member.account.username"></p>
@@ -95,49 +95,48 @@
 <script>
 import "bootstrap";
 import { mapGetters, mapState } from "vuex";
+import * as Promise from 'bluebird';
+import * as userGroupClient from "../utils/usergroup-client";
+
+// const SAMPLE_MEMBER = {
+//   sid: 1,
+//   uid: null,
+//   status: "active",
+//   account: {
+//     username: "mountainbook",
+//     nickname: "SL",
+//     givenName: "Stela Luna",
+//     pictureUri: "https://lh4.googleusercontent.com/-ujilfL1okNw/AAAAAAAAAAI/AAAAAAAAFf8/wH26BvJ409I/photo.jpg?sz=50"
+//   }
+// };
+
+const MEMBER_ACCOUNT_NEW = {
+  username: undefined,
+  password: undefined,
+  profile: {
+    gender: undefined
+  }
+};
 
 export default {
   name: "Parent",
   data() {
     return {
       pageTitle: "Your children",
-      newMemberAccount: {
-        username: undefined,
-        password: undefined,
-        profile: {
-          gender: undefined
-        }
+      familyGroup: {
+        members: [
+        ]
       },
+      newMemberAccount: Object.assign({}, MEMBER_ACCOUNT_NEW),
       school: {
         name: undefined,
         grade: undefined
-      },
-      members: [
-        {
-          sid: 1,
-          status: "active",
-          account: {
-            username: "mountainbook",
-            nickname: "SL",
-            givenName: "Stela Luna",
-            pictureUri: "https://lh4.googleusercontent.com/-ujilfL1okNw/AAAAAAAAAAI/AAAAAAAAFf8/wH26BvJ409I/photo.jpg?sz=50"
-          }
-        },
-        {
-          sid: 2,
-          status: "active",
-          account: {
-            username: "mountainbook",
-            nickname: "SL",
-            givenName: "Stela Luna",
-            pictureUri: "https://lh4.googleusercontent.com/-ujilfL1okNw/AAAAAAAAAAI/AAAAAAAAFf8/wH26BvJ409I/photo.jpg?sz=50"
-          }
-        }
-      ]
+      }
     };
   },
   created() {
     // this.account = userClient.getSessionUser();
+    this.loadFamilyGroup();
   },
   mounted() {
     this.account = Object.assign({}, this.myAccount);
@@ -151,6 +150,62 @@ export default {
   methods: {
     childAccountForm: function() {
       $("#childFormModal").modal();
+    },
+    loadFamilyGroup: function() {
+      userGroupClient.getMyFamilyGroup()
+        .then(response => {
+          console.log("Response=" + JSON.stringify(response.data, null, 2));
+          if (response.data) {
+            this.familyGroup = response.data;
+            return this.familyGroup;
+          }
+          return null;
+        })
+        .catch(error => {
+          alert(error);
+        });
+    },
+    getFamilyGroup: function() {
+      let self = this;
+      return new Promise(function(resolve, reject) {
+        console.log("FamilyGroup=" + JSON.stringify(self.familyGroup, null, 2));
+        if (self.familyGroup.uid) {
+          return resolve(self.familyGroup);
+        } else {
+          let newFamilyGroup = {
+            type: "FAMILY",
+            description: "My family",
+            category: "family",
+            groupStatus: "active"
+          };
+          return userGroupClient.getOrCreateMyFamilyGroup(newFamilyGroup)
+            .then(response => {
+              return resolve(response.data);
+            });
+        }
+      });
+    },
+    addChild: function() {
+      this.getFamilyGroup()
+        .then(response => {
+          let memberAccount = {
+            // Add new chil'd account details (?)
+            memberRole: "member",
+            username: this.newMemberAccount.username,
+            password: this.newMemberAccount.password,
+            email: this.newMemberAccount.email,
+            givenName: this.newMemberAccount.profile.givenName
+          };
+          return userGroupClient.addNewAccountMember(response.uid, memberAccount);
+        })
+        .then(newMember => {
+          this.loadFamilyGroup();
+          this.newMemberAccount = Object.assign({}, MEMBER_ACCOUNT_NEW);
+          $("#childFormModal").modal("hide");
+        })
+        .catch(error => {
+          alert(error);
+        });
     }
   }
 };

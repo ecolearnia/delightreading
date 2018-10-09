@@ -5,20 +5,15 @@ import com.delightreading.reading.model.ActivityStats;
 import com.delightreading.reading.model.CompletionLogEntity;
 import com.delightreading.reading.model.LiteratureEntity;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
-import static org.apache.commons.beanutils.BeanUtils.*;
+import static org.apache.commons.beanutils.BeanUtils.populate;
 
 @Service
 @Slf4j
@@ -78,15 +73,16 @@ public class ReadingService {
         var result = new HashMap<String, ActivityStats>();
         // TODO: remove TEST
         result.put("month", ActivityStats.builder()
-                .periodStart(Instant.now())
+                //.periodStart(Instant.now())
+                .periodStart(new Date())
                 .activityCount(3F)
                 .build());
         result.put("week", ActivityStats.builder()
-                .periodStart(Instant.now())
+                .periodStart(new Date())
                 .activityCount(3F)
                 .build());
         result.put("day", ActivityStats.builder()
-                .periodStart(Instant.now())
+                .periodStart(new Date())
                 .activityCount(3F)
                 .build());
         return result;
@@ -128,7 +124,7 @@ public class ReadingService {
         return this.completionLogRepository.save(completionLog);
     }
 
-    public Optional<CompletionLogEntity> updateCompletionLog (String accountUid, CompletionLogEntity completionLog) {
+    public Optional<CompletionLogEntity> updateCompletionLog(String accountUid, CompletionLogEntity completionLog) {
         Optional<CompletionLogEntity> completionLogOpt = this.completionLogRepository.findByUid(completionLog.getUid());
         if (completionLogOpt.isPresent()) {
             completionLogOpt.get().updatePercentageComplete(completionLog.getPercentageComplete());
@@ -140,7 +136,7 @@ public class ReadingService {
     }
 
 
-    public Optional<CompletionLogEntity> patchCompletionLog (String accountUid, String uid, Map<String, Object> fields) {
+    public Optional<CompletionLogEntity> patchCompletionLog(String accountUid, String uid, Map<String, Object> fields) {
 
         Optional<CompletionLogEntity> completionLogOpt = this.completionLogRepository.findByUid(uid);
         if (completionLogOpt.isPresent()) {

@@ -50,13 +50,13 @@ public class LiteratureRepositoryIT {
 
     @Before
     public void setup() {
-        var Literature1 = LiteratureRepositoryIT.buildEntity("TEST-Title1", "TEST-Author", "en", 4.5F, "b1");
+        var Literature1 = LiteratureRepositoryIT.buildEntity("TEST-Title1", "TEST-Author", "en", 4.5F, "b-1");
         entityManager.persistAndFlush(Literature1);
 
-        var Literature2 = LiteratureRepositoryIT.buildEntity("TEST-Title2", "TEST-Author2", "en", 4.0F, "b2");
+        var Literature2 = LiteratureRepositoryIT.buildEntity("TEST-Title2", "TEST-Author2", "en", 4.0F, "b-2");
         entityManager.persistAndFlush(Literature2);
 
-        var Literature3 = LiteratureRepositoryIT.buildEntity("TEST-Title3", "TEST-Author3", "es", 3.9F, "b3");
+        var Literature3 = LiteratureRepositoryIT.buildEntity("TEST-Title3", "TEST-Author3", "es", 3.9F, "b-3");
         entityManager.persistAndFlush(Literature3);
 
     }

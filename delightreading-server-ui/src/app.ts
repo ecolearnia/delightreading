@@ -27,7 +27,7 @@ if (process.env.TRUST_PROXY) {
   app.enable("trust proxy");
 }
 
-//app.use(cors());
+// app.use(cors());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

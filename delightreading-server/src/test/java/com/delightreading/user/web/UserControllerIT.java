@@ -45,6 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         UserProfileRepository.class,
         UserController.class,
         UserService.class,
+        UserGroupService.class,
         JwtService.class,
         SpringApplicationContextUtil.class
 }, properties = "classpath:application.yaml")
@@ -74,7 +75,7 @@ public class UserControllerIT {
         mockMvc.perform(
                 post("/api/users/v1/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\":\"TEST-F1\", \"password\":\"pwd\"}")
+                        .content("{\"username\":\"TEST-F1\", \"password\":\"pwd1\"}")
         ).andExpect(status().isOk()
         ).andDo(print()
         ).andExpect(

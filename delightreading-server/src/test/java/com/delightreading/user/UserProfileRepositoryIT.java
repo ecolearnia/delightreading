@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @AutoConfigureJsonTesters
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ContextConfiguration(classes = {SpringApplicationContextUtil.class})
+@ContextConfiguration(classes = {SpringApplicationContextUtil.class, UserProfileRepository.class})
 @EnableAutoConfiguration
 public class UserProfileRepositoryIT {
 

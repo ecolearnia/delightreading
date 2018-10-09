@@ -1,6 +1,7 @@
 package com.delightreading.user.model;
 
 import com.delightreading.common.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -27,6 +28,13 @@ public class UserGroupMemberEntity extends BaseEntity {
 
     public static String STATUS_ACTIVE = "active";
 
+    public static String ROLE_ADMIN = "admin";
+    public static String ROLE_GUARDIAN = "guardian";
+    public static String ROLE_TEACHER = "teacher";
+    public static String ROLE_STUDENT = "student";
+    public static String ROLE_MEMBER = "member";
+
+    @JsonIgnore
     @ManyToOne(
             cascade = CascadeType.ALL
     )

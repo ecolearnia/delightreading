@@ -3,18 +3,16 @@ package com.delightreading.user;
 import com.delightreading.authsupport.AuthenticationUtils;
 import com.delightreading.authsupport.JwtService;
 import com.delightreading.rest.UnauthorizedException;
-import com.delightreading.user.model.UserAccountEntity;
-import com.delightreading.user.model.UserAuthenticationEntity;
-import com.delightreading.user.model.UserProfileEntity;
+import com.delightreading.user.model.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -23,28 +21,28 @@ import java.util.Optional;
 @RequestMapping("/api/users/v1")
 public class UserController {
 
-    public static final String USERNAME = "username";
-    public static final String PASSWORD = "password";
-    public static final String EMAIL = "email";
+    public static final String TYPE_PREFIX = "type:";
 
 
     JwtService jwtService;
     UserService userService;
+    UserGroupService userGroupService;
 
-    public UserController(UserService userService, JwtService jwtService) {
-        this.userService = userService;
+    public UserController(JwtService jwtService, UserService userService, UserGroupService userGroupService) {
         this.jwtService = jwtService;
+        this.userService = userService;
+        this.userGroupService = userGroupService;
     }
 
     @PostMapping(value = "/login", consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public Map<String, Object> login(@RequestBody Map<String, String> loginInput) {
 
-        if (!loginInput.containsKey(USERNAME) || !loginInput.containsKey(PASSWORD) ) {
+        if (!loginInput.containsKey(UserService.USERNAME) || !loginInput.containsKey(UserService.PASSWORD)) {
             throw new IllegalArgumentException("param username or password not found");
         }
-        String username = loginInput.get(USERNAME);
-        String password = loginInput.get(PASSWORD);
+        String username = loginInput.get(UserService.USERNAME);
+        String password = loginInput.get(UserService.PASSWORD);
         log.info("login/start, username=[{}]", username);
 
         var optAuth = userService.findByProviderAndProviderAccountId(UserAuthenticationEntity.LOCAL_PROVIDER, username);
@@ -70,35 +68,14 @@ public class UserController {
     @ResponseBody
     public Map<String, Object> registerUser(@RequestBody Map<String, String> registInput) {
 
-        if (!registInput.containsKey(USERNAME)
-                || !registInput.containsKey(PASSWORD)) {
-            throw new IllegalArgumentException("param username or password not found");
-        }
-        String username = registInput.get(USERNAME);
-        String password = registInput.get(PASSWORD);
-        String email = registInput.get(EMAIL);
-        log.debug("registerUser/start, username={}", username);
-
-        UserAccountEntity userAccount = UserAccountEntity.builder()
-                .username(username)
-                .givenName(username)
-                .build();
-        if (!StringUtils.isEmpty(email)) {
-            userAccount.setEmails(List.of(email));
-        }
-
-        UserAuthenticationEntity userAuth =  UserAuthenticationEntity.builder()
-                .provider(UserAuthenticationEntity.LOCAL_PROVIDER)
-                .providerAccountId(username)
-                .password(password)
-                .account(userAccount)
-                .build();
+        UserAuthenticationEntity userAuth = userService.buildAuthentication(registInput);
+        log.debug("registerUser/start, username={}", userAuth.getAccount().getUsername());
 
         UserProfileEntity userProfile = UserProfileEntity.builder()
-                .account(userAccount)
+                .account(userAuth.getAccount())
                 .build();
 
-        UserAuthenticationEntity registeredUserAuth =userService.registerNew(userAuth, userProfile);
+        UserAuthenticationEntity registeredUserAuth = userService.registerNew(userAuth, userProfile);
 
         String token = jwtService.createToken(registeredUserAuth);
 
@@ -150,4 +127,123 @@ public class UserController {
         return profileFound;
     }
 
+
+    //<editor-fold desc="UserGroups">
+
+    @GetMapping(value = "/groups", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public Page<UserGroupEntity> listGroups(@RequestParam Map<String, String> requestParams, Pageable pageable) {
+        UserAuthenticationEntity userAuth = AuthenticationUtils.getUserAuthenticationOrError();
+
+        UserGroupType[] types = {UserGroupType.FAMILY, UserGroupType.ACADEMIC, UserGroupType.CLUB};
+        if (requestParams.containsKey("type")) {
+            types = new UserGroupType[1];
+            types[0] = UserGroupType.valueOf(requestParams.get("type"));
+        }
+        boolean fetchMembers = requestParams.containsKey("fetchMembers");
+        Page<UserGroupEntity> result = this.userGroupService.findGroupsByTypeInAndMember(
+                types, userAuth.getAccount().getUid(), fetchMembers, pageable);
+
+        return result;
+    }
+
+
+    @GetMapping(value = "/groups/family", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public Optional<UserGroupEntity> myFamilyGroup() {
+        UserAuthenticationEntity userAuth = AuthenticationUtils.getUserAuthenticationOrError();
+
+        var familyGroup = this.userGroupService.findGroupsByTypeAndMemberWithRole(
+                UserGroupType.FAMILY, userAuth.getAccount().getUid(), UserGroupMemberEntity.ROLE_GUARDIAN, true);
+
+        if (familyGroup.size() == 1) {
+            return Optional.of(familyGroup.get(0));
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Creates a group and adds the requester as admin member
+     *
+     * @param inputUserGroup
+     * @return
+     */
+    @PostMapping(value = "/groups", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public UserGroupEntity createMyGroup(@RequestBody UserGroupEntity inputUserGroup) {
+        UserAuthenticationEntity userAuth = AuthenticationUtils.getUserAuthenticationOrError();
+
+        return this.userGroupService.createGroup(inputUserGroup, userAuth.getAccount());
+    }
+
+
+    /**
+     * Finds a family if found otherwise create one
+     *
+     * @param inputUserGroup
+     * @return
+     */
+    @PutMapping(value = "/groups/family", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public UserGroupEntity getOrCreateMyFamilyGroup(@RequestBody UserGroupEntity inputUserGroup) {
+        UserAuthenticationEntity userAuth = AuthenticationUtils.getUserAuthenticationOrError();
+
+        if (StringUtils.isEmpty(inputUserGroup.getName())) {
+            var familyGroupName = !StringUtils.isEmpty(userAuth.getAccount().getFamilyName()) ? userAuth.getAccount().getFamilyName() : userAuth.getAccount().getUsername();
+            inputUserGroup.setName(familyGroupName);
+        }
+        inputUserGroup.setType(UserGroupType.FAMILY);
+
+        var family = this.userGroupService.findOrCreateGroupByType(inputUserGroup, userAuth.getAccount());
+
+        return family.get(0);
+    }
+
+
+    @GetMapping(value = "/groups/{groupUid}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public Page<UserGroupMemberEntity> getGroup(@PathVariable("groupUid") String groupUid, Pageable pageable) {
+        UserAuthenticationEntity userAuth = AuthenticationUtils.getUserAuthenticationOrError();
+
+        // TODO constraint to user's groups only
+        return this.userGroupService.findMembers(groupUid, pageable);
+    }
+
+    @GetMapping(value = "/groups/{groupUid}/members", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public Page<UserGroupMemberEntity> getMembers(@PathVariable("groupUid") String groupUid, Pageable pageable) {
+        UserAuthenticationEntity userAuth = AuthenticationUtils.getUserAuthenticationOrError();
+
+        // TODO constraint to user's groups only
+        return this.userGroupService.findMembers(groupUid, pageable);
+    }
+
+
+    @PostMapping(value = "/groups/{groupUid}/members/account", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public UserGroupMemberEntity addNewAccountMember(@PathVariable("groupUid") String groupUid, @RequestBody Map<String, String> memberAccountDetails) {
+        UserAuthenticationEntity userAuth = AuthenticationUtils.getUserAuthenticationOrError();
+
+        // TODO verify that the user in session has admin permission to add member
+        String memberRole = memberAccountDetails.get("memberRole");
+        String username = memberAccountDetails.get(UserService.USERNAME);
+        String password = memberAccountDetails.get(UserService.PASSWORD);
+        String email = memberAccountDetails.get(UserService.EMAIL);
+        String givenName= memberAccountDetails.get(UserService.GIVEN_NAME);
+
+        return this.userGroupService.createAccountAndAddAsMember(groupUid, memberRole, username, password, email, givenName);
+    }
+
+
+    @PostMapping(value = "/groups/{groupUid}/members", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public UserGroupMemberEntity addMember(@PathVariable("groupUid") String groupUid, @RequestBody UserGroupMemberEntity memberDetails, Pageable pageable) {
+        UserAuthenticationEntity userAuth = AuthenticationUtils.getUserAuthenticationOrError();
+
+        // TODO verify that the user in session has admin permission to add member
+        memberDetails.setAccount(userAuth.getAccount());
+        return this.userGroupService.addMember(groupUid, memberDetails);
+    }
+
+    //</editor-fold>
 }

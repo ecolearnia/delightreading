@@ -24,7 +24,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @AutoConfigureJsonTesters
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ContextConfiguration(classes = {UserAuthenticationRepository.class, UserProfileRepository.class,
+@ContextConfiguration(classes = {UserAuthenticationRepository.class,
+        UserProfileRepository.class, UserService.class,
         UserGroupRepository.class, UserGroupMemberRepository.class,
         UserGroupService.class, SpringApplicationContextUtil.class})
 @EnableAutoConfiguration
@@ -42,7 +43,7 @@ public class UserGroupServiceIT {
     public void createGroup_whenNew_returnGroup() {
 
         // Given
-        var auths = buidFullAuths("test", 1);
+        var auths = buidFullAuthsAndPersist("test", 1);
 
         var group = UserGroupEntity.builder()
                 .name("TestGroup")
@@ -52,17 +53,53 @@ public class UserGroupServiceIT {
                 .build();
 
         // When
-        var createdGroup = userGroupService.createGroup(group, auths.get(0).getAccount(), "admin");
+        var createdGroup = userGroupService.createGroup(group, auths.get(0).getAccount());
 
         //UserGroupType[] groupTypes = {UserGroupType.FAMILY, UserGroupType.ACADEMIC};
-        String[] groupTypes = {UserGroupType.FAMILY.name(), UserGroupType.ACADEMIC.name()};
-        var foundGroups = userGroupService.findGroupsByTypeWithMember(groupTypes, auths.get(0).getAccount().getUid(), PageRequest.of(0, 10), true);
+        UserGroupType[] groupTypes = {UserGroupType.FAMILY, UserGroupType.ACADEMIC};
+        var foundGroups = userGroupService.findGroupsByTypeInAndMember(groupTypes, auths.get(0).getAccount().getUid(), true, PageRequest.of(0, 10));
 
 
         // Then
         assertThat(createdGroup).isNotNull();
 
         assertThat(foundGroups).hasSize(1);
+    }
+
+    @Test
+    public void findOrCreateGroupByType_whenCalledTwice_returnsSame() {
+
+        // Given
+        var auths = buidFullAuthsAndPersist("test2", 1);
+
+        var group = UserGroupEntity.builder()
+                .name("TestGroup")
+                .type(UserGroupType.FAMILY)
+                .groupStatus(UserGroupEntity.STATUS_ACTIVE)
+                .category("TestCate")
+                .build();
+
+        // When called once
+        var createdFamilyGroup = userGroupService.findOrCreateGroupByType(group, auths.get(0).getAccount());
+
+        // Then new group is crated
+        assertThat(createdFamilyGroup).isNotNull();
+
+        // When find by criteria
+        UserGroupType groupType = UserGroupType.FAMILY;
+        var foundGroups = userGroupService.findGroupsByTypeAndMemberWithRole(groupType, auths.get(0).getAccount().getUid(), UserGroupMemberEntity.ROLE_GUARDIAN, false);
+
+        // Then newly created group is returned
+        assertThat(foundGroups).hasSize(1);
+        assertThat(foundGroups.get(0).getUid()).isEqualTo(createdFamilyGroup.get(0).getUid());
+
+        // When called again
+        var foundFamilyGroup = userGroupService.findOrCreateGroupByType(group, auths.get(0).getAccount());
+
+        // Then
+        assertThat(foundFamilyGroup).hasSize(1);
+        assertThat(foundFamilyGroup.get(0).getUid()).isEqualTo(createdFamilyGroup.get(0).getUid());
+
     }
 
     @Test
@@ -73,7 +110,7 @@ public class UserGroupServiceIT {
 
         // When
         UserGroupType[] groupTypes = {UserGroupType.FAMILY, UserGroupType.ACADEMIC};
-        var foundGroups = userGroupService.findGroupsByTypeAndNameLike(groupTypes, "%Family", PageRequest.of(0, 10), true);
+        var foundGroups = userGroupService.findGroupsByTypeAndNameLike(groupTypes, "%Family", true, PageRequest.of(0, 10));
 
         var allGroups = userGroupService.findAllGroups(PageRequest.of(0, 10));
 
@@ -90,7 +127,7 @@ public class UserGroupServiceIT {
 
         // When
         UserGroupType[] groupTypes = {UserGroupType.ACADEMIC};
-        var foundGroups = userGroupService.findGroupsByTypeAndNameLike(groupTypes, "%", PageRequest.of(0, 10), true);
+        var foundGroups = userGroupService.findGroupsByTypeAndNameLike(groupTypes, "%", true, PageRequest.of(0, 10));
 
         // Then
         assertThat(foundGroups).hasSize(1);
@@ -101,7 +138,7 @@ public class UserGroupServiceIT {
     public void findGroupsByTypeWithMember_whenSearchByFamily_returnTwo() {
 
         // Given
-        var auths = buidFullAuths("GroupTest", 1);
+        var auths = buidFullAuthsAndPersist("GroupTest", 1);
 
         List<UserGroupEntity> groups = buildGroups();
         for (UserGroupEntity group: groups) {
@@ -112,15 +149,40 @@ public class UserGroupServiceIT {
         }
 
         // When
-        String[] groupTypes = {UserGroupType.FAMILY.name(), UserGroupType.CLUB.name()};
-        var foundGroups = userGroupService.findGroupsByTypeWithMember(groupTypes, auths.get(0).getAccount().getUid(), PageRequest.of(0, 10), true);
+        UserGroupType[] groupTypes = {UserGroupType.FAMILY, UserGroupType.CLUB};
+        var foundGroups = userGroupService.findGroupsByTypeInAndMember(groupTypes, auths.get(0).getAccount().getUid(), true, PageRequest.of(0, 10));
 
         // Then
         assertThat(foundGroups).hasSize(2);
         assertThat(foundGroups.stream().map(UserGroupEntity::getType).toArray()).containsOnly(UserGroupType.FAMILY);
     }
 
-    public List<UserAuthenticationEntity> buidFullAuths(String idPrefix, int count) {
+    @Test
+    public void createAccountAndAddAsMember_whenCalled_createMember() {
+
+        // Given
+        var auths = buidFullAuthsAndPersist("test", 1);
+
+        List<UserGroupEntity> groups = buildGroups();
+        var savedGroup = entityManager.persist(groups.get(0));
+
+        // When
+        String username = "NEWMEMTEST";
+        var member = userGroupService.createAccountAndAddAsMember(savedGroup.getUid(), UserGroupMemberEntity.ROLE_MEMBER, username, "newmempwd", null, null);
+
+        // Then new auth is found
+        UserAuthenticationEntity foundAuth = entityManager.getEntityManager().createQuery("FROM UserAuthenticationEntity where providerAccountId = :providerAccountId", UserAuthenticationEntity.class)
+                .setParameter("providerAccountId", username).getSingleResult();
+        assertThat(foundAuth).isNotNull();
+
+        // And its account is part of members
+        var members = userGroupService.findMembers(savedGroup.getUid(), PageRequest.of(0, 100));
+        assertThat(members).hasSize(1);
+        assertThat(members.getContent().get(0).getAccount().getUid()).isEqualTo(foundAuth.getAccount().getUid());
+
+    }
+
+    public List<UserAuthenticationEntity> buidFullAuthsAndPersist(String idPrefix, int count) {
         List<UserAuthenticationEntity> auths = new ArrayList<>();
         for (int i=0; i < count; i++) {
             String userName = idPrefix + "-" + String.valueOf(i);
@@ -158,7 +220,7 @@ public class UserGroupServiceIT {
      */
     public List<UserAuthenticationEntity> prep(int userCount) {
 
-        var auths = buidFullAuths("GroupTest", userCount);
+        var auths = buidFullAuthsAndPersist("GroupTest", userCount);
 
         List<UserGroupEntity> groups = buildGroups();
 

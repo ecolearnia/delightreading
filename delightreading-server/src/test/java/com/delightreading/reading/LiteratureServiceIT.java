@@ -4,7 +4,6 @@ import com.delightreading.TestHelper;
 import com.delightreading.reading.model.LiteratureEntity;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.annotation.Bean;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

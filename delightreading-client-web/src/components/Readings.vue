@@ -148,14 +148,6 @@ export default {
                 this.completionLog.content[i].myRating = 0;
               }
             }
-            /*
-            response.data.content.forEach((element) => {
-              if (element.myRating == null) {
-                element.myRating = 0;
-              }
-              this.completionLog.push(element);
-            });
-            */
           }
         })
         .catch(error => {
