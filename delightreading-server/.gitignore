@@ -27,5 +27,8 @@ nbdist/
 ## Database Dumps
 *.dmp
 
+.gradle/
+
 ## secret profiles
 application-secrets.yaml
+

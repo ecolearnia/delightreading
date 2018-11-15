@@ -328,11 +328,16 @@ public class BearerAccessToken extends AccessToken {
             return parse(authzHeader);
         }
 
-        // Try alternative token locations, form and query string are
-        // parameters are not differentiated here
-
-        Map<String,String> params = request.getQueryParameters();
-
-        return parse(params);
+        // Added
+        else {
+            throw new ParseException("Missing header", BearerTokenError.MISSING_TOKEN);
+        }
+//
+//        // Try alternative token locations, form and query string are
+//        // parameters are not differentiated here
+//
+//        Map<String,String> params = request.getQueryParameters();
+//
+//        return parse(params);
     }
 }

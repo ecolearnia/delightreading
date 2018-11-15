@@ -51,6 +51,7 @@ export default {
         if (response.data) {
           let token = response.data.token;
           alert("Login success: " + token);
+          localStorage.clear();
           // TODO: set cookie
           document.cookie = "dr_token=" + token + "; path=/";
           router.push(HOME_PAGE_PATH);

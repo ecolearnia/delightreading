@@ -1,9 +1,11 @@
 package com.delightreading.user;
 
+import com.delightreading.rest.UnauthorizedException;
 import com.delightreading.user.model.UserAccountEntity;
 import com.delightreading.user.model.UserAuthenticationEntity;
 import com.delightreading.user.model.UserProfileEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -11,6 +13,8 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static com.delightreading.user.model.UserAuthenticationEntity.LOCAL_PROVIDER;
 
 @Service
 @Slf4j
@@ -24,15 +28,18 @@ public class UserService {
     UserAccountRepository userAccountRepository;
     UserAuthenticationRepository userAuthenticationRepository;
     UserProfileRepository userProfileRepository;
+    PasswordEncoder passwordEncoder;
 
     public UserService(
             UserAccountRepository userAccountRepository,
             UserAuthenticationRepository userAuthenticationRepository,
-            UserProfileRepository userProfileRepository
+            UserProfileRepository userProfileRepository,
+            PasswordEncoder passwordEncoder
     ) {
         this.userAccountRepository = userAccountRepository;
         this.userAuthenticationRepository = userAuthenticationRepository;
         this.userProfileRepository = userProfileRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Optional<UserAccountEntity> findAccountByUid(String uid) {
@@ -49,6 +56,21 @@ public class UserService {
 
     public Optional<UserAuthenticationEntity> findByProviderAndProviderAccountId(String provider, String providerAccountId) {
         return this.userAuthenticationRepository.findByProviderAndProviderAccountId(provider, providerAccountId);
+    }
+
+    public Optional<UserAuthenticationEntity> findByProviderAndProviderAccountId(String provider, String providerAccountId, String password) {
+
+        Optional<UserAuthenticationEntity> optAuth = this.userAuthenticationRepository.findByProviderAndProviderAccountId(provider, providerAccountId);
+
+        if (!optAuth.isPresent()) {
+            throw new UnauthorizedException("login", providerAccountId);
+        }
+
+        if (!passwordEncoder.matches(password, optAuth.get().getPassword())) {
+            throw new UnauthorizedException("login", providerAccountId);
+        }
+
+        return optAuth;
     }
 
     public Optional<UserProfileEntity> findProfile(String accountUId) {
@@ -71,8 +93,13 @@ public class UserService {
         if (authentication.getAccount() == null) {
             throw new IllegalStateException("NullAccount");
         }
+        if (LOCAL_PROVIDER.equals(authentication.getProvider()) && StringUtils.isEmpty(authentication.getPassword())) {
+            throw new IllegalStateException("Password cannot be empty");
+        }
+        authentication.setPassword(passwordEncoder.encode(authentication.getPassword()));
         var act = this.userAccountRepository.save(authentication.getAccount());
         profile.setAccount(act);
+
         this.userProfileRepository.save(profile);
         return this.userAuthenticationRepository.save(authentication);
     }
@@ -100,7 +127,7 @@ public class UserService {
         }
 
         UserAuthenticationEntity userAuth =  UserAuthenticationEntity.builder()
-                .provider(UserAuthenticationEntity.LOCAL_PROVIDER)
+                .provider(LOCAL_PROVIDER)
                 .providerAccountId(username)
                 .password(password)
                 .account(userAccount)

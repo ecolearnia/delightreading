@@ -98,21 +98,11 @@ import { mapGetters, mapState } from "vuex";
 import * as Promise from 'bluebird';
 import * as userGroupClient from "../utils/usergroup-client";
 
-// const SAMPLE_MEMBER = {
-//   sid: 1,
-//   uid: null,
-//   status: "active",
-//   account: {
-//     username: "mountainbook",
-//     nickname: "SL",
-//     givenName: "Stela Luna",
-//     pictureUri: "https://lh4.googleusercontent.com/-ujilfL1okNw/AAAAAAAAAAI/AAAAAAAAFf8/wH26BvJ409I/photo.jpg?sz=50"
-//   }
-// };
-
-const MEMBER_ACCOUNT_NEW = {
+const MEMBER_NEW_USER = {
+  memberRole: "member",
   username: undefined,
   password: undefined,
+  email: undefined,
   profile: {
     gender: undefined
   }
@@ -127,7 +117,7 @@ export default {
         members: [
         ]
       },
-      newMemberAccount: Object.assign({}, MEMBER_ACCOUNT_NEW),
+      newMemberAccount: Object.assign({}, MEMBER_NEW_USER),
       school: {
         name: undefined,
         grade: undefined
@@ -188,19 +178,17 @@ export default {
     addChild: function() {
       this.getFamilyGroup()
         .then(response => {
-          let memberAccount = {
-            // Add new chil'd account details (?)
-            memberRole: "member",
-            username: this.newMemberAccount.username,
-            password: this.newMemberAccount.password,
-            email: this.newMemberAccount.email,
-            givenName: this.newMemberAccount.profile.givenName
-          };
-          return userGroupClient.addNewAccountMember(response.uid, memberAccount);
+          this.newMemberAccount.profile.education = [
+            {
+              institution: this.school.name,
+              title: this.school.grade
+            }
+          ]
+          return userGroupClient.addNewAccountMember(response.uid, this.newMemberAccount);
         })
         .then(newMember => {
           this.loadFamilyGroup();
-          this.newMemberAccount = Object.assign({}, MEMBER_ACCOUNT_NEW);
+          this.newMemberAccount = Object.assign({}, MEMBER_NEW_USER);
           $("#childFormModal").modal("hide");
         })
         .catch(error => {

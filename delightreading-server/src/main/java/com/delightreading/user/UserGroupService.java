@@ -148,23 +148,21 @@ public class UserGroupService {
 
 
     @Transactional
-    public UserGroupMemberEntity createAccountAndAddAsMember(String groupUid, String memberRole, String username, String password, String email, String givenName) {
-        var matchGroupOpt = this.userGroupRepository.findByUid(groupUid);
+    public UserGroupMemberEntity createAccountAndAddAsMember(CreateNewMemberCommand command) {
+        var matchGroupOpt = this.userGroupRepository.findByUid(command.getGroupUid());
         if (!matchGroupOpt.isPresent()) {
             throw new IllegalStateException("ResourceNotFound");
         }
 
-        var memberUserAuth = userService.buildAuthentication(username, password, email, givenName);
-        UserProfileEntity memberUserProfile = UserProfileEntity.builder()
-                .account(memberUserAuth.getAccount())
-                .build();
-        UserAuthenticationEntity registeredMemberUserAuth = userService.registerNew(memberUserAuth, memberUserProfile);
+        var memberUserAuth = userService.buildAuthentication(command.getUsername(), command.getPassword(), command.getEmail(), command.getGivenName());
+        command.getProfile().setAccount(memberUserAuth.getAccount());
+        UserAuthenticationEntity registeredMemberUserAuth = userService.registerNew(memberUserAuth, command.getProfile());
 
         UserGroupMemberEntity newMember = UserGroupMemberEntity.builder()
-                .role(memberRole)
+                .role(command.getMemberRole())
                 .account(registeredMemberUserAuth.getAccount()).build();
 
-        return this.addMember(groupUid, newMember);
+        return this.addMember(command.getGroupUid(), newMember);
 
     }
 

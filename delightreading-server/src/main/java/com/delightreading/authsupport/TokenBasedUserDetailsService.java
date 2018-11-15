@@ -34,8 +34,10 @@ public class TokenBasedUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         // return new User(userAuth.get(), passwordEncoder.encode("pwd"), emptyList());
-        // Override password with default
-        userAuth.get().setPassword(passwordEncoder.encode("pwd"));
+        //  Override password with default Authentication from external providers,
+        if (!UserAuthenticationEntity.LOCAL_PROVIDER.equals(userAuth.get().getProvider())) {
+            userAuth.get().setPassword(passwordEncoder.encode("pwd"));
+        }
         return userAuth.get();
     }
 }

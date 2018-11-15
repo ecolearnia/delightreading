@@ -34,3 +34,21 @@ npm start
     Using the 
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## OAuth
+
+### GOogle Oauth
+To modify project's credentials
+https://console.developers.google.com/apis/credentials
+
+## Proxy configuration
+Running the app from  webpack-dev-server and making AJAX call directly to the API server 
+with a different port will cause CORS error.
+
+The workaround is to enable proxy and have the SPA application call the dev-server.
+TO configure proxy, add the following code in the config/dev.env.js 
+```
+proxyTable: {
+      '/api': 'http://localhost:9090'
+    },
+```

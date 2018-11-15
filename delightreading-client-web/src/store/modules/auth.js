@@ -18,7 +18,8 @@ const actions = {
     let accessToken = cookieUtils.getCookie(COOKIE_KEY);
     if (!accessToken) {
       console.log("Cookie not found.");
-      return Promise.reject(new Error("Cookie not found"));
+      return Promise.resolve();
+      // return Promise.reject(new Error("Cookie not found"));
     }
     return dispatch(AUTH_SET_TOKEN, accessToken);
   },
@@ -39,8 +40,9 @@ const actions = {
   },
   [AUTH_LOGOUT]: ({ commit, dispatch }) => {
     return new Promise((resolve, reject) => {
+      console.log("Logging out: clearing cookie and storage...")
       commit(AUTH_LOGOUT);
-      cookieUtils.deleteCookie(COOKIE_KEY);
+      cookieUtils.deleteCookie(COOKIE_KEY, "/");
       localStorage.removeItem(STORAGE_KEY);
       resolve();
     })
@@ -61,6 +63,7 @@ const mutations = {
     state.hasLoadedOnce = true;
   },
   [AUTH_LOGOUT]: (state) => {
+    console.log("Logging out: state.token set to undefined...")
     state.token = undefined;
   }
 }

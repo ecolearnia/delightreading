@@ -2,7 +2,7 @@
   <div>
     <ul class="navbar-nav mt-2 mt-md-0"  v-if="!isAuthenticated">
       <li class="nav-item">
-        <a class="nav-link" :href="serverBaseUrl + '/oauth2/authorization/google'">Sign in</a>
+        <a class="nav-link" :href="serverBaseUrl + '/app/#/signin'">Sign in</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/app/#/signup">Sign up</a>
@@ -57,9 +57,10 @@ export default {
   },
   methods: {
     doLogout: function() {
-      let theRouter = this.$router;
+      // let theRouter = this.$router;
       this.$store.dispatch(AUTH_LOGOUT).then(() => {
-        theRouter.push("/");
+        // theRouter.push("/");
+        // window.location.replace("/");
       });
     }
   }

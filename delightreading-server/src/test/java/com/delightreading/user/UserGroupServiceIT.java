@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -24,7 +26,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @AutoConfigureJsonTesters
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ContextConfiguration(classes = {UserAuthenticationRepository.class,
+@ContextConfiguration(classes = {BCryptPasswordEncoder.class,
+        UserAuthenticationRepository.class,
         UserProfileRepository.class, UserService.class,
         UserGroupRepository.class, UserGroupMemberRepository.class,
         UserGroupService.class, SpringApplicationContextUtil.class})
@@ -168,7 +171,13 @@ public class UserGroupServiceIT {
 
         // When
         String username = "NEWMEMTEST";
-        var member = userGroupService.createAccountAndAddAsMember(savedGroup.getUid(), UserGroupMemberEntity.ROLE_MEMBER, username, "newmempwd", null, null);
+        CreateNewMemberCommand command = CreateNewMemberCommand.builder()
+                .groupUid(savedGroup.getUid())
+                .memberRole(UserGroupMemberEntity.ROLE_MEMBER)
+                .profile(new UserProfileEntity())
+                .username(username)
+                .password("newmempwd").build();
+        var member = userGroupService.createAccountAndAddAsMember(command);
 
         // Then new auth is found
         UserAuthenticationEntity foundAuth = entityManager.getEntityManager().createQuery("FROM UserAuthenticationEntity where providerAccountId = :providerAccountId", UserAuthenticationEntity.class)

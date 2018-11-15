@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -122,6 +123,19 @@ public class UserProfileEntity implements Serializable {
     @Type(type = "com.delightreading.user.hibernate.ExperienceListUserType")
     List<Experience> accomplishments;
 
+    static public UserProfileEntity build(Map<String, Object> attributes) {
+        return UserProfileEntity.builder()
+                .createdAt(Instant.now())
+                .education( (List)attributes.getOrDefault("education", null))
+                .createdBy(attributes.getOrDefault("createdBy", null).toString())
+                .expertise(attributes.getOrDefault("expertise", null).toString())
+                .gender(attributes.getOrDefault("gender", null).toString())
+                .hometown(attributes.getOrDefault("hometown", null).toString())
+                .occupation(attributes.getOrDefault("occupation", null).toString())
+                .style(attributes.getOrDefault("style", null).toString())
+                .synopsis(attributes.getOrDefault("synopsis", null).toString())
+                .build();
+    }
 
     public void addEducation(Experience educationItem) {
         if (education == null) {

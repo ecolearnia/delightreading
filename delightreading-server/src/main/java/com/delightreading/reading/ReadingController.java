@@ -1,28 +1,20 @@
 package com.delightreading.reading;
 
 import com.delightreading.authsupport.AuthenticationUtils;
-import com.delightreading.authsupport.JwtService;
 import com.delightreading.reading.model.ActivityLogEntity;
 import com.delightreading.reading.model.ActivityStats;
 import com.delightreading.reading.model.CompletionLogEntity;
 import com.delightreading.reading.model.LiteratureEntity;
 import com.delightreading.rest.ResourceNotFoundException;
-import com.delightreading.rest.UnauthorizedException;
-import com.delightreading.user.UserService;
-import com.delightreading.user.model.UserAccountEntity;
 import com.delightreading.user.model.UserAuthenticationEntity;
-import com.delightreading.user.model.UserProfileEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -61,7 +53,7 @@ public class ReadingController {
 
     @PutMapping(value = "/activitylogs/{uid}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ActivityLogEntity updateActivityFeed(@PathVariable("uid") String uid,  @RequestBody ActivityLogEntity activityFeed) {
+    public ActivityLogEntity updateActivityFeed(@PathVariable("uid") String uid, @RequestBody ActivityLogEntity activityFeed) {
         UserAuthenticationEntity userAuth = AuthenticationUtils.getUserAuthenticationOrError();
 
         Optional<ActivityLogEntity> savedOpt = this.readingService.updateFeed(userAuth.getAccount().getUid(), activityFeed);
@@ -83,7 +75,6 @@ public class ReadingController {
     }
 
 
-
     //<editor-fold desc="CompletionLog">
     @GetMapping(value = "/completionlogs", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
@@ -97,7 +88,7 @@ public class ReadingController {
 
     @PutMapping(value = "/completionlogs/{uid}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public CompletionLogEntity updateMyCompletionLog(@PathVariable("uid") String uid,  @RequestBody Map<String, Object> completionLog) {
+    public CompletionLogEntity updateMyCompletionLog(@PathVariable("uid") String uid, @RequestBody Map<String, Object> completionLog) {
         UserAuthenticationEntity userAuth = AuthenticationUtils.getUserAuthenticationOrError();
 
         Optional<CompletionLogEntity> savedOpt = this.readingService.patchCompletionLog(userAuth.getAccount().getUid(), uid, completionLog);
