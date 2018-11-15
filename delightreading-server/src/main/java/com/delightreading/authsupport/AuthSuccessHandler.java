@@ -1,9 +1,11 @@
 package com.delightreading.authsupport;
 
-import com.delightreading.user.UserAuthenticationEntity;
+import com.delightreading.user.model.UserAuthenticationEntity;
 import com.delightreading.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import liquibase.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -44,6 +46,12 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 
     Map<String, ProfileProviderAdapter> profileAdapters = new HashMap<>();
 
+    @Value("${auth.success_url}")
+    String successReturnUrl;
+
+    @Value("${auth.fail_url}")
+    String failReturnUrl;
+
     public AuthSuccessHandler(ObjectMapper objectMapper,
                               OAuth2AuthorizedClientService authorizedClientService,
                               JwtService jwtService,
@@ -79,10 +87,14 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
         Cookie cookie = new Cookie(CookieAuthorizationFilter.COOKIE_NAME, token);
         cookie.setMaxAge( 24 * 60 * 60);// for 24 hrs
         cookie.setPath("/"); // this is the magic
+        //cookie.setDomain ("http://localhost:8080");
+        // cookie.setHttpOnly(true);
+        cookie.setSecure(false);
+
         resp.addCookie(cookie);
 
         // Redirect to home
-        resp.sendRedirect("/");
+        resp.sendRedirect(successReturnUrl);
     }
 
     UserAuthenticationEntity findOrCreateNew(OAuth2AuthorizedClient authorizedClient) {

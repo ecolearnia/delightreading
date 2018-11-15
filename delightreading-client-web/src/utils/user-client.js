@@ -4,6 +4,8 @@ import * as requestUtil from "./request-utils"
 const STORAGE_KEY = "dr_token";
 const COOKIE_KEY = "dr_token";
 
+const baseUrlPath = "/api/users/v1"
+
 export function getSessionUser2() {
   let accessToken = localStorage.getItem(STORAGE_KEY);
   if (accessToken) {
@@ -35,13 +37,21 @@ export function getSessionUser() {
 }
 
 export function getMyAccount() {
-  return requestUtil.get("/api/users/me");
+  return requestUtil.get(baseUrlPath + "/me");
 }
 
 export function getMyProfile() {
-  return requestUtil.get("/api/users/myprofile");
+  return requestUtil.get(baseUrlPath + "/me/profile");
 }
 
 export function saveMyProfile(profile) {
-  return requestUtil.put("/api/users/myprofile", profile);
+  return requestUtil.put(baseUrlPath + "/me/profile", profile);
+}
+
+export function signUp(details) {
+  return requestUtil.post(baseUrlPath + "/register", details);
+}
+
+export function signIn(details) {
+  return requestUtil.post(baseUrlPath + "/login", details);
 }

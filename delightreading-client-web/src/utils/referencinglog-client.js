@@ -1,6 +1,6 @@
 import * as requestUtil from "./request-utils"
 
-const baseUrlPath = "/api/referencinglogs/"
+const baseUrlPath = "/api/reading/v1/completionlogs"
 
 export function listReferencingLog(page, pageSize) {
   let qs = requestUtil.toQueryString({page: page, pageSize: pageSize});
@@ -12,10 +12,10 @@ export function addReferencingLog(logEntry) {
 }
 
 // Partial udpate
-export function updateReferencingLog(sid, logUpdateFields) {
-  return requestUtil.put(baseUrlPath + sid, logUpdateFields);
+export function updateReferencingLog(uid, logUpdateFields) {
+  return requestUtil.put(baseUrlPath + "/" + uid, logUpdateFields);
 }
 
-export function deleteReferencingLog(sid) {
-  return requestUtil.del(baseUrlPath + sid);
+export function deleteReferencingLog(uid) {
+  return requestUtil.del(baseUrlPath + "/" + uid);
 }

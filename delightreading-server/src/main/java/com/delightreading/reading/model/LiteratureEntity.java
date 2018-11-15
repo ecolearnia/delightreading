@@ -27,7 +27,7 @@ import java.util.Map;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+//@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class LiteratureEntity extends BaseEntity {
 
     @Column(name = "source_uri")
@@ -36,12 +36,8 @@ public class LiteratureEntity extends BaseEntity {
     @Column(name = "title")
     String title;
 
-    @ElementCollection
-    @CollectionTable(name = "literature_authornames", joinColumns = @JoinColumn(name = "author_uid", referencedColumnName = "uid"))
-    //@Fetch(FetchMode.SUBSELECT)
-    @Fetch(FetchMode.JOIN)
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
-    @Column(name = "author_name")
+    @Column(name = "author_names")
+    @Type(type = "com.delightreading.common.HibernateStringListUserType")
     List<String> authorNames;
 
     @Column(name = "publisher")

@@ -24,7 +24,7 @@ console.log("{\"passportConfig.strategies\"=" + JSON.stringify(passportConfig.st
 const app = express();
 
 // Express configuration
-app.set("port", process.env.PORT || 9090);
+app.set("port", process.env.PORT || 8080);
 
 if (process.env.TRUST_PROXY) {
   // Becuase Heroku SSL is handled by nginx, Express' req.connection.encrypted is undefined

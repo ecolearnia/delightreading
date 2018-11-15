@@ -1,0 +1,10 @@
+#security.user.name: admin
+#security.user.password: secret
+#management.security.role: SUPERUSER
+server.port: 8000
+
+########## Security ##########
+spring.profiles.include: 'secrets'
+
+router.uri.api: http://localhost:9090
+router.uri.ui: http://localhost:8080

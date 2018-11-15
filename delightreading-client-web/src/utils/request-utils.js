@@ -5,9 +5,11 @@ const serverBaseUrl = process.env.SERVER_BASE_URL;
 
 function createAuthHeaders() {
   const accessToken = cookieUtils.getCookie("dr_token");
-  return {
-    "Authorization": "Bearer " + accessToken
+  let header = {};
+  if (accessToken) {
+    header["Authorization"] = "Bearer " + accessToken;
   }
+  return header;
 }
 
 export function get(urlPath) {

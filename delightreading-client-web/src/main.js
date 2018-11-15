@@ -13,6 +13,10 @@ import axios from "axios";
 
 import moment from 'moment'
 
+window.onerror = function(message, file, line) {
+  console.log('An error occured at line ' + line + ' of ' + file + ': ' + message);
+};
+
 Vue.filter("formatDate", function(value) {
   if (value) {
     return moment(String(value)).format("MM/DD/YYYY");
@@ -50,6 +54,7 @@ axios.interceptors.response.use(undefined, function(err) {
   });
 });
 
+// extract token from Cookie
 store.dispatch(AUTH_EXTRACT_TOKEN);
 
 Vue.config.productionTip = false;

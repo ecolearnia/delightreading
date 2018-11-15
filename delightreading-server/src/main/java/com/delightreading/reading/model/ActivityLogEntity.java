@@ -22,7 +22,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+//@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class ActivityLogEntity extends BaseEntity {
 
     @Column(name = "account_uid")
@@ -88,5 +88,12 @@ public class ActivityLogEntity extends BaseEntity {
 
     @Column(name = "approved_at")
     Instant approvedAt;
+
+    public void setPercentageComplete(Integer val) {
+        this.percentageComplete = val;
+        if (val != null && val > 100) {
+            this.percentageComplete = 100;
+        }
+    }
 
 }

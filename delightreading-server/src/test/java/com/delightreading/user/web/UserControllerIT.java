@@ -3,6 +3,7 @@ package com.delightreading.user.web;
 import com.delightreading.SpringApplicationContextUtil;
 import com.delightreading.authsupport.JwtService;
 import com.delightreading.user.*;
+import com.delightreading.user.model.UserAuthenticationEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -39,11 +42,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @EntityScan(basePackages = "com.delightreading.user", basePackageClasses = {Jsr310JpaConverters.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest(classes = {
+        BCryptPasswordEncoder.class, PasswordEncoder.class,
         UserAccountRepository.class,
         UserAuthenticationRepository.class,
         UserProfileRepository.class,
         UserController.class,
         UserService.class,
+        UserGroupService.class,
         JwtService.class,
         SpringApplicationContextUtil.class
 }, properties = "classpath:application.yaml")
@@ -56,15 +61,19 @@ public class UserControllerIT {
     @Autowired
     WebApplicationContext wac;
     MockMvc mockMvc;
+
     @Autowired
     private TestEntityManager entityManager;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Before
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 
-        var account = UserAccountEntityRepositoryIT.buildEntity("TEST-UserUID1", "TEST-Username1", "TEST-givenName1", Arrays.asList("email1a@test.com", "email1b@test.com"));
-        var auth = UserAuthenticationRepositoryIT.buildEntity("TEST-UID1", UserService.LOCAL_PROVIDER, "TEST-F1", "pwd1", account);
+        var account = UserAccountRepositoryIT.buildEntity("TEST-UserUID1", "TEST-Username1", "TEST-givenName1", Arrays.asList("email1a@test.com", "email1b@test.com"));
+        var auth = UserAuthenticationRepositoryIT.buildEntity("TEST-UID1", UserAuthenticationEntity.LOCAL_PROVIDER, "TEST-F1", passwordEncoder.encode("pwd1"), account);
         entityManager.persistAndFlush(auth);
     }
 
@@ -73,7 +82,7 @@ public class UserControllerIT {
         mockMvc.perform(
                 post("/api/users/v1/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\":\"TEST-F1\", \"password\":\"pwd\"}")
+                        .content("{\"username\":\"TEST-F1\", \"password\":\"pwd1\"}")
         ).andExpect(status().isOk()
         ).andDo(print()
         ).andExpect(

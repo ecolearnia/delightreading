@@ -1,6 +1,6 @@
 package com.delightreading.authsupport;
 
-import com.delightreading.user.UserAuthenticationEntity;
+import com.delightreading.user.model.UserAuthenticationEntity;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSSigner;
@@ -30,6 +30,8 @@ public class JwtService {
                     // The subject is the Authentication's UID, not the account's UID
                     .subject(authentication.getUid())
                     .issuer("https://delightreading.com")
+                    // TODO: add roles
+//                    .claim("role", authentication.getAccount().getRoles())
                     .expirationTime(new Date(new Date().getTime() + 60 * 1000))
                     .build();
 

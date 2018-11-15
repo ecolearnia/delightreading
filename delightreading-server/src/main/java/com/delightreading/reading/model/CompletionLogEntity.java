@@ -27,7 +27,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+//@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class CompletionLogEntity extends BaseEntity {
 
     @Column(name = "account_uid")
@@ -51,6 +51,9 @@ public class CompletionLogEntity extends BaseEntity {
     @Column(name = "post_emotion")
     String postEmotion;
 
+    @Column(name = "my_rating")
+    Integer myRating;
+
     @Column(name = "review")
     String review;
 
@@ -63,5 +66,15 @@ public class CompletionLogEntity extends BaseEntity {
 
     @Transient
     Integer totalCount;
+
+    public void updatePercentageComplete(Integer value) {
+        this.percentageComplete = value;
+        if (value != null && value >= 100) {
+            this.percentageComplete = 100;
+            if (this.endDate == null) {
+                this.endDate = Instant.now();
+            }
+        }
+    }
 
 }

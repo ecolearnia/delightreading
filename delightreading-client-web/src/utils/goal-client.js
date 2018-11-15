@@ -1,6 +1,6 @@
 import * as requestUtil from "./request-utils"
 
-const baseUrlPath = "/api/goals/"
+const baseUrlPath = "/api/reading/v1/goals"
 
 export function getActiveGoal() {
   return requestUtil.get(baseUrlPath + "?active=true");
@@ -15,10 +15,10 @@ export function addGoal(goal) {
   return requestUtil.post(baseUrlPath, goal);
 }
 
-export function updateGoal(sid, goal) {
-  return requestUtil.put(baseUrlPath + sid, goal);
+export function updateGoal(uid, goal) {
+  return requestUtil.put(baseUrlPath + "/" + uid, goal);
 }
 
-export function deleteGoal(sid) {
-  return requestUtil.del(baseUrlPath + sid);
+export function deleteGoal(uid) {
+  return requestUtil.del(baseUrlPath + "/" + uid);
 }
