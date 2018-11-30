@@ -2,15 +2,48 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="debd15cd-367e-4c03-bf3b-7c4856b1b497" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/DelightreadingBackendApplication.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/SpringApplicationContextUtil.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/authsupport/JwtService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/ApiException.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/ExceptionBody.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/ExceptionItem.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/GlobalExceptionHandler.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/HibernateMapListUserType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/HibernateStringListUserType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/JsonBasedType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/ObjectAccessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/UnauthorizedException.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/config/UtilsConfig.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserAccountRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserAuthenticationRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserGroupMemberRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserGroupRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserProfileRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/hibernate/ExperienceListUserType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/Experience.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserAccountEntity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserAccountStatus.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserAuthenticationEntity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserGroupEntity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserGroupMemberEntity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserGroupType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserProfileEntity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/changelog/create.user_account.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/changelog/create.user_authentication.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/changelog/create.user_group.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/changelog/create.user_profile.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/changelog/db.changelog-master.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/changelog/reading_activity_log-create.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/changelog/reading_completion_log-create.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/changelog/reading_literature-create.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/liquibase/liquibase.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/com/delightreading/common/ObjectAccessorTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/com/delightreading/user/UserAccountRepositoryIT.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/com/delightreading/user/UserProfileRepositoryIT.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/com/delightreading/user/UserServiceIT.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -64,46 +97,109 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="51" column="6" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/DelightreadingBackendApplication.kt">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/JsonBasedType.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="9" column="63" selection-start-line="9" selection-start-column="63" selection-end-line="9" selection-end-column="63" />
+            <state relative-caret-position="89">
+              <caret line="51" selection-start-line="51" selection-end-line="51" />
               <folding>
-                <element signature="e#29#143#0" expanded="true" />
+                <element signature="e#35#506#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/SpringApplicationContextUtil.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="8" column="5" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+            <state relative-caret-position="36">
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/application.yaml">
+        <entry file="file://$PROJECT_DIR$/src/test/kotlin/com/delightreading/user/UserAccountRepositoryIT.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-887" />
+            <state relative-caret-position="126">
+              <caret line="19" selection-start-line="15" selection-end-line="19" />
+              <folding>
+                <element signature="e#33#723#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/kotlin/com/delightreading/user/UserProfileRepositoryIT.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="100">
+              <caret line="49" column="34" lean-forward="true" selection-start-line="49" selection-start-column="34" selection-end-line="49" selection-end-column="34" />
+              <folding>
+                <element signature="e#33#1251#0" expanded="true" />
+              </folding>
+            </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/application-secrets.yaml">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/src/test/kotlin/com/delightreading/user/UserServiceIT.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="297">
+              <caret line="34" column="24" lean-forward="true" selection-start-line="23" selection-end-line="34" selection-end-column="24" />
+              <folding>
+                <element signature="e#33#1053#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/authsupport/JwtService.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="103">
+              <caret line="55" column="16" selection-start-line="55" selection-start-column="16" selection-end-line="55" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/HibernateStringListUserType.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="8" column="32" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/ObjectAccessor.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="110">
+              <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserService.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="164">
+              <caret line="109" column="21" selection-start-line="109" selection-start-column="12" selection-end-line="109" selection-end-column="21" />
+              <folding>
+                <element signature="e#33#605#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/HibernateMapListUserType.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="8" column="32" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="32" />
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -112,6 +208,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin File" />
+        <option value="Kotlin Enum" />
+        <option value="Kotlin Interface" />
+        <option value="Kotlin Object" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -119,6 +219,15 @@
     <findStrings>
       <find>buildscript</find>
       <find>query</find>
+      <find>internal</find>
+      <find>no</find>
+      <find>userAccountRepository</find>
+      <find>UserAccountRepository</find>
+      <find>internal</find>
+      <find>userGroupRepository</find>
+      <find>JsonBasedType</find>
+      <find>Optional&lt;</find>
+      <find>TEST-Username1</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -129,15 +238,51 @@
       <list>
         <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/DelightreadingBackendApplication.kt" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/config/UtilsConfig.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/EntityBase.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UsrAccountStatus.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserAccountStatus.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/authsupport/JwtService.kt" />
         <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserAccountRepository.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserGroupType.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserAuthenticationRepository.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserProfileRepository.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserGroupRepository.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserGroupMemberRepository.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/BaseException.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/ExceptionBody.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/ExceptionItem.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/GlobalExceptionHandler.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/ApiException.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/SecurityException.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/UnauthorizedException.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserAuthProvider.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/ObjectAccessor.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/SpringApplicationContextUtil.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/hibernate/ExperienceListUserType.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/HibernateMapListUserType.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/HibernateStringListUserType.kt" />
+        <option value="$PROJECT_DIR$/src/test/kotlin/com/delightreading/common/ObjectAccessorTest.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserAuthenticationEntity.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserAccountEntity.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserGroupEntity.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserGroupMemberEntity.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserProfileEntity.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/Experience.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/JsonBasedType.kt" />
+        <option value="$PROJECT_DIR$/src/test/kotlin/com/delightreading/user/UserAccountRepositoryIT.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserService.kt" />
+        <option value="$PROJECT_DIR$/src/test/kotlin/com/delightreading/user/UserServiceIT.kt" />
+        <option value="$PROJECT_DIR$/src/test/kotlin/com/delightreading/user/UserProfileRepositoryIT.kt" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="230" />
-    <option name="y" value="27" />
+    <option name="x" value="250" />
+    <option name="y" value="56" />
     <option name="width" value="1693" />
-    <option name="height" value="935" />
+    <option name="height" value="877" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -178,6 +323,71 @@
               <item name="kotlin" type="462c0819:PsiDirectoryNode" />
               <item name="delightreading" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="delightreading-backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="delightreading-backend" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="delightreading" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="delightreading-backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="delightreading-backend" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="delightreading" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="delightreading-backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="delightreading-backend" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="delightreading" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="delightreading-backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="delightreading-backend" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="delightreading-backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="delightreading-backend" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="delightreading-backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="delightreading-backend" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="delightreading-backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="delightreading-backend" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="delightreading" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="delightreading-backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="delightreading-backend" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="delightreading" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -187,10 +397,22 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543211358979" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543555923073" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.delightreading" />
+    </key>
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="com.delightreading.user" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.delightreading.common" />
+      <recent name="com.delightreading.user.model" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\workspace\projects\delightreading\delightreading-backend\src\main\resources\liquibase" />
+      <recent name="C:\workspace\projects\delightreading\delightreading-backend\src\main\resources\db\changelog" />
       <recent name="C:\workspace\projects\delightreading\delightreading-backend\src\main\resources" />
     </key>
   </component>
@@ -206,25 +428,80 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Kotlin.DelightreadingBackendApplicationKt">
-    <configuration name="delightreading-backend [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="build" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
-      <method v="2" />
+  <component name="RunManager" selected="JUnit.com.delightreading in com.delightreading.delightreading-backend.test">
+    <configuration name="UserProfileRepositoryIT" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="com.delightreading.delightreading-backend.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.delightreading.user.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.delightreading.user" />
+      <option name="MAIN_CLASS_NAME" value="com.delightreading.user.UserProfileRepositoryIT" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserProfileRepositoryIT.crud_simple" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="com.delightreading.delightreading-backend.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.delightreading.user.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.delightreading.user" />
+      <option name="MAIN_CLASS_NAME" value="com.delightreading.user.UserProfileRepositoryIT" />
+      <option name="METHOD_NAME" value="crud_simple" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceIT" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="com.delightreading.delightreading-backend.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.delightreading.user.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.delightreading.user" />
+      <option name="MAIN_CLASS_NAME" value="com.delightreading.user.UserServiceIT" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceIT.register_when_ValidValues_then_Succeeds" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="com.delightreading.delightreading-backend.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.delightreading.user.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.delightreading.user" />
+      <option name="MAIN_CLASS_NAME" value="com.delightreading.user.UserServiceIT" />
+      <option name="METHOD_NAME" value="register_when_ValidValues_then_Succeeds" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="com.delightreading in com.delightreading.delightreading-backend.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="com.delightreading.delightreading-backend.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.delightreading.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.delightreading" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="DelightreadingBackendApplicationKt" type="JetRunConfigurationType" factoryName="Kotlin">
       <module name="com.delightreading.delightreading-backend.main" />
@@ -240,12 +517,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Gradle.delightreading-backend [build]" />
       <item itemvalue="Kotlin.DelightreadingBackendApplicationKt" />
+      <item itemvalue="JUnit.UserServiceIT" />
+      <item itemvalue="JUnit.UserServiceIT.register_when_ValidValues_then_Succeeds" />
+      <item itemvalue="JUnit.UserProfileRepositoryIT" />
+      <item itemvalue="JUnit.UserProfileRepositoryIT.crud_simple" />
+      <item itemvalue="JUnit.com.delightreading in com.delightreading.delightreading-backend.test" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.delightreading-backend [build]" />
+        <item itemvalue="JUnit.com.delightreading in com.delightreading.delightreading-backend.test" />
+        <item itemvalue="JUnit.UserProfileRepositoryIT" />
+        <item itemvalue="JUnit.UserProfileRepositoryIT.crud_simple" />
+        <item itemvalue="JUnit.UserServiceIT.register_when_ValidValues_then_Succeeds" />
+        <item itemvalue="JUnit.UserServiceIT" />
       </list>
     </recent_temporary>
   </component>
@@ -262,8 +547,40 @@
     </task>
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="UserServiceIT_register_when_ValidValues_then_Succeeds - 2018.11.29 at 21h 14m 11s.xml">
+      <configuration name="UserServiceIT.register_when_ValidValues_then_Succeeds" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UserProfileRepositoryIT - 2018.11.29 at 21h 15m 05s.xml">
+      <configuration name="UserProfileRepositoryIT" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UserProfileRepositoryIT_crud_simple - 2018.11.29 at 21h 16m 36s.xml">
+      <configuration name="UserProfileRepositoryIT.crud_simple" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UserProfileRepositoryIT_crud_simple - 2018.11.29 at 21h 17m 37s.xml">
+      <configuration name="UserProfileRepositoryIT.crud_simple" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UserProfileRepositoryIT - 2018.11.29 at 21h 18m 42s.xml">
+      <configuration name="UserProfileRepositoryIT" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UserProfileRepositoryIT_crud_simple - 2018.11.29 at 21h 19m 46s.xml">
+      <configuration name="UserProfileRepositoryIT.crud_simple" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UserProfileRepositoryIT_crud_simple - 2018.11.29 at 21h 20m 27s.xml">
+      <configuration name="UserProfileRepositoryIT.crud_simple" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UserProfileRepositoryIT_crud_simple - 2018.11.29 at 21h 26m 11s.xml">
+      <configuration name="UserProfileRepositoryIT.crud_simple" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UserProfileRepositoryIT_crud_simple - 2018.11.29 at 21h 27m 30s.xml">
+      <configuration name="UserProfileRepositoryIT.crud_simple" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UserProfileRepositoryIT_crud_simple - 2018.11.29 at 21h 29m 30s.xml">
+      <configuration name="UserProfileRepositoryIT.crud_simple" configurationId="JUnit" />
+    </history-entry>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="184" y="22" width="1354" height="748" extended-state="0" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Image Layers" />
@@ -271,22 +588,22 @@
       <window_info id="UI Designer" />
       <window_info id="Capture Tool" />
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13523957" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18120806" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" weight="0.3288364" />
+      <window_info anchor="bottom" id="Terminal" weight="0.32417583" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Build" weight="0.3288364" />
-      <window_info anchor="bottom" id="Messages" />
+      <window_info anchor="bottom" id="Messages" weight="0.25824177" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32715008" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.518315" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39970717" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="Palette" />
-      <window_info anchor="right" id="Gradle" visible="true" weight="0.32998455" />
+      <window_info anchor="right" id="Gradle" visible="true" weight="0.14161074" />
       <window_info anchor="right" id="Theme Preview" />
       <window_info anchor="right" id="Maven" />
       <window_info anchor="right" id="Capture Analysis" />
@@ -296,10 +613,144 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/test/kotlin/com/delightreading/user/UserAccountRepositoryIT.kt</url>
+          <line>60</line>
+          <properties />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/test/kotlin/com/delightreading/user/UserProfileRepositoryIT.kt</url>
+          <line>84</line>
+          <properties />
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>getUserType().deepCopy( value);</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/DelightreadingBackendApplication.kt">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/db/changelog/create.user_account.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
+          <caret line="9" column="11" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/liquibase/liquibase.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="10" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/config/UtilsConfig.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+          <folding>
+            <element signature="e#35#484#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserEntity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/EntityBase.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="9" column="17" lean-forward="true" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+          <folding>
+            <element signature="e#35#86#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-core/5.1.1.RELEASE/5310fc9e1861e63a3073525f365c89be80d5967f/spring-security-core-5.1.1.RELEASE-sources.jar!/org/springframework/security/core/userdetails/UserDetails.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-92">
+          <caret line="43" column="17" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.2/777a74656e7999ef50a01b57be835bfddeb30e4c/lombok-1.18.2-sources.jar!/lombok/extern/slf4j/Slf4j.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="61" column="18" selection-start-line="61" selection-start-column="18" selection-end-line="61" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-65">
+          <caret line="12" column="49" selection-start-line="12" selection-start-column="47" selection-end-line="12" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-10.0.1/lib/src.zip!/java.base/java/util/Optional.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="357" selection-start-line="357" selection-end-line="357" />
+          <folding>
+            <element signature="e#12678#12679#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-test/5.1.2.RELEASE/7f8ba1aa5c6cc053e1ac6d68ab677e08b0870bc3/spring-test-5.1.2.RELEASE-sources.jar!/org/springframework/test/context/cache/DefaultCacheAwareContextLoaderDelegate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="124" selection-start-line="124" selection-end-line="124" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.1.2.RELEASE/2b7030ac124a46f162cd273a00dbbeff030de202/spring-data-commons-2.1.2.RELEASE-sources.jar!/org/springframework/data/repository/CrudRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="35" column="20" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjweaver/1.9.2/7aa564f5753105f884c50bc84ffa49a282c10a00/aspectjweaver-1.9.2-sources.jar!/org/aspectj/lang/annotation/Before.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="25" column="18" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.3.1/b03f607c0822a283c972e37eaeacb00dc3a3c2e7/junit-jupiter-api-5.3.1-sources.jar!/org/junit/jupiter/api/Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/DelightreadingBackendApplication.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
           <caret line="9" column="63" selection-start-line="9" selection-start-column="63" selection-end-line="9" selection-end-column="63" />
           <folding>
             <element signature="e#29#143#0" expanded="true" />
@@ -307,25 +758,320 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserGroupType.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="5" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+        <state relative-caret-position="90">
+          <caret line="5" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application.yaml">
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserGroupRepository.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-887" />
+        <state relative-caret-position="36">
+          <caret line="9" column="48" selection-start-line="9" selection-start-column="48" selection-end-line="9" selection-end-column="48" />
+          <folding>
+            <element signature="e#33#446#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application-secrets.yaml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserGroupMemberRepository.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="51" column="6" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
+        <state relative-caret-position="90">
+          <caret line="9" column="11" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
+          <folding>
+            <element signature="e#33#263#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserAuthenticationRepository.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="11" column="14" selection-start-line="11" selection-start-column="14" selection-end-line="11" selection-end-column="14" />
+          <folding>
+            <element signature="e#33#204#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserAccountRepository.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+          <folding>
+            <element signature="e#33#197#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-webmvc/5.1.2.RELEASE/46958e45eee6f9b42790cad7ec61557913d4be37/spring-webmvc-5.1.2.RELEASE-sources.jar!/org/springframework/web/servlet/mvc/method/annotation/ResponseEntityExceptionHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="458" column="37" selection-start-line="458" selection-start-column="37" selection-end-line="458" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/5.1.2.RELEASE/7361b2e28910f2202851c14d4115435b248f668c/spring-web-5.1.2.RELEASE-sources.jar!/org/springframework/http/HttpHeaders.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="145">
+          <caret line="80" column="41" selection-start-line="80" selection-start-column="36" selection-end-line="80" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/ExceptionBody.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+          <folding>
+            <element signature="e#35#102#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/ExceptionItem.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="19" column="36" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
+          <folding>
+            <element signature="e#35#226#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/GlobalExceptionHandler.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="87" column="158" selection-start-line="87" selection-start-column="158" selection-end-line="87" selection-end-column="158" />
+          <folding>
+            <element signature="e#35#762#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/ApiException.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="56" selection-start-line="4" selection-start-column="43" selection-end-line="4" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/UnauthorizedException.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="6" column="27" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="27" />
+          <folding>
+            <element signature="e#35#138#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserAuthProvider.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="13" selection-start-line="3" selection-start-column="4" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserAccountStatus.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="28" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserProfileRepository.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="267">
+          <caret line="18" column="93" selection-start-line="18" selection-start-column="93" selection-end-line="18" selection-end-column="93" />
+          <folding>
+            <element signature="e#33#324#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/kotlin/com/delightreading/common/ObjectAccessorTest.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="41">
+          <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
+          <folding>
+            <element signature="e#35#220#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-10.0.1/lib/src.zip!/java.base/java/lang/Class.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="3557" selection-start-line="3557" selection-end-line="3557" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserAuthenticationEntity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="84" lean-forward="true" selection-start-line="67" selection-end-line="84" />
+          <folding>
+            <element signature="n#!!doc;n#prePersist#0;n#!!block;n#UserAuthenticationEntity#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserGroupMemberEntity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="78" lean-forward="true" selection-start-line="78" selection-end-line="78" />
+          <folding>
+            <element signature="e#39#169#0" expanded="true" />
+            <element signature="e#253#294#0" />
+            <element signature="n#!!doc;n#prePersist#0;n#!!block;n#UserGroupMemberEntity#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserGroupEntity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="99" lean-forward="true" selection-start-line="99" selection-end-line="99" />
+          <folding>
+            <element signature="e#39#137#0" expanded="true" />
+            <element signature="n#!!doc;n#prePersist#0;n#!!block;n#UserGroupEntity#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserProfileEntity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="105" lean-forward="true" selection-start-line="105" selection-end-line="105" />
+          <folding>
+            <element signature="e#39#156#0" expanded="true" />
+            <element signature="e#231#272#0" />
+            <element signature="n#!!doc;n#prePersist#0;n#!!block;n#UserProfileEntity#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-core/5.3.7.Final/26585924d06c52b66e5917ceb314b005ec73b389/hibernate-core-5.3.7.Final-sources.jar!/org/hibernate/type/CustomType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="82">
+          <caret line="189" column="46" lean-forward="true" selection-start-line="189" selection-start-column="46" selection-end-line="189" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-core/5.3.7.Final/26585924d06c52b66e5917ceb314b005ec73b389/hibernate-core-5.3.7.Final-sources.jar!/org/hibernate/type/TypeHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="93">
+          <caret line="47" selection-start-line="47" selection-end-line="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/hibernate/ExperienceListUserType.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/Experience.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="14" column="15" selection-start-line="14" selection-start-column="15" selection-end-line="14" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/model/UserAccountEntity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="52" column="46" lean-forward="true" selection-start-line="52" selection-start-column="46" selection-end-line="52" selection-end-column="46" />
+          <folding>
+            <element signature="n#!!doc;n#prePersist#0;n#!!block;n#UserAccountEntity#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/HibernateMapListUserType.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="32" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/authsupport/JwtService.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="55" column="16" selection-start-line="55" selection-start-column="16" selection-end-line="55" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/HibernateStringListUserType.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="32" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/ObjectAccessor.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/user/UserService.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="109" column="21" selection-start-line="109" selection-start-column="12" selection-end-line="109" selection-end-column="21" />
+          <folding>
+            <element signature="e#33#605#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/kotlin/com/delightreading/user/UserAccountRepositoryIT.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="19" selection-start-line="15" selection-end-line="19" />
+          <folding>
+            <element signature="e#33#723#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/SpringApplicationContextUtil.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/kotlin/com/delightreading/user/UserServiceIT.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="34" column="24" lean-forward="true" selection-start-line="23" selection-end-line="34" selection-end-column="24" />
+          <folding>
+            <element signature="e#33#1053#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/delightreading/common/JsonBasedType.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="89">
+          <caret line="51" selection-start-line="51" selection-end-line="51" />
+          <folding>
+            <element signature="e#35#506#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/kotlin/com/delightreading/user/UserProfileRepositoryIT.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="49" column="34" lean-forward="true" selection-start-line="49" selection-start-column="34" selection-end-line="49" selection-end-column="34" />
+          <folding>
+            <element signature="e#33#1251#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

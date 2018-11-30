@@ -1,0 +1,127 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create.user_group" author="ysahn">
+        <createTable tableName="user_group">
+
+            <column name="type" type="varchar(20)" >
+                <constraints nullable="false" />
+            </column>
+            <column name="name" type="varchar(255)" >
+                <constraints nullable="false" />
+            </column>
+            <column name="category" type="varchar(255)" />
+            <column name="description" type="text"/>
+            <column name="picture_uri" type="varchar(255)"/>
+            <column name="cover_image_uri" type="varchar(255)"/>
+            <column name="rules" type="text"/>
+
+            <column name="website" type="varchar(255)"/>
+            <column name="start_date" type="timestamp with time zone"/>
+            <column name="close_date" type="timestamp with time zone"/>
+            <column name="group_status" type="varchar(20)"/>
+
+            <!-- Base -->
+            <column name="sid" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="uid" type="varchar(64)" >
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="status" type="varchar(12)" />
+            <column name="created_at" type="timestamp with time zone" />
+            <column name="created_by" type="varchar(64)" />
+            <column name="updated_at" type="timestamp with time zone" />
+            <column name="updated_by" type="varchar(64)" />
+
+            <column name="deleted" type="boolean" defaultValue="false"/>
+
+        </createTable>
+
+        <createIndex indexName="user_group_uid_idx"
+                     tableName="user_group"
+                     unique="true">
+            <column name="uid" />
+        </createIndex>
+
+        <createIndex indexName="user_group_type_idx"
+                     tableName="user_group">
+            <column name="type" />
+        </createIndex>
+
+        <createIndex indexName="user_group_status_idx"
+                     tableName="user_group">
+            <column name="group_status" />
+        </createIndex>
+
+        <createIndex indexName="user_group_category_idx"
+                     tableName="user_group">
+            <column name="category"/>
+        </createIndex>
+
+    </changeSet>
+
+
+    <changeSet id="create.user_group_member" author="ysahn">
+        <createTable tableName="user_group_member">
+
+            <column name="group_uid" type="varchar(64)" >
+                <constraints referencedTableName="user_group" referencedColumnNames="uid"
+                             foreignKeyName="user_group_member_fk" nullable="false" />
+            </column>
+            <column name="account_uid" type="varchar(64)" >
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="role" type="varchar(20)" >
+                <constraints nullable="false" />
+            </column>
+
+            <column name="since_date" type="timestamp with time zone"/>
+            <column name="until_date" type="timestamp with time zone"/>
+            <column name="member_status" type="varchar(20)"/>
+
+            <!-- Base -->
+            <column name="sid" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="uid" type="varchar(64)" >
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="status" type="varchar(12)" />
+            <column name="created_at" type="timestamp with time zone" />
+            <column name="created_by" type="varchar(64)" />
+            <column name="updated_at" type="timestamp with time zone" />
+            <column name="updated_by" type="varchar(64)" />
+
+            <column name="deleted" type="boolean" defaultValue="false"/>
+
+        </createTable>
+
+        <createIndex indexName="user_group_member_uid_idx"
+                     tableName="user_group_member"
+                     unique="true">
+            <column name="uid" />
+        </createIndex>
+
+        <createIndex indexName="user_group_member_groupuid_idx"
+                     tableName="user_group_member">
+            <column name="group_uid" />
+        </createIndex>
+
+        <createIndex indexName="user_group_member_accountuid_idx"
+                     tableName="user_group_member">
+            <column name="account_uid" />
+        </createIndex>
+
+        <createIndex indexName="user_group_member_status_idx"
+                     tableName="user_group_member">
+            <column name="member_status"/>
+        </createIndex>
+
+    </changeSet>
+
+
+</databaseChangeLog>
